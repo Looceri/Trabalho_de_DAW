@@ -1,4 +1,5 @@
-<template>
+<template >
+
   <div class="absolute-center">
     <div class="q-pa-md flex flex-center flex-column">
       <img

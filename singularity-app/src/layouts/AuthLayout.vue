@@ -7,9 +7,9 @@
 
     <q-footer elevated class="bg-white text-dark">
       <q-tabs no-caps active-color="primary" indicator-color="transparent" class="text-grey-8" v-model="tab">
-        <q-route-tab flat icon="bi-house" label="Home" :to="{ name: 'home' }" />
-        <q-route-tab flat icon="bi-geo-alt" label="Map" :to="{ name: 'home' }" />
-        <q-route-tab flat icon="bi-person" label="Profile" :to="{ name: 'phome' }" />
+        <q-route-tab flat icon="bi-house" label="Home" :to="{ name: 'login' }" />
+        <q-route-tab flat icon="bi-geo-alt" label="Map" :to="{ name: 'login' }" />
+        <q-route-tab flat icon="bi-person" label="Profile" :to="{ name: 'login' }" />
       </q-tabs>
     </q-footer>
 
