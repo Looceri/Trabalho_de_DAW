@@ -1,1 +1,41 @@
 // app global css in SCSS form
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.q-card {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.q-banner {
+  border-radius: .5rem;
+  overflow: hidden;
+}
+
+.q-header .back-button {
+  border-radius: .5rem;
+  background: #fff;
+  color: var(--q-primary);
+}
+
+.q-input, .q-select, .q-textarea {
+  border-radius: .5rem !important;
+  overflow: hidden;
+  border: 2px solid var(--q-primary);
+  padding: 0 8px;
+}
+
+.faq .q-item.q-item-type.row.no-wrap.q-item--clickable.q-link.cursor-pointer.q-focusable.q-hoverable{
+  color: var(--q-primary);
+  font-weight: bold;
+  overflow: hidden;
+  background: #f3f9ff;
+  border-radius:.5rem ;
+}
+
+.q-card .q-card__section{
+  font-size: medium;
+  text-align: justify;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
