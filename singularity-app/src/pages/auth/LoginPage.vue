@@ -32,16 +32,14 @@
       </div>
 
       <!-- Lembre-se e Esqueceu a Senha (mesma linha) -->
-      <div class="row items-center q-mb-md justify-between full-width q-gutter-sm" style="margin: 0;">
-        <div class="col-6">
+      <div class="row items-center q-mb-md justify-around full-width q-gutter-sm" style="margin: 0;">
+        <div class="">
           <q-checkbox v-model="remember" class="text-caption" label="Lembre-se de mim" color="primary" />
         </div>
-        <div class="col-4 text-right">
-          <a class="text-caption text-primary">Esqueceu senha?</a>
+        <div class="text-right" style="width: fit-content;">
+          <a class="text-caption text-secondary">Esqueceu senha?</a>
         </div>
       </div>
-
-
 
       <div>
 
@@ -63,7 +61,7 @@
           <div class="text-caption">Ainda não tem uma conta?</div>
         </div>
         <div class="col-4 text-right">
-          <a class="text-caption text-primary">Crie uma agora</a>
+          <a class="text-caption text-secondary">Crie uma agora</a>
         </div>
       </div>
 

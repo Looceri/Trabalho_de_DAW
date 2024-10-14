@@ -3,7 +3,9 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-    { path: 'login', name:'login', component: () => import('pages/auth/LoginPage.vue') }
+    { path: 'login', name:'login', component: () => import('pages/auth/LoginPage.vue') },
+    { path: 'open_email', name:'open-email', component: () => import('pages/auth/OpenEmailPage.vue') },
+    { path: 'sucess', name:'sucess', component: () => import('pages/auth/SucessPage.vue') },
     ]
   },
 
