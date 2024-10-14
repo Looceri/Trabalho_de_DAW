@@ -8,7 +8,13 @@ const routes = [
     { path: 'sucess', name:'sucess', component: () => import('pages/auth/SucessPage.vue') },
     ]
   },
-
+  {
+  path: '/home',
+  component: () => import('layouts/AuthLayout.vue'),
+  children: [
+  { path: 'description', name:'description', component: () => import('pages/home/DescriptionPage.vue') },
+  ]
+},
   // Always leave this as last one,
   // but you can also remove it
   {
