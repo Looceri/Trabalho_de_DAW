@@ -13,7 +13,7 @@
 
     </div>
 
-    <router-link to="/home" class="button">
+    <router-link :to ="{name: 'description'}" class="button">
       <span>&rarr;</span>
     </router-link>
   </div>
@@ -99,7 +99,7 @@ h1 {
 .button {
   display: inline-block;
   padding: 20px 20px;
-  background-color: #ff7e3e; 
+  background-color: #ff7e3e;
   color: white;
   border-radius: 50%;
   text-decoration: none;
