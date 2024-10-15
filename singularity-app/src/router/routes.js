@@ -1,7 +1,7 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('src/layouts/AuthLayout.vue'),
     children: [
 
     { path: '', name:'index', component: () => import('pages/auth/IndexPage.vue') },
@@ -13,7 +13,7 @@ const routes = [
   },
   {
   path: '/home',
-  component: () => import('layouts/AuthLayout.vue'),
+  component: () => import('src/layouts/MainLayout.vue'),
   children: [
   { path: 'description', name:'description', component: () => import('pages/home/DescriptionPage.vue') },
   ]

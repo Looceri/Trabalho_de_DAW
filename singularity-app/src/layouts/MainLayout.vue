@@ -1,34 +1,34 @@
 <template>
   <q-layout view="hHh lpR fFf">
-
     <q-page-container>
-
-    <!-- Exibir o componente LoadingScreen quando isLoading for true -->
-      <q-page v-if="isLoading" class="bg-primary">
-        <LoadingScreen />
-      </q-page>
-
-      <!-- Conteúdo principal do aplicativo -->
-      <router-view v-else />
-
+      <router-view />
     </q-page-container>
 
+    <q-footer elevated class="bg-white text-dark">
+      <q-tabs
+        v-model="tab"
+        indicator-color="transparent"
+         active-color="primary"
+        class="bg-white text-secondary shadow-2  q-py-md"
+      >
+        <q-route-tab name="home" icon="house" :to="{ name: 'indexHome' }" />
+        <q-route-tab name="recycle" icon="share" :to="{ name: 'recycle' }" />
+        <q-tab rounded  name="add"  @click="handleAddClick" >
+          <q-btn round icon="add" class="bg-primary text-white"></q-btn>
+        </q-tab>
+        <q-route-tab name="messages" icon="chat" :to="{ name: 'messages' }" />
+        <q-route-tab name="bookmarks" icon="bookmark" :to="{ name: 'bookmarks' }" />
+      </q-tabs>
+    </q-footer>
   </q-layout>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-import LoadingScreen from '../components/LoadingScreen.vue'; // Importar o LoadingScreen
+<script setup lang="ts">
+import { ref } from 'vue';
 
-// Criar uma referência para controlar o estado de carregamento
-const isLoading = ref(true);
+const tab = ref('home');
 
-// Simular processo de carregamento (por exemplo, chamada de API ou inicialização)
-onMounted(() => {
-  setTimeout(() => {
-    // Após o carregamento finalizar, definir isLoading como false
-    isLoading.value = false;
-  }, 3000); // Simulação de carregamento de 3 segundos
-});
-
+function handleAddClick() {
+  console.log("Add button clicked!");
+}
 </script>
