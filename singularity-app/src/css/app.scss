@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
 // app global css in SCSS form
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'DM Sans', sans-serif; // Changed to DM Sans
+  font-size: medium;
+  background-color: #f9f9ff;
 }
 
 .q-card {
@@ -19,17 +23,15 @@ body {
 }
 
 .q-input, .q-select, .q-textarea {
-  border-radius: .5rem !important;
   overflow: hidden;
-  border: 2px solid var(--q-primary);
-  padding: 0 8px;
+  font-size: smaller;
+  background-color:white
 }
 
 .faq .q-item.q-item-type.row.no-wrap.q-item--clickable.q-link.cursor-pointer.q-focusable.q-hoverable{
   color: var(--q-primary);
   font-weight: bold;
   overflow: hidden;
-  background: #f3f9ff;
   border-radius:.5rem ;
 }
 
@@ -38,4 +40,12 @@ body {
   text-align: justify;
   word-wrap: break-word;
   overflow-wrap: break-word;
+}
+
+.title-color{
+  color: #0D0140;  
+}
+
+.input-bg{
+  background-color: #f3f9ff;
 }
