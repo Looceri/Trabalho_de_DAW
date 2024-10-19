@@ -1,6 +1,6 @@
 <template>
-  <div class="fullscreen bg-white" style="margin: 20px; overflow: auto; ">
-    <div class="q-mt-lg " style="margin-top: 40px;">
+  <div class="fullscreen " style="margin: 20px; overflow: auto; ">
+    <div >
       <!-- Título e subtítulo -->
       <div style="text-align: center; ">
         <h5 style="color: #00008B; font-size: 24px; font-weight: bold; margin-bottom: 1%;">Crie a sua conta</h5>
@@ -8,14 +8,14 @@
       </div>
       
 
-        <div style="margin-top:40%;">
+        <div style="margin-top:25%;">
           <!-- Nome Completo -->
           <div class="q-mb-md">
           <b><label for="nome-completo" style="display: block; margin-bottom: 4px;">Nome Completo</label></b>
             <q-input 
               v-model="password" 
-              type="password" 
-              label=""
+              type="text" 
+              label="Digite seu nome completo"
               class="text-dark" 
               style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); background-color: white; border: 1px solid transparent;" 
             />
@@ -26,8 +26,8 @@
             <b><label for="email" style="display: block; margin-bottom: 4px; margin-left: 10px;">Email</label></b>
             <q-input 
               v-model="password" 
-              type="password" 
-              label=""
+              type="email" 
+              label="Digite seu email"
               class="text-dark" 
               style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); background-color: white; border: 1px solid transparent;" 
             />
@@ -39,7 +39,7 @@
             <q-input 
               v-model="password" 
               type="password" 
-              label=""
+              label="Digite sua senha"
               class="text-dark" 
               style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); background-color: white; border: 1px solid transparent;" 
             />
@@ -48,30 +48,23 @@
         
       <div class="flex justify-between items-center q-mt-md">
         <q-checkbox v-model="teal" label="Lembre-se de mim" color="primary" />
-        <a href="#" style="color: #00008B;" class="link">Esqueceu a senha?</a>
+        <a href="#" style="color: #00008B;" class="link text-secondary">Esqueceu a senha?</a>
       </div>
 
 
 
       <!-- Botões de ação -->
       <div style="text-align: center; margin-top: 20px;">
-        <q-btn 
-          class="q-mt-md" 
-          color="primary" 
-          glossy 
-          label="Criar Conta" 
-          style="min-width: 250px;" 
-        />
-        <br />
-        <q-btn 
-          class="q-mt-md q-ml-sm" 
-          color="primary" 
-          label="Entrar com Email" 
-          style="min-width: 250px;" 
-        />
-        <br />
-        <br>
-        <p>Já tem uma conta? <a href="" class="link">Entrar</a></p>
+       
+        <q-btn label="LOGIN" color="primary" class="q-mb-md full-width q-py-md" />
+
+        <!-- Botão de Login com Google -->
+        <q-btn color="accent" class="q-mb-md full-width q-py-md">
+          <img src="../../assets/icons/google.svg" alt="Google Logo"
+            style="width: 24px; height: 24px; margin-right: 8px;" />
+          SIGN IN COM GOOGLE
+        </q-btn>
+        <p>Já tem uma conta? <a href="" class="link text-secondary">Entrar</a></p>
       </div>
       
       
@@ -99,4 +92,4 @@ export default {
   text-decoration: none; /* Remove o sublinhado */
 }
 
-</style>
+</style> 
