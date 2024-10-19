@@ -7,7 +7,7 @@
 
 <script setup>
 
-import jobSekker from './components/jobSekker.vue';
+import jobSekker from './pages/jobSekker.vue';
 
 defineOptions({
   name: 'App'
