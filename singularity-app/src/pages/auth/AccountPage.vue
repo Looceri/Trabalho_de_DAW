@@ -56,7 +56,7 @@
       <!-- Botões de ação -->
       <div style="text-align: center; margin-top: 20px;">
        
-        <q-btn label="LOGIN" color="primary" class="q-mb-md full-width q-py-md" />
+        <q-btn label="Cadastrar" color="primary" class="q-mb-md full-width q-py-md" to="home"/>
 
         <!-- Botão de Login com Google -->
         <q-btn color="accent" class="q-mb-md full-width q-py-md">

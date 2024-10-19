@@ -44,7 +44,7 @@
       <div>
 
         <!-- Botão de Login -->
-        <q-btn label="LOGIN" color="primary" class="q-mb-md full-width q-py-md" />
+        <q-btn label="LOGIN" color="primary" class="q-mb-md full-width q-py-md" to="home"/>
 
         <!-- Botão de Login com Google -->
         <q-btn color="accent" class="q-mb-md full-width q-py-md">

@@ -10,6 +10,7 @@ const routes = [
     { path: 'account', name:'account', component: () => import('pages/auth/AccountPage.vue') },
     { path: 'open_email', name:'open-email', component: () => import('pages/auth/OpenEmailPage.vue') },
     { path: 'sucess', name:'sucess', component: () => import('pages/auth/SucessPage.vue') },
+    { path: 'portal', name:'portal', component: () => import('pages/auth/PortalPage.vue') },
     ]
   },
   {
