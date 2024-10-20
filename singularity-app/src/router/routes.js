@@ -7,6 +7,7 @@ const routes = [
     { path: '', name:'index', component: () => import('pages/auth/IndexPage.vue') },
     { path: 'verify', name:'verify', component: () => import('pages/auth/verifyMail.vue') },
     { path: 'login', name:'login', component: () => import('pages/auth/LoginPage.vue') },
+    { path: 'account', name:'account', component: () => import('pages/auth/AccountPage.vue') },
     { path: 'open_email', name:'open-email', component: () => import('pages/auth/OpenEmailPage.vue') },
     { path: 'sucess', name:'sucess', component: () => import('pages/auth/SucessPage.vue') },
     ]
@@ -17,7 +18,7 @@ const routes = [
   children: [
   { path: 'description', name:'description', component: () => import('pages/auth/verifyMail.vue') },
   { path: 'description', name:'description', component: () => import('src/pages/DescriptionPage.vue') },
-  
+
   ]
 },
   // Always leave this as last one,singularity-app/src/
