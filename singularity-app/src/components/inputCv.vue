@@ -1,60 +1,73 @@
 <template>
   <q-page padding class="apply-page">
-    <!-- Job Info -->
+    <div v-if="!applicationSubmitted">
+      <!-- Job Info -->
 
-    <!-- Upload CV -->
-    <q-card flat bordered class="q-pa-md q-mt-lg upload-card">
-      <q-typography tag="h6" class="text-bold">Carregar o CV</q-typography>
-      <q-typography class="q-mt-xs" color="grey">
-        Adicione seu CV/Resumo para candidatar-se à vaga
-      </q-typography>
-      <q-uploader
-        aria-label="Carregar CV ou Currículo"
-        class="q-mt-md upload-btn"
-        label="Carregar CV/Currículo"
-        icon="cloud_upload"
-        accept=".pdf,.doc,.docx"
-        square
+      <!-- Upload CV -->
+      <q-card flat bordered class="q-pa-md q-mt-lg upload-card">
+        <q-typography tag="h6" class="text-bold">Carregar o CV</q-typography>
+        <q-typography class="q-mt-xs" color="grey">
+          Adicione seu CV/Resumo para candidatar-se à vaga
+        </q-typography>
+        <q-uploader
+          aria-label="Carregar CV ou Currículo"
+          class="q-mt-md upload-btn"
+          label="Carregar CV/Currículo"
+          icon="cloud_upload"
+          accept=".pdf,.doc,.docx"
+          square
+          color="orange-8"
+          flat
+          @added="handleFileAdded"
+        />
+      </q-card>
+
+      <!-- Information Text Area -->
+      <q-card flat bordered class="q-pa-md q-mt-md info-card">
+        <q-typography tag="h6" class="text-bold">Informação</q-typography>
+        <q-typography class="q-mt-xs" color="grey">
+          Explique por que você é a pessoa certa para esta vaga
+        </q-typography>
+        <q-input
+          class="q-mt-md"
+          filled
+          type="textarea"
+          placeholder="Escreva aqui sua resposta"
+          v-model="information"
+          color="orange-8"
+        />
+      </q-card>
+
+      <!-- Apply Button -->
+      <q-btn
+        class="q-mt-lg full-width submit-btn"
+        label="Enviar"
         color="orange-8"
-        flat
-        @added="handleFileAdded"
+        glossy
+        size="lg"
+        @click="submitApplication"
       />
-    </q-card>
+    </div>
 
-    <!-- Information Text Area -->
-    <q-card flat bordered class="q-pa-md q-mt-md info-card">
-      <q-typography tag="h6" class="text-bold">Informação</q-typography>
-      <q-typography class="q-mt-xs" color="grey">
-        Explique por que você é a pessoa certa para esta vaga
-      </q-typography>
-      <q-input
-        class="q-mt-md"
-        filled
-        type="textarea"
-        placeholder="Escreva aqui sua resposta"
-        v-model="information"
-        color="orange-8"
-      />
-    </q-card>
-
-    <!-- Apply Button -->
-    <q-btn
-      class="q-mt-lg full-width submit-btn"
-      label="Enviar"
-      color="orange-8"
-      glossy
-      size="lg"
-      @click="submitApplication"
-    />
+    <div v-else>
+      <!-- Tela de sucesso -->
+      <SuccessComponent />
+    </div>
   </q-page>
 </template>
 
 <script>
+import SuccessComponent from './SuccessComponent.vue';
+
 export default {
+  components: {
+    SuccessComponent
+  },
   data() {
     return {
       information: "",
-      cvFile: null
+      cvFile: null,
+      applicationSubmitted: false
     };
   },
   methods: {
@@ -72,8 +85,8 @@ export default {
         alert('Por favor, adicione seu CV antes de enviar a aplicação.');
         return;
       }
-      // Lógica de aplicação
-      alert('Aplicação enviada com sucesso!');
+      // Simula submissão bem-sucedida
+      this.applicationSubmitted = true;
     }
   }
 };
