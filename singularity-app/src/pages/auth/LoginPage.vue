@@ -1,8 +1,6 @@
 <template>
   <q-page class="q-pa-md flex flex-center">
     <div class="q-mx-auto q-pa-md q-gutter-md" style="max-width: 400px; width: 100%">
-
-      <!-- Título de boas-vindas -->
       <div style="margin-bottom: 100px;">
         <div class="text-h5 title-color text-bold text-center bg-as q-mb-sm">
           Bem-vindo de volta
@@ -12,46 +10,42 @@
         </div>
       </div>
 
-      <!-- Formulário de Login -->
-      <q-form @submit.prevent="login"> <!-- Previne o comportamento padrão do formulário -->
-        <!-- Campo de Email -->
+      <q-form @submit.prevent="login">
         <div>
           <LabelInput label="Email" />
-          <q-input 
-            borderless 
-            v-model="email" 
-            :dense="true" 
-            placeholder="Digite seu email" 
-            type="email" 
+          <q-input
+            borderless
+            v-model="email"
+            :dense="true"
+            placeholder="Digite seu email"
+            type="email"
             class="q-px-md"
-            style="background-color:white ;" 
+            style="background-color: white;"
             required
           />
         </div>
 
-        <!-- Campo de Senha com Alternância de Visibilidade -->
         <div>
           <LabelInput label="Senha" />
-          <q-input 
-            borderless 
-            v-model="password" 
-            :dense="true" 
-            placeholder="Digite sua senha" 
+          <q-input
+            borderless
+            v-model="password"
+            :dense="true"
+            placeholder="Digite sua senha"
             :type="passwordFieldType"
             class="q-px-md"
             required
           >
             <template v-slot:append>
-              <q-icon 
-                :name="showPassword ? 'visibility' : 'visibility_off'" 
+              <q-icon
+                :name="showPassword ? 'visibility' : 'visibility_off'"
                 @click="togglePasswordVisibility"
-                class="cursor-pointer" 
+                class="cursor-pointer"
               />
             </template>
           </q-input>
         </div>
 
-        <!-- Lembre-se e Esqueceu a Senha (mesma linha) -->
         <div class="row items-center q-mb-md justify-around full-width q-gutter-sm" style="margin: 0;">
           <div>
             <q-checkbox v-model="remember" class="text-caption" label="Lembre-se de mim" color="primary" />
@@ -62,18 +56,13 @@
         </div>
 
         <div>
-          <!-- Botão de Login -->
-          <q-btn label="LOGIN" color="primary" class="q-mb-md full-width q-py-md" type="submit"/>
-
-          <!-- Botão de Login com Google -->
+          <q-btn label="LOGIN" color="primary" class="q-mb-md full-width q-py-md" type="submit" />
           <q-btn color="accent" class="q-mb-md full-width q-py-md">
-            <img src="../../assets/icons/google.svg" alt="Google Logo"
-              style="width: 24px; height: 24px; margin-right: 8px;" />
+            <img src="../../assets/icons/google.svg" alt="Google Logo" style="width: 24px; height: 24px; margin-right: 8px;" />
             SIGN IN COM GOOGLE
           </q-btn>
         </div>
 
-        <!-- Link para Criar Conta (mesma linha) -->
         <div class="row items-center q-mb-md justify-around full-width q-gutter-sm" style="margin: 0;">
           <div class="col-6">
             <div class="text-caption">Ainda não tem uma conta?</div>
@@ -92,28 +81,22 @@ import { ref, computed } from "vue";
 import { useRouter } from 'vue-router';
 import LabelInput from '../../components/LabelInput.vue';
 import axios from 'axios';
+import { useQuasar } from "quasar";
 
 const email = ref("");
 const password = ref("");
 const remember = ref(false);
-
-// Estado para alternar a visibilidade da senha
+const $q = useQuasar();
 const showPassword = ref(false);
 
-// Computed para alternar o tipo do campo de senha entre 'password' e 'text'
-const passwordFieldType = computed(() =>
-  showPassword.value ? "text" : "password"
-);
+const passwordFieldType = computed(() => (showPassword.value ? "text" : "password"));
 
-// Função para alternar a visibilidade da senha
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
 
-// Instancia o router para navegação
 const router = useRouter();
 
-// Função de login
 const login = async () => {
   try {
     const response = await axios.post('http://localhost:8000/api/login', {
@@ -121,14 +104,30 @@ const login = async () => {
       password: password.value,
     });
 
-    // Verifica a resposta e redireciona se for true
     if (response.data.success) {
-      router.push('/home'); // Redireciona para a página inicial
+      router.push('/home');
+      $q.notify({
+        color: 'positive',
+        icon: 'check',
+        message: response.data.message,
+        timeout: 2000,
+      });
     } else {
-      console.error("Erro ao fazer login:", response.data.message);
+      $q.notify({
+        color: 'negative',
+        icon: 'close',
+        message: response.data.message,
+        timeout: 2000,
+      });
     }
   } catch (error) {
-    console.error("Erro ao fazer login:", error.response.data);
+    const errorMessage = error.response?.data?.message || 'Erro ao fazer login. Tente novamente.';
+    $q.notify({
+      color: 'negative',
+      icon: 'close',
+      message: errorMessage,
+      timeout: 2000,
+    });
   }
 };
 </script>

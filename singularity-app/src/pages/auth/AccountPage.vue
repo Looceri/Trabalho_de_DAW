@@ -1,14 +1,13 @@
 <template>
   <div class="fullscreen">
     <div>
-      <q-form @submit.prevent="onsubmit"> <!-- Previne o comportamento padrão do formulário -->
+      <q-form @submit.prevent="onsubmit">
         <div class="title-container">
           <h5 class="title">Crie a sua conta</h5>
           <small class="subtitle">Junte-se a nós e comece a explorar oportunidades de emprego personalizadas</small>
         </div>
 
         <div class="form-container">
-          <!-- Nome Completo -->
           <div class="q-mb-md">
             <b><label for="nome-completo" class="label">Nome Completo</label></b>
             <q-input 
@@ -20,7 +19,6 @@
             />
           </div>
 
-          <!-- Email -->
           <div class="q-mb-md">
             <b><label for="email" class="label">Email</label></b>
             <q-input 
@@ -32,7 +30,6 @@
             />
           </div>
 
-          <!-- Senha -->
           <div class="q-mb-md">
             <b><label for="senha" class="label">Senha</label></b>
             <q-input 
@@ -50,11 +47,8 @@
           <a href="#" class="link">Esqueceu a senha?</a>
         </div>
 
-        <!-- Botões de ação -->
         <div class="button-container">
           <q-btn label="Cadastrar" type="submit" color="primary" class="q-mb-md full-width q-py-md" />
-          
-          <!-- Botão de Login com Google -->
           <q-btn color="accent" class="q-mb-md full-width q-py-md">
             <img src="../../assets/icons/google.svg" alt="Google Logo" class="google-icon" />
             SIGN IN COM GOOGLE
@@ -69,6 +63,8 @@
 <script>
 import { defineComponent, ref } from 'vue';
 import axios from 'axios';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   setup() {
@@ -78,28 +74,50 @@ export default defineComponent({
       password: '',
       status: 0,
     });
+    const $q = useQuasar();
+    const router = useRouter();
 
     const onsubmit = async () => {
-      // Verifica se o formulário está vazio
       if (!form.value.name || !form.value.email || !form.value.password) {
-        if (!form.value.name) {
-          console.error("Nome completo é obrigatório.");
-        }
-        if (!form.value.email) {
-          console.error("Email é obrigatório.");
-        }
-        if (!form.value.password) {
-          console.error("Senha é obrigatória.");
-        }
-        return; // Interrompe a execução se algum campo estiver vazio
+        return;
       }
-      console.log("Senha",form.value);
 
       try {
         const response = await axios.post('http://localhost:8000/api/register', form.value);
-        console.log("Sucesso ao cadastrar:", response); // Captura e loga sucesso
+        
+        if (response.data.success) {
+          router.push('/home');
+          $q.notify({
+            color: 'primary',
+            type: 'positive',
+            icon: 'check',
+            message: response.data.message,
+            timeout: 2000,
+          });
+        } else {
+          $q.notify({
+            type: 'negative',
+            icon: 'close',
+            message: response.data.message,
+            timeout: 2000,
+          });
+        }
+        form.value = { name: '', email: '', password: '', status: 0 };
       } catch (error) {
-        console.error("Erro ao cadastrar:", error.response.data); 
+        if (error.response && error.response.status === 422) {
+          const validationErrors = error.response.data.errors;
+          for (const messages of Object.values(validationErrors)) {
+            messages.forEach(message => {
+              $q.notify({
+                color: 'negative',
+                icon: 'close',
+                message: message,
+                timeout: 2000,
+              });
+            });
+          }
+        }
+        console.error("Erro ao cadastrar:", error.response.data);
       }
     };
 
@@ -156,7 +174,7 @@ export default defineComponent({
 
 .link {
   color: #00008B;
-  text-decoration: none; /* Remove o sublinhado */
+  text-decoration: none;
 }
 
 .google-icon {

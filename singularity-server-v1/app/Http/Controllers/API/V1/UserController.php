@@ -23,26 +23,47 @@ class UserController extends Controller
     }
 
     public function register(Request $request)
-    {
-        // Validação dos dados de entrada
-        $request->validate([
-            'name' => 'required|string|max:191',
-            'email' => 'required|string|email|max:191|unique:users',
-            'password' => 'required|string|min:8', // Confirmação da senha
-            'status' => 'nullable|integer', // status é opcional
-        ]);
-    
+{
+    // Validação dos dados de entrada
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:191',
+        'email' => 'required|string|email|max:191|unique:users',
+        'password' => 'required|string|min:8',
+        'status' => 'nullable|integer',
+    ]);
+
+    try {
         // Criação do usuário
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'status' =>0, // Padrão para 0 se não fornecido
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
         ]);
-    
-        return response()->json($user, 201);
+
+        // Define o status do usuário
+        $user->status = 0;
+        $user->save();
+
+        // Autentica o usuário automaticamente
+        Auth::login($user);
+
+        // Retorno de sucesso
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuário registrado e logado com sucesso',
+            'data' => $user,
+        ], 201);
+
+    } catch (\Exception $e) {
+        // Tratamento de erros
+        return response()->json([
+            'success' => false,
+            'message' => 'Erro ao registrar o usuário',
+            'error' => $e->getMessage(),
+        ], 500);
     }
-    
+}
+
     public function create()
     {
         //
