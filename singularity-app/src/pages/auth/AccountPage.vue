@@ -44,7 +44,6 @@
 
         <div class="flex justify-between items-center q-mt-md">
           <q-checkbox v-model="teal" label="Lembre-se de mim" color="primary" />
-          <a href="#" class="link">Esqueceu a senha?</a>
         </div>
 
         <div class="button-container">
@@ -53,7 +52,7 @@
             <img src="../../assets/icons/google.svg" alt="Google Logo" class="google-icon" />
             SIGN IN COM GOOGLE
           </q-btn>
-          <p>Já tem uma conta? <a href="" class="link">Entrar</a></p>
+          <p>Já tem uma conta? <a href="/login" class="link">Entrar</a></p>
         </div>
       </q-form>
     </div>
