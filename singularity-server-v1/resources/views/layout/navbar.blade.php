@@ -48,17 +48,15 @@
                             <span class="nav-link-title">Dashboard</span>
                         </a>
                     </div>
-
-                  
                     <div class="nav-item">
-                        <a class="nav-link  " href="#navbarVerticalMenuPagesProvider" role="button"
-                            data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProvider"
-                            aria-controls="navbarVerticalMenuPagesProvider">
-                            <i class="bi-building nav-icon"></i>
+                        <a class="nav-link " href="{{route('users')}}" role="button" aria-expanded="true"
+                            aria-controls="navbarVerticalMenuDashboards">
+                            <i class="bi-house-door nav-icon"></i>
                             <span class="nav-link-title">Usuarios</span>
                         </a>
-
                     </div>
+
+                  
 
                     
 

@@ -1,4 +1,4 @@
-﻿@extends('admin.layout.base')
+﻿@extends('layout.base')
 
 @section('title', '| User')
 
@@ -15,7 +15,7 @@
 
                 <div class="col-auto">
                     <a class="btn btn-primary" href="{{ route('register') }}">
-                        <i class="bi-person-plus-fill me-1"></i> Adicionar Funcionario
+                        <i class="bi-person-plus-fill me-1"></i> Adicionar Usuário
                     </a>
                 </div>
                 <!-- End Col -->
@@ -1162,9 +1162,7 @@
                                         data-bs-target="#">
                                         <i class="bi-trash-fill me-1"></i> Bloquear
                                     </button>
-                                    <a href="{{ route('add-tasks', ['id' => $user->id]) }}"  class="btn btn-primary btn-sm ms-2">
-                                    <i class=" me-1"></i> adicionar tarefas
-                                    </a>
+                                   
                                 </div>
                             </td>
                         </tr>
