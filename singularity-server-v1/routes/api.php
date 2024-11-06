@@ -24,4 +24,5 @@ Route::get('/user', [UserController::class, 'index']);
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
-Route::get('/vagas', [VacancieController::class], 'index');
+
+Route::get('/vagas', [VacancieController::class, 'index']);
