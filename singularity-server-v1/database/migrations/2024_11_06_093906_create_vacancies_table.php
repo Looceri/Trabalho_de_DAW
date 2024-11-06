@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jobs', function (Blueprint $table) {
+        Schema::create('vacancies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('title');
@@ -25,8 +25,6 @@ return new class extends Migration
             // Definindo a chave estrangeira
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-        
-        
     }
 
     /**
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('vacancies');
     }
 };

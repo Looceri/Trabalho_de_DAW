@@ -180,7 +180,7 @@
                     <!-- Card -->
                     <div class="card" id="basicSection">
                         <div class="card-header">
-                            <h2 class="card-title h4">Publicar vaga</h2>
+                            <h2 class="card-title h4">Publicar Anuncio de vagas</h2>
                         </div>
 
                         <!-- Body -->
@@ -196,8 +196,8 @@
 
                                     <div class="col-sm-9">
                                         <div class="input-group input-group-sm-vertical">
-                                            <input type="text" class="form-control" name="firstName" id="firstNameLabel"
-                                                placeholder="Digite o titulo da vaga" aria-label="Your first name"
+                                            <input type="text" class="form-control" name="title" id="title"
+                                                placeholder="Digite o titulo do anuncio" 
                                                 >
                                           
                                         </div>
@@ -207,20 +207,20 @@
 
                                 <!-- Form -->
                                 <div class="row mb-4">
-                                    <label for="emailLabel" class="col-sm-3 col-form-label form-label">Data de inicio de submissao</label>
+                                    <label for="submission_start_date" class="col-sm-3 col-form-label form-label">Data de inicio de submissao</label>
 
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" name="start_date" id="emailLabel"
+                                        <input type="date" class="form-control" name="submission_start_date" id="submission_start_date"
                                             placeholder="Data de publicacao da vaga" aria-label="Email" >
                                     </div>
                                 </div>
                                 <!-- End Form -->
                                 <!-- Form -->
                                 <div class="row mb-4">
-                                    <label for="emailLabel" class="col-sm-3 col-form-label form-label">Data fim de submissao</label>
+                                    <label for="submission_end_date" class="col-sm-3 col-form-label form-label">Data fim de submissao</label>
 
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" name="data_nascimento"
+                                        <input type="date" class="form-control" name="submission_end_date"
                                             aria-label="Email" >
                                     </div>
                                 </div>
