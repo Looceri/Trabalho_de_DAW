@@ -1,13 +1,15 @@
 <template>
-  <q-page class="q-pa-md">
-    <div class="job-card q-px-md q-py-lg bg-white rounded-borders">
+  <q-page class="q-pa-md" style="padding: 0;">
+    <div class="job-card q-px-md q-py-lg bg-white rounded-borders" style="margin: 0;">
       <!-- Header -->
-      <div class="header q-px-md">
-        <q-btn flat round icon="arrow_back" class="text-primary" @click="goBack" />
-        <div class="q-ml-md">
-          <div class="title q-mt-md">
+      <q-btn flat round icon="arrow_back" class="text-primary" @click="goBack" />
+      <div class="header q-px-md" style="justify-content: center;">
+        <div class="q-ml-md" style="margin: 0;">
+          <div class="title q-mt-md" style=" justify-content: center;">
             <q-img src="../assets/Logo google.svg" class="logo" contain />
-            UI/UX Designer
+            <p>
+              UI/UX Designer
+            </p>
           </div>
           <div class="subtitle text-grey">
             <div class="listas">
@@ -21,19 +23,8 @@
       <div v-if="!isApplying">
         <!-- Tabs -->
         <div class="tabs q-my-md row no-wrap justify-around">
-          <q-btn
-            push
-            color="orange-8"
-            label="Descrição"
-            @click="showDescription = true"
-          />
-          <q-btn
-            push
-            outline
-            color="blue"
-            label="Empresa"
-            @click="showDescription = false"
-          />
+          <q-btn push color="orange-8" label="Descrição" @click="showDescription = true" />
+          <q-btn push outline color="blue" label="Empresa" @click="showDescription = false" />
         </div>
 
         <!-- Description Component -->
@@ -42,7 +33,8 @@
         <!-- Company Information Component -->
         <div v-else class="company-info">
           <h6 class="text-bold">Informações da Empresa</h6>
-          <p>A Vodacom é uma das principais operadoras de telecomunicações em Moçambique, oferecendo uma variedade de serviços...</p>
+          <p>A Vodacom é uma das principais operadoras de telecomunicações em Moçambique, oferecendo uma variedade de
+            serviços...</p>
           <!-- Você pode adicionar mais detalhes sobre a empresa aqui -->
         </div>
       </div>
@@ -53,14 +45,8 @@
       </div>
 
       <!-- Apply Button -->
-      <q-btn
-        v-if="!isApplying"
-        push
-        color="orange-8"
-        label="APLICAR AGORA"
-        class="q-mb-md full-width"
-        @click="isApplying = true"
-      />
+      <q-btn v-if="!isApplying" push color="orange-8" label="APLICAR AGORA" class="q-mb-md full-width"
+        @click="isApplying = true" />
     </div>
   </q-page>
 </template>
@@ -91,7 +77,6 @@ export default {
 
 <style scoped>
 .job-card {
-  width: 350px;
   margin: 0 auto;
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
@@ -118,7 +103,6 @@ export default {
 .logo {
   width: 50px;
   display: flex;
-  left: 33%;
 }
 
 .title {

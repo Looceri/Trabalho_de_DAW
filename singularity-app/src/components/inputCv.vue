@@ -1,11 +1,12 @@
 <template>
-  <q-page padding class="apply-page">
+  <q-page padding class="apply-page" style="min-height: fit-content;">
     <div v-if="!applicationSubmitted">
       <!-- Job Info -->
 
       <!-- Upload CV -->
       <q-card flat bordered class="q-pa-md q-mt-lg upload-card">
         <q-typography tag="h6" class="text-bold">Carregar o CV</q-typography>
+        <br>
         <q-typography class="q-mt-xs" color="grey">
           Adicione seu CV/Resumo para candidatar-se à vaga
         </q-typography>
@@ -25,6 +26,7 @@
       <!-- Information Text Area -->
       <q-card flat bordered class="q-pa-md q-mt-md info-card">
         <q-typography tag="h6" class="text-bold">Informação</q-typography>
+        <br>
         <q-typography class="q-mt-xs" color="grey">
           Explique por que você é a pessoa certa para esta vaga
         </q-typography>
@@ -43,7 +45,6 @@
         class="q-mt-lg full-width submit-btn"
         label="Enviar"
         color="orange-8"
-        glossy
         size="lg"
         @click="submitApplication"
       />
@@ -76,6 +77,7 @@ export default {
       if (files.length > 0) {
         this.cvFile = files[0];
         console.log('CV adicionado:', this.cvFile);
+        
       } else {
         this.cvFile = null;
       }
@@ -94,8 +96,10 @@ export default {
 
 <style scoped>
 .apply-page {
+  height: fit-content;
   max-width: 500px;
   margin: 0 auto;
+
 }
 
 .upload-card, .info-card {

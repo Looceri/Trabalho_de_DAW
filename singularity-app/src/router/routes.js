@@ -17,9 +17,7 @@ const routes = [
   path: '/home',
   component: () => import('src/layouts/MainLayout.vue'),
   children: [
-  { path: 'description', name:'description', component: () => import('pages/auth/verifyMail.vue') },
   { path: 'description', name:'description', component: () => import('src/pages/DescriptionPage.vue') },
-
   ]
 },
   // Always leave this as last one,singularity-app/src/
