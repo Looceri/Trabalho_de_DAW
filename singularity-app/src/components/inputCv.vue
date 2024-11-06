@@ -12,12 +12,13 @@
         </q-typography>
         <q-uploader
           aria-label="Carregar CV ou Currículo"
-          class="q-mt-md upload-btn"
+          class="q-mt-md full-width upload-btn"
           label="Carregar CV/Currículo"
           icon="cloud_upload"
           accept=".pdf,.doc,.docx"
           square
-          color="orange-8"
+          color="primary"
+          url="http://localhost:8000/api/upload"
           flat
           v-model="cvFile"
           @added="handleFileAdded"
@@ -45,7 +46,7 @@
       <q-btn
         class="q-mt-lg full-width submit-btn"
         label="Enviar"
-        color="orange-8"
+        color="primary"
         size="lg"
         @click="submitApplication"
       />

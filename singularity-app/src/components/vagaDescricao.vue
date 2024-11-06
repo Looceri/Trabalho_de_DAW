@@ -1,5 +1,5 @@
 <template>
-  <q-page style="margin: 0;">
+  <q-page style="margin: 0; min-height: auto;">
     <div class="job-details">
       <!-- Job Description -->
       <div class="description q-mb-lg">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\V1\UserController;
+use App\Http\Controllers\FileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -22,3 +23,4 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 Route::get('/user',[UserController::class,'index']);
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/upload', [FileController::class, 'store']);

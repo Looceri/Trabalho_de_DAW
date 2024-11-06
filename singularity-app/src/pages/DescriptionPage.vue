@@ -38,6 +38,13 @@
             serviços...</p>
           <!-- Você pode adicionar mais detalhes sobre a empresa aqui -->
         </div>
+        <q-btn v-if="!isApplying" push
+        class="q-mt-lg full-width submit-btn"
+        label="APLICAR AGORA"
+        color="primary"
+        size="lg"
+        @click="isApplying = true"
+      />
       </div>
 
       <!-- Apply Form Component -->
@@ -46,9 +53,9 @@
       </div>
 
       <!-- Apply Button -->
-      <q-btn v-if="!isApplying" push color="orange-8" label="APLICAR AGORA" class="q-mb-md full-width"
-        @click="isApplying = true" />
+
     </div>
+
   </q-page>
 </template>
 
