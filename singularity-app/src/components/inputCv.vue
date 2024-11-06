@@ -19,6 +19,7 @@
           square
           color="orange-8"
           flat
+          v-model="cvFile"
           @added="handleFileAdded"
         />
       </q-card>
@@ -57,39 +58,38 @@
   </q-page>
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from 'vue';
+import { useFileStore } from 'src/stores/files';
 import SuccessComponent from './SuccessComponent.vue';
 
-export default {
-  components: {
-    SuccessComponent
-  },
-  data() {
-    return {
-      information: "",
-      cvFile: null,
-      applicationSubmitted: false
-    };
-  },
-  methods: {
-    handleFileAdded(files) {
-      // Verifica se o arquivo foi adicionado
-      if (files.length > 0) {
-        this.cvFile = files[0];
-        console.log('CV adicionado:', this.cvFile);
-        
-      } else {
-        this.cvFile = null;
-      }
-    },
-    submitApplication() {
-      if (!this.cvFile) {
-        alert('Por favor, adicione seu CV antes de enviar a aplicação.');
-        return;
-      }
-      // Simula submissão bem-sucedida
-      this.applicationSubmitted = true;
-    }
+// Store instance
+const fileStore = useFileStore();
+
+// Local state
+const information = ref("");
+const cvFile = ref(null);
+const applicationSubmitted = ref(false);
+
+// Method to handle file addition
+const handleFileAdded = (files) => {
+    cvFile.value = files[0];
+    fileStore.fileAdded(files);
+};
+
+// Method to submit application
+const submitApplication = async () => {
+  if (!cvFile.value) {
+    alert('Please add your CV before submitting the application.');
+    return;
+  }
+
+  try {
+    await fileStore.uploadFile();
+    applicationSubmitted.value = true;
+    console.log('Application submitted successfully');
+  } catch (error) {
+    console.error('Failed to submit application:', error);
   }
 };
 </script>

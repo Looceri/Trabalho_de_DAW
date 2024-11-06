@@ -3,20 +3,21 @@
     <div class="job-card q-px-md q-py-lg bg-white rounded-borders" style="margin: 0;">
       <!-- Header -->
       <q-btn flat round icon="arrow_back" class="text-primary" @click="goBack" />
-      <div class="header q-px-md" style="justify-content: center;">
-        <div class="q-ml-md" style="margin: 0;">
-          <div class="title q-mt-md" style=" justify-content: center;">
+      <div class="header q-px-md q-mt-md q-mb-md" style="justify-content: center;">
+        <q-row align="center" justify="center">
+          <!-- Logo Column -->
+          <q-col cols="auto" class="text-center">
             <q-img src="../assets/Logo google.svg" class="logo" contain />
-            <p>
-              UI/UX Designer
-            </p>
-          </div>
-          <div class="subtitle text-grey">
-            <div class="listas">
+          </q-col>
+
+          <!-- Text Column -->
+          <q-col cols="auto" class="text-center">
+            <p class="title text-h6 q-mb-none">UI/UX Designer</p>
+            <div class="subtitle text-grey text-body2">
               Vodacom • Maputo • 1 dia atrás
             </div>
-          </div>
-        </div>
+          </q-col>
+        </q-row>
       </div>
 
       <!-- Condicional para exibir o conteúdo -->
@@ -101,6 +102,7 @@ export default {
 }
 
 .logo {
+  justify-self: center;
   width: 50px;
   display: flex;
 }
