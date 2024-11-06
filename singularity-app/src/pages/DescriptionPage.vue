@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="q-pa-md" view="hHh lpR fFf">
     <div class="job-card q-px-md q-py-lg bg-white rounded-borders">
       <!-- Header -->
       <div class="header q-px-md">
@@ -37,7 +37,7 @@
         </div>
 
         <!-- Description Component -->
-        <vaga-descricao v-if="showDescription" />
+        <vaga-descricao v-if="showDescription" :showMoreInfo="showDescription" />
 
         <!-- Company Information Component -->
         <div v-else class="company-info">

@@ -17,7 +17,7 @@ const routes = [
     component: () => import('layouts/AuthLayout.vue'),
     redirect: { name: 'description' }, // Redireciona para a página de descrição de vagas automaticamente
     children: [
-      { path: 'description', name: 'description', component: () => import('pages/DescriptionPage.vue') },
+      { path: 'description', name: 'description', component: () => import('pages/jobSekker.vue') },
       { path: 'account', name: 'home-account', component: () => import('pages/auth/AccountPage.vue') },
     ]
   },

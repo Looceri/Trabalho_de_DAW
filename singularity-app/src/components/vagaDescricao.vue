@@ -15,7 +15,8 @@
         </q-btn>
 
         <!-- Exibindo o componente MoreInfo condicionalmente -->
-        <MoreInfo v-if="showMoreInfo" />
+        <MoreInfo v-if="showMoreInfo" :showMoreInfo="showMoreInfo" />
+
       </div>
 
       <!-- Requirements -->
