@@ -23,7 +23,9 @@ Route::get('/', function () {
     return view('pages.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
+Route::get('/vagas', function () {
+    return view('pages.add-vagas');
+})->middleware(['auth', 'verified'])->name('vagas');
 
 Route::middleware('auth')->group(function () {
     Route::get('/users', [UserController::class, 'show'])->name('users');

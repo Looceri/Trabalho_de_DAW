@@ -1,4 +1,4 @@
-﻿@extends('layout.base')
+@extends('layout.base')
 
 @section('title', '| Meu perfil')
 
@@ -36,7 +36,7 @@
     <!-- Content -->
     <div class="content container-fluid">
         <!-- Page Header -->
-        <div class="page-header">
+        {{-- <div class="page-header">
             <div class="row align-items-end">
                 <div class="col-sm mb-2 mb-sm-0">
                     <nav aria-label="breadcrumb">
@@ -59,13 +59,13 @@
                 <!-- End Col -->
             </div>
             <!-- End Row -->
-        </div>
+        </div> --}}
         <!-- End Page Header -->
 
         <div class="row">
             <div>
                 <!-- Navbar -->
-                <div class="navbar-expand-lg navbar-vertical mb-3 mb-lg-5">
+                {{-- <div class="navbar-expand-lg navbar-vertical mb-3 mb-lg-5">
                     <!-- Navbar Toggle -->
                     <!-- Navbar Toggle -->
                     <div class="d-grid">
@@ -89,7 +89,7 @@
                     <!-- End Navbar Toggle -->
 
                     <!-- Navbar Collapse -->
-                    <div id="" class="">
+                    {{-- <div id="" class="">
                         <ul id="navbarSettings">
                             <li class="nav-item">
                                 <a class="nav-link active" href="#content">
@@ -112,10 +112,10 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> --}}
 
                     <!-- End Navbar Collapse -->
-                </div>
+                {{-- </div> --}}
                 <!-- End Navbar -->
             </div>
 
@@ -180,7 +180,7 @@
                     <!-- Card -->
                     <div class="card" id="basicSection">
                         <div class="card-header">
-                            <h2 class="card-title h4">Informações Pessoais</h2>
+                            <h2 class="card-title h4">Publicar vaga</h2>
                         </div>
 
                         <!-- Body -->
@@ -189,7 +189,7 @@
                             <form>
                                 <!-- Form -->
                                 <div class="row mb-4">
-                                    <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">Nome Completo <i
+                                    <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">Titulo<i
                                             class="bi-question-circle text-body ms-1" data-bs-toggle="tooltip"
                                             data-bs-placement="top"
                                             title="Displayed on public forums, such as Front."></i></label>
@@ -197,11 +197,9 @@
                                     <div class="col-sm-9">
                                         <div class="input-group input-group-sm-vertical">
                                             <input type="text" class="form-control" name="firstName" id="firstNameLabel"
-                                                placeholder="Your first name" aria-label="Your first name"
-                                                value="Mark">
-                                            <input type="text" class="form-control" name="lastName"
-                                                id="lastNameLabel" placeholder="Your last name"
-                                                aria-label="Your last name" value="Williams">
+                                                placeholder="Digite o titulo da vaga" aria-label="Your first name"
+                                                >
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -209,44 +207,61 @@
 
                                 <!-- Form -->
                                 <div class="row mb-4">
-                                    <label for="emailLabel" class="col-sm-3 col-form-label form-label">Email</label>
+                                    <label for="emailLabel" class="col-sm-3 col-form-label form-label">Data de inicio de submissao</label>
 
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" name="email" id="emailLabel"
-                                            placeholder="Email" aria-label="Email" value="mark@site.com">
+                                        <input type="date" class="form-control" name="start_date" id="emailLabel"
+                                            placeholder="Data de publicacao da vaga" aria-label="Email" >
                                     </div>
                                 </div>
                                 <!-- End Form -->
                                 <!-- Form -->
                                 <div class="row mb-4">
-                                    <label for="emailLabel" class="col-sm-3 col-form-label form-label">Data de
-                                        Nascimento</label>
+                                    <label for="emailLabel" class="col-sm-3 col-form-label form-label">Data fim de submissao</label>
 
                                     <div class="col-sm-9">
                                         <input type="date" class="form-control" name="data_nascimento"
-                                            aria-label="Email" value="mark@site.com">
+                                            aria-label="Email" >
                                     </div>
                                 </div>
                                 <!-- End Form -->
-
                                 <!-- Form -->
                                 <div class="row mb-4">
-                                    <label for="phoneLabel" class="col-sm-3 col-form-label form-label">Celular </label>
+                                    <label for="emailLabel" class="col-sm-3 col-form-label form-label">Quantidade de vagas</label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" class="js-input-mask form-control" name="phone"
-                                            id="phoneLabel" placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx"
-                                            value="+1 (609) 972-22-22"
-                                            data-hs-mask-options='{
-                                 "mask": "+0(000)000-00-00"
-                               }'>
+                                        <input type="number" class="form-control" name="data_nascimento"
+                                            aria-label="Email"  placeholder="Digite a quantidade total de vagas existentes">
+                                    </div>
+                                </div>
+                                <!-- End Form -->
+
+                                <!-- Form -->
+                                <div class="row mb-4">
+                                    <label for="phoneLabel" class="col-sm-3 col-form-label form-label">Descricao </label>
+
+                                    <div class="col-sm-9">
+                                        <textarea name="description" id="" cols="30" rows="10"
+                                         style="width: 100%; height: 150px;" class="form-control"
+                                          placeholder="Descreva o objectivo da vaga e os proficionais que busca"></textarea>
+                                    </div>
+                                </div>
+                                <!-- End Form -->
+                                <!-- Form -->
+                                <div class="row mb-4">
+                                    <label for="phoneLabel" class="col-sm-3 col-form-label form-label">Requisitos </label>
+
+                                    <div class="col-sm-9">
+                                        <textarea name="description" id="" cols="30" rows="10"
+                                         style="width: 100%; height: 150px;" class="form-control"
+                                          placeholder="Descreva oque e necessario  para se candidatar as vagas"></textarea>
                                     </div>
                                 </div>
                                 <!-- End Form -->
 
 
                                 <!-- Form -->
-                                <div class="row mb-4">
+                                {{-- <div class="row mb-4">
                                     <label for="locationLabel"
                                         class="col-sm-3 col-form-label form-label">Localização</label>
 
@@ -1016,7 +1031,7 @@
                                         <input type="text" class="form-control" name="state" id="stateLabel"
                                             placeholder="State" aria-label="State">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <!-- End Form -->
 
                                 <div class="d-flex justify-content-end">
@@ -1030,7 +1045,7 @@
                     <!-- End Card -->
 
                     <!-- Card -->
-                    <div id="emailSection" class="card" style=" display: none;">
+                    {{-- <div id="emailSection" class="card" style=" display: none;">
                         <div class="card-header">
                             <h4 class="card-title">Email</h4>
                         </div>
@@ -1060,11 +1075,11 @@
                             <!-- End Form -->
                         </div>
                         <!-- End Body -->
-                    </div>
+                    </div> --}}
                     <!-- End Card -->
 
                     <!-- Card -->
-                    <div id="passwordSection" class="card" style=" display: none;">
+                    {{-- <div id="passwordSection" class="card" style=" display: none;">
                         <div class="card-header">
                             <h4 class="card-title">Actualize sua Senha</h4>
                         </div>
@@ -1131,7 +1146,7 @@
                             <!-- End Form -->
                         </div>
                         <!-- End Body -->
-                    </div>
+                    </div> --}}
                     <!-- End Card -->
 
 
@@ -1140,7 +1155,7 @@
 
 
                     <!-- Card -->
-                    <div id="deleteAccountSection" class="card" style=" display: none;">
+                    {{-- <div id="deleteAccountSection" class="card" style=" display: none;">
                         <div class="card-header">
                             <h4 class="card-title">Eliminar sua conta</h4>
                         </div>
@@ -1170,12 +1185,12 @@
                             </div>
                         </div>
                         <!-- End Body -->
-                    </div>
+                    </div> --}}
                     <!-- End Card -->
                 </div>
 
                 <!-- Sticky Block End Point -->
-                <div id="stickyBlockEndPoint"></div>
+                {{-- <div id="stickyBlockEndPoint"></div> --}}
             </div>
         </div>
         <!-- End Row -->
@@ -1197,7 +1212,7 @@
 
 @endsection
 
-@section('js')
+{{-- @section('js')
 
     <!-- Style Switcher JS -->
     <script>
@@ -1364,4 +1379,4 @@
       }
     })()
   </script>
-@endsection
+@endsection --}}

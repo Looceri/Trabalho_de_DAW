@@ -55,6 +55,13 @@
                             <span class="nav-link-title">Usuarios</span>
                         </a>
                     </div>
+                    <div class="nav-item">
+                        <a class="nav-link " href="{{route('vagas')}}" role="button" aria-expanded="true"
+                            aria-controls="navbarVerticalMenuDashboards">
+                            <i class="bi-house-door nav-icon"></i>
+                            <span class="nav-link-title">Publicar vagas</span>
+                        </a>
+                    </div>
 
                   
 
