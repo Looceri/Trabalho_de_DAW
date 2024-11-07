@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('vacancies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('owner_id');
             $table->string('title');
+            $table->float('salary')->nullable()->comment('Salário oferecido');
             $table->date('submission_start_date');
             $table->date('submission_end_date');
             $table->integer('vacancies_count');
             $table->text('description');
             $table->text('requirements');
             $table->timestamps();
-            
+
             // Definindo a chave estrangeira
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

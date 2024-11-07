@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('url_alvara');
-            $table->integer('status');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'user', 'employer'])->default('user')->comment('Função do usuário');
+            $table->boolean('status')->default(true)->comment('Status ativo ou inativo');
+            $table->foreignId('avatar_id')->nullable()->constrained('files')->onDelete('set null')->comment('ID do avatar do usuário');
             $table->rememberToken();
             $table->timestamps();
         });
