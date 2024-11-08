@@ -42,4 +42,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function locations()
+    {
+        return $this->belongsToMany(Location::class, 'user_locations', 'user_id', 'location_id');
+    }
 }

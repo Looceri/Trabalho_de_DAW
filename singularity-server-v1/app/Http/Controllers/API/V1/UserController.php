@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\UserLocation;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -22,47 +23,62 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function register(Request $request)
+    public function findById($id)
 {
-    // Validação dos dados de entrada
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:191',
-        'email' => 'required|string|email|max:191|unique:users',
-        'password' => 'required|string|min:8',
-        'status' => 'nullable|integer',
-    ]);
+    // Tenta encontrar o usuário com o ID fornecido
+    $user = User::find($id);
 
-    try {
-        // Criação do usuário
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
+    // Verifica se o usuário foi encontrado
+    if ($user) {
+        // Retorna os dados do usuário como uma resposta JSON
+        return response()->json($user);
+    }
+
+    // Caso o usuário não seja encontrado, retorna um erro
+    return response()->json(['error' => 'Usuário não encontrado'], 404);
+}
+
+
+    public function register(Request $request)
+    {
+        // Validação dos dados de entrada
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users',
+            'password' => 'required|string|min:8',
+            'status' => 'nullable|integer',
         ]);
 
-        // Define o status do usuário
-        $user->status = 0;
-        $user->save();
+        try {
+            // Criação do usuário
+            $user = User::create([
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+            ]);
 
-        // Autentica o usuário automaticamente
-        Auth::login($user);
+            // Define o status do usuário
+            $user->status = 0;
+            $user->save();
 
-        // Retorno de sucesso
-        return response()->json([
-            'success' => true,
-            'message' => 'Usuário registrado e logado com sucesso',
-            'data' => $user,
-        ], 201);
+            // Autentica o usuário automaticamente
+            Auth::login($user);
 
-    } catch (\Exception $e) {
-        // Tratamento de erros
-        return response()->json([
-            'success' => false,
-            'message' => 'Erro ao registrar o usuário',
-            'error' => $e->getMessage(),
-        ], 500);
+            // Retorno de sucesso
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuário registrado e logado com sucesso',
+                'data' => $user,
+            ], 201);
+        } catch (\Exception $e) {
+            // Tratamento de erros
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao registrar o usuário',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
-}
 
     public function create()
     {
@@ -95,37 +111,5 @@ class UserController extends Controller
             'success' => false,
             'message' => 'Credenciais inválidas',
         ], 401);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
