@@ -10,33 +10,33 @@
         <div class="form-container">
           <div class="q-mb-md">
             <b><label for="nome-completo" class="label">Nome Completo</label></b>
-            <q-input 
-              v-model="form.name" 
-              type="text" 
+            <q-input
+              v-model="form.name"
+              type="text"
               label="Digite seu nome completo"
-              class="input-field" 
+              class="input-field"
               required
             />
           </div>
 
           <div class="q-mb-md">
             <b><label for="email" class="label">Email</label></b>
-            <q-input 
-              v-model="form.email" 
-              type="email" 
+            <q-input
+              v-model="form.email"
+              type="email"
               label="Digite seu email"
-              class="input-field" 
+              class="input-field"
               required
             />
           </div>
 
           <div class="q-mb-md">
             <b><label for="senha" class="label">Senha</label></b>
-            <q-input 
-              v-model="form.password" 
-              type="password" 
+            <q-input
+              v-model="form.password"
+              type="password"
               label="Digite sua senha"
-              class="input-field" 
+              class="input-field"
               required
             />
           </div>
@@ -82,8 +82,9 @@ export default defineComponent({
       }
 
       try {
+
         const response = await axios.post('http://localhost:8000/api/register', form.value);
-        
+
         if (response.data.success) {
           router.push('/home');
           $q.notify({
