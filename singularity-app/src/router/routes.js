@@ -18,7 +18,7 @@ const routes = [
     redirect: { name: 'description' },
     children: [
       { path: 'description', name: 'description', component: () => import('pages/jobSekker.vue') },
-      { path: 'account', name: 'home-account', component: () => import('pages/auth/AccountPage.vue') },
+      { path: 'account', name: 'home-account', component: () => import('pages/DescriptionPage.vue') },
       {
         path: 'vaga/:id',
         name: 'JobDetails',
