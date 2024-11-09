@@ -34,6 +34,24 @@ new Promise((resolve, reject) => {
       })
     }
   }
+  document.getElementById('success-alert').style.display = 'block';
+        
+  // Função para fechar o alerta
+  document.getElementById('close-alert').onclick = function() {
+      document.getElementById('success-alert').style.opacity = 0;
+      setTimeout(function() {
+          document.getElementById('success-alert').style.display = 'none';
+      }, 1000); 
+  };
+
+  // Remover a mensagem após 5 minutos (300000ms)
+  setTimeout(function() {
+      var alert = document.getElementById('success-alert');
+      alert.style.opacity = 0;
+      setTimeout(function() {
+          alert.style.display = 'none';
+      }, 1000); 
+  }, 300000); 
 
   const initHeader = function () {
     const $script = document.createElement('script')

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\API\V1\UserController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VacancieController;

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\API\V1;
+namespace App\Http\Controllers;
+
+
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -134,3 +136,4 @@ class UserController extends Controller
         ], 401);
     }
 }
+

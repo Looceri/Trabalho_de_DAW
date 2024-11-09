@@ -56,10 +56,17 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a class="nav-link " href="{{route('vagas')}}" role="button" aria-expanded="true"
+                        <a class="nav-link " href="{{route('add-vacancie')}}" role="button" aria-expanded="true"
                             aria-controls="navbarVerticalMenuDashboards">
                             <i class="bi-house-door nav-icon"></i>
                             <span class="nav-link-title">Publicar vagas</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link " href="{{route('add-category')}}" role="button" aria-expanded="true"
+                            aria-controls="navbarVerticalMenuDashboards">
+                            <i class="bi-house-door nav-icon"></i>
+                            <span class="nav-link-title">Adicionar categoria</span>
                         </a>
                     </div>
 

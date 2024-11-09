@@ -258,6 +258,14 @@
                                     </div>
                                 </div>
                                 <!-- End Form -->
+                                @if(session('success'))
+                                <div class="alert alert-success" id="success-alert" >
+                                    <button type="button" class="close" id="close-alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+                                    </button>
+                                    {{ session('success') }}
+                                </div>
+                                @endif
 
 
                                 <!-- Form -->
