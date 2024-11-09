@@ -19,13 +19,21 @@ const routes = [
     children: [
       { path: 'description', name: 'description', component: () => import('pages/jobSekker.vue') },
       { path: 'account', name: 'home-account', component: () => import('pages/auth/AccountPage.vue') },
-      // A rota a seguir agora está com /vaga/:id
       {
         path: 'vaga/:id',
         name: 'JobDetails',
         component: () => import('src/pages/DescriptionPage.vue'),
-        props: true,  // Passa o id como prop para o componente
+        props: true, // Passa o id como prop para o componente
       }
+    ]
+  },
+  {
+    path: '/profile',
+    component: () => import('layouts/MainLayout.vue'), // Layout principal do perfil
+    children: [
+      { path: '', name: 'profile', component: () => import('pages/ProfilePage.vue') },
+      { path: 'edit', name: 'edit-profile', component: () => import('pages/EditProfilePage.vue') },
+      { path: 'edit-about-me', name: 'edit-about-me', component: () => import('pages/AboutMeEditPage.vue') },
     ]
   },
   {

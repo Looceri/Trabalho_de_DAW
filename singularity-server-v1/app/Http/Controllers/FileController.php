@@ -17,29 +17,51 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
+        // Validação da requisição
         $request->validate([
             'file' => 'required|file|max:10240',  // Max size of 10MB
+            'vacancy_id' => 'required|exists:vacancies,id',  // Verifica se o ID da vaga existe
+            'reason' => 'required|string|max:255',  // Valida o campo reason
+            'user_id' => 'required|exists:users,id',  // Verifica se o ID do usuário existe
         ]);
 
-        $file = $request->file('file');
-        $path = $file->store('uploads', 'public');  // Stores the file in storage/app/public/uploads
+        // Verifica se o usuário já enviou um arquivo para essa vaga
+        $existingFile = File::where('user_id', $request->user_id)
+            ->where('vacancy_id', $request->vacancy_id)
+            ->first();
 
-        // Create a record in the files table
+        if ($existingFile) {
+            // Se já existe, impede o upload
+            return response()->json([
+                'success' => false,
+                'message' => 'Você já enviou um CV para esta vaga.'
+            ], 400);
+        }
+
+        // Se não houver um arquivo enviado, processa o novo arquivo
+        $file = $request->file('file');
+        $path = $file->store('uploads', 'public');  // Armazena o arquivo no diretório public/uploads
+
+        // Cria o registro do arquivo na tabela files com as informações adicionais
         $storedFile = File::create([
             'name' => $file->getClientOriginalName(),
             'path' => $path,
             'extension' => $file->getClientOriginalExtension(),
             'size' => $file->getSize(),
             'mime_type' => $file->getMimeType(),
-            'user_id' => Auth::id(),  // Store the ID of the authenticated user
+            'user_id' => $request->user_id,  // Armazena o user_id
+            'vacancy_id' => $request->vacancy_id,  // Armazena o vacancy_id
+            'reason' => $request->reason,  // Armazena o motivo
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'File uploaded successfully!',
+            'message' => 'Arquivo enviado com sucesso!',
             'file' => $storedFile,
         ], 201);
     }
+
+
 
     /**
      * Retrieve file details.

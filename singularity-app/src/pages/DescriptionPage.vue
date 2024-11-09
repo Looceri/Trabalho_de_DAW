@@ -33,7 +33,7 @@
         </div>
 
         <q-btn v-if="!isApplying" push class="q-mt-lg full-width submit-btn" label="APLICAR AGORA" color="primary"
-          size="lg" @click="isApplying = true" />
+          size="lg" @click="startApplication(vaga.id)" />
       </div>
 
       <div v-else>
@@ -120,11 +120,13 @@ export default {
   } else {
     this.timeDifference = `${months} meses atrás`;
   }
-}
-
-    ,
+}  ,
     goBack() {
       this.$router.go(-1); // Função de voltar para a página anterior
+    },
+    startApplication(vagaId) {
+      this.isApplying = true;
+      console.log('ID da vaga:', vagaId);
     },
     fetchMoreInfo(vagaId) {
       console.log('ID da vaga:', vagaId);

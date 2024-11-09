@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\VacancieController;
 use App\Http\Controllers\BenefitController;
 use App\Http\Controllers\UserLocationController;
+use App\Http\Controllers\CandidateController;
 
 
 /*
@@ -39,5 +40,6 @@ Route::get('/benefits/{id}', [BenefitController::class, 'findById']);
 Route::get('/benefits_category/{id}', [vacancieController::class, 'show']);
 Route::get('/vacancies/{id}', [VacancieController::class, 'show']);
 
+Route::post('/candidate', [CandidateController::class, 'apply']);
 
 Route::get('/user/{id}/locations', [UserLocationController::class, 'getUserLocation']);

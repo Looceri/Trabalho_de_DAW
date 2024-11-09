@@ -107,6 +107,7 @@ const login = async () => {
     if (response.data.success) {
       console.log(response.data.user.name)
       localStorage.setItem('nome', response.data.user.name);
+      localStorage.setItem('id', response.data.user.id);
       router.push('/home');
       $q.notify({
         color: 'positive',

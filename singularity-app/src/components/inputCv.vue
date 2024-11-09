@@ -60,7 +60,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
 import { useFileStore } from 'src/stores/files';
 import SuccessComponent from './SuccessComponent.vue';
 
@@ -72,6 +73,14 @@ const information = ref("");
 const cvFile = ref(null);
 const applicationSubmitted = ref(false);
 
+// Prop to receive the vagaId from the parent component
+const props = defineProps({
+  vagaId: {
+    type: Number,
+    required: true
+  }
+});
+
 // Method to handle file addition
 const handleFileAdded = (files) => {
     cvFile.value = files[0];
@@ -81,18 +90,46 @@ const handleFileAdded = (files) => {
 // Method to submit application
 const submitApplication = async () => {
   if (!cvFile.value) {
-    alert('Please add your CV before submitting the application.');
+    alert('Por favor, adicione seu CV antes de enviar a candidatura.');
     return;
   }
 
   try {
-    await fileStore.uploadFile();
+    const vacancyId = props.vagaId; // Obtém o ID da vaga
+    const reason = information.value; // Obtém o motivo enviado pelo usuário
+    const userId = localStorage.getItem('id'); // ID do usuário
+
+    // Criação do FormData para enviar o arquivo
+    const formData = new FormData();
+    formData.append('file', cvFile.value);
+
+    // Envio do arquivo para o backend
+    const uploadResponse = await axios.post('http://localhost:8000/api/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    const fileName = uploadResponse.data.file.filename; // Obtém o nome do arquivo
+
+    // Envio da candidatura para o backend
+    const applicationResponse = await axios.post('http://localhost:8000/api/candidate', {
+      file: fileName,
+      vacancy_id: vacancyId,
+      user_id: userId,
+      reason: reason
+    });
+
+    console.log(applicationResponse.data.message);
     applicationSubmitted.value = true;
-    console.log('Application submitted successfully');
+
   } catch (error) {
-    console.error('Failed to submit application:', error);
+    console.error('Erro ao enviar a candidatura:', error);
   }
 };
+
+
+
 </script>
 
 <style scoped>
@@ -100,7 +137,6 @@ const submitApplication = async () => {
   height: fit-content;
   max-width: 500px;
   margin: 0 auto;
-
 }
 
 .upload-card, .info-card {

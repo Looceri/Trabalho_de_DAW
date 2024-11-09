@@ -29,6 +29,8 @@ class File extends Model
         'size',
         'mime_type',
         'user_id',
+        'vacancy_id',
+        'reason'
     ];
 
     /**

@@ -1,70 +1,84 @@
-import { defineStore } from 'pinia';
-import axios from 'axios';
+import { defineStore } from "pinia";
+import axios from "axios";
 
-export const useFileStore = defineStore('file', {
+export const useFileStore = defineStore("file", {
   state: () => ({
-    cvFile: null,  // Store the file data
-    uploadStatus: null,  // To store the status of the upload (optional)
+    cvFile: null, // Armazenar os dados do arquivo
+    uploadStatus: null, // Armazenar o status do upload (opcional)
   }),
 
   actions: {
-    // Called when a file is added to the uploader
+    // Chamado quando um arquivo é adicionado ao uploader
     fileAdded(files) {
       if (files.length > 0) {
-        this.cvFile = files[0];  // Store the first file
-        console.log('File added:', this.cvFile);
+        this.cvFile = files[0]; // Armazena o primeiro arquivo
+        console.log("File added:", this.cvFile);
       } else {
         this.cvFile = null;
       }
     },
 
-    // Upload the file to the server
-    async uploadFile() {
+    // Envia o arquivo para o servidor com o ID da vaga e as informações adicionais
+    async uploadFile(vagaId, information) {
       if (!this.cvFile) {
-        console.log('No file to upload.');
+        console.log("No file to upload.");
         return;
       }
 
+      // Recupera o ID do usuário (por exemplo, do localStorage)
+      const userId = localStorage.getItem("id");
+
       const formData = new FormData();
-      formData.append('file', this.cvFile);
+      formData.append("file", this.cvFile); // Adiciona o arquivo
+      formData.append("user_id", userId); // Adiciona o ID do usuário
+      formData.append("vaga_id", vagaId); // Adiciona o ID da vaga
+      formData.append("information", information); // Adiciona as informações do candidato
 
       try {
-        const response = await axios.post('http://localhost:8000/api/upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        // Envia o arquivo usando uma requisição POST com o FormData
+        const response = await axios.post(
+          "http://localhost:8000/api/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data", // Define o tipo de conteúdo
+            },
+          }
+        );
 
-        // If the file is uploaded successfully, update state
-        console.log('File uploaded successfully:', response.data);
-        this.cvFile = response.data.file;  // Update the state with the uploaded file's details
-        this.uploadStatus = 'File uploaded successfully';
+        // Se o upload for bem-sucedido, atualiza o estado
+        console.log("File uploaded successfully:", response.data);
+        this.cvFile = response.data.file; // Atualiza o estado com os detalhes do arquivo enviado
+        this.uploadStatus = "File uploaded successfully"; // Status do upload
       } catch (error) {
-        console.error('Error uploading file:', error);
-        this.uploadStatus = 'Failed to upload file';  // Set failure status
+        console.error("Error uploading file:", error);
+        this.uploadStatus = "Failed to upload file"; // Status em caso de falha
       }
     },
 
-    // Fetch a file from the server (if you want to retrieve and display it)
+    // Recupera um arquivo do servidor (se necessário)
     async fetchFile(fileId) {
       try {
-        const response = await axios.get(`http://localhost:8000/api/files/${fileId}`, {
-          responseType: 'blob',  // Expecting the file as a blob
-        });
+        const response = await axios.get(
+          `http://localhost:8000/api/files/${fileId}`,
+          {
+            responseType: "blob", // Espera o arquivo como blob
+          }
+        );
 
-        // Create an object URL to display or download the file
+        // Cria uma URL do arquivo para exibir ou baixar
         const fileUrl = URL.createObjectURL(response.data);
-        this.cvFile = fileUrl;  // Save the file URL to the state
-        console.log('File fetched successfully:', fileUrl);
-      } catch (error) {
-        console.error('Error fetching file:', error);
+        this.cvFile = fileUrl; // Salva a URL do arquivo no estado
+        console.log("File fetched successfully:", fileUrl);
+      } catch (error) {z
+        console.error("Error fetching file:", error);
       }
     },
 
-    // Optionally, a method to remove the file from state
+    // Método opcional para limpar o arquivo do estado
     clearFile() {
       this.cvFile = null;
       this.uploadStatus = null;
-    }
+    },
   },
 });
