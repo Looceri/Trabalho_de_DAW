@@ -80,25 +80,11 @@ class UserController extends Controller
         }
     }
 
-    public function indexLoc()
+    public function create()
     {
-        $user = User::with('location_id')->get();
-        return $user;
+        //
     }
 
-
-
-
-    public function showUserLocations($userId)
-    {
-        $user = User::with('locations')->find($userId);
-
-        if (!$user) {
-            return response()->json(['error' => 'Usuário não encontrado'], 404);
-        }
-
-        return response()->json($user->locations);
-    }
     /**
      * Store a newly created resource in storage.
      */
@@ -125,5 +111,16 @@ class UserController extends Controller
             'success' => false,
             'message' => 'Credenciais inválidas',
         ], 401);
+    }
+
+    public function findByIdd($id)
+    {
+        $user = User::with('location_id')->find($id);
+
+        if (!$user) {
+            return response()->json(['error' => 'Vaga não encontrada'], 404);
+        }
+
+        return response()->json($user);
     }
 }

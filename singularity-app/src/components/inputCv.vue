@@ -118,7 +118,11 @@ const uploadFile = async (vagaId) => {
 
     uploadStatus.value = "File uploaded successfully";
     console.log("Upload concluído:", response.data);
-    return { status: uploadStatus.value, fileData: response.data };
+
+    // Agora, vamos pegar o ID do arquivo que foi retornado pela API
+    const fileId = response.data.file.id;  // Supondo que a API retorne esse id
+
+    return { status: uploadStatus.value, fileId }; // Retorna o fileId para usar na candidatura
   } catch (error) {
     uploadStatus.value = "Failed to upload file";
     console.error("Erro ao fazer upload do arquivo:", error.response ? error.response.data : error.message);
@@ -134,18 +138,34 @@ const submitApplication = async () => {
     return { status: applicationStatus.value };
   }
 
+  if (!information.value || information.value.trim() === "") {
+    applicationStatus.value = "Please provide a reason for applying.";
+    console.log(applicationStatus.value);
+    return { status: applicationStatus.value };
+  }
+
   try {
     const uploadResponse = await uploadFile(props.vagaId);
 
     if (uploadResponse.status === "File uploaded successfully") {
-      const formData = new FormData();
-      formData.append("file", cvFile.value);
-      formData.append("information", information.value);
-      formData.append("vagaId", props.vagaId);
+      const userId = localStorage.getItem("id");
 
-      const response = await axios.post("http://localhost:8000/api/candidate", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      // Corrigindo a interpolação da URL do GET
+      const idFileResponse = await axios.get(`http://localhost:8000/api/last-cv/${userId}/${props.vagaId}`);
+
+      console.log("Id do arquivo: ", idFileResponse.data.file_id);
+      const fileId = idFileResponse.data.file_id;  // Usa o ID do arquivo no campo esperado
+
+      const applicationData = {
+        file_id: fileId,  // Usa o ID do arquivo no campo esperado
+        information: information.value,
+        vacancy_id: props.vagaId,
+        user_id: userId,
+      };
+
+      console.log("Dados da candidatura:", applicationData);  // Verifique os dados antes de enviar a candidatura
+
+      const response = await axios.post("http://localhost:8000/api/candidate", applicationData);
 
       if (response.status === 201) {
         applicationStatus.value = "Application submitted successfully!";
@@ -164,6 +184,8 @@ const submitApplication = async () => {
   }
 };
 </script>
+
+
 
 <style scoped>
 .upload-btn {
