@@ -14,6 +14,11 @@ class UserController extends Controller
         return $user;
     }
 
+    public function register(Request $request)
+    {
+        dd($request);
+    }
+
     public function findById($id)
     {
         $user = User::with('location_id')->find($id);
