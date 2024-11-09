@@ -33,11 +33,13 @@ Route::middleware('auth')->group(function () {
     //Categories
     Route::get('/add-category', [VacancieController::class, 'openCategory'])->name('add-category');
     Route::post('/add-category', [VacancieController::class,'storeCategorie'])->name('add-category');
-    Route::post('/update-category/{id}', [VacancieController::class,'updateCategory'])->name('update-category');
+  
 
     Route::get('/list-category', [VacancieController::class, 'showCategories'])->name('list-category');
+    
     Route::get('/delete-category/{id}', [VacancieController::class, 'deleteCategory'])->name('delete-category');
     Route::get('/edit-category/{id}', [VacancieController::class, 'editCategory'])->name('edit-category');
+    Route::post('/update-category/{id}', [VacancieController::class,'updateCategory'])->name('update-category');
 
 
     //Vacancie

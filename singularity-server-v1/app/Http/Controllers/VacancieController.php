@@ -36,7 +36,21 @@ class VacancieController extends Controller
 
         return response()->json($vaga);
     }
+    public function openVacancie(){
+        return view('pages.add-vacancies');
+     }
 
+
+
+    //categoriasController
+     public function openCategory(){
+        return view('pages.add-category');
+     }
+     public function showCategories(){
+        $categories = VacancyCategory::all();
+        return view('pages.categories', compact('categories'));
+    }
+ 
     public function storeCategorie(Request $request)
     {
         // Validação dos dados da request
@@ -74,26 +88,18 @@ class VacancieController extends Controller
         return redirect()->route('list-category')->with('success', 'Categoria atualizada com sucesso!');
     }
     
-    public function openCategory(){
-       return view('pages.add-category');
-    }
 
-    public function showCategories(){
-        $categories = VacancyCategory::all();
-        return view('pages.categories', compact('categories'));
-    }
     public function deleteCategory($id){
         $category = VacancyCategory::findOrFail($id);
         $category->delete();
         return redirect()->route('list-category')->with('success', 'Categoria Apagada com sucesso!');
     }
+
     public function editCategory($id)
     {
         $category = VacancyCategory::findOrFail($id);
         return view('pages.add-category', compact('category')); 
     }
     
-    public function openVacancie(){
-       return view('pages.add-vacancies');
-    }
+  
 }
