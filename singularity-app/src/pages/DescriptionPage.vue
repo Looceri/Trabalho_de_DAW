@@ -10,12 +10,12 @@
           <q-col cols="auto" class="text-center">
             <p class="title text-h6 q-mb-none">{{ vaga.title }}</p>
             <div class="subtitle text-grey text-body2">
-  <ul class="info-list">
-    <li>{{ owner.name }}</li>
-    <li>{{ location.location?.district?.province?.name }}</li>
-    <li>{{ timeDifference }}</li>
-  </ul>
-</div>
+              <ul class="info-list">
+                <li>{{ owner.name }}</li>
+                <li>{{ location.location?.district?.province?.name }}</li>
+                <li>{{ timeDifference }}</li>
+              </ul>
+            </div>
           </q-col>
         </q-row>
       </div>
@@ -32,12 +32,20 @@
           <p style="margin-top: -30px; text-align: justify; padding: 3px;">{{ owner.description }}</p>
         </div>
 
-        <q-btn v-if="!isApplying" push class="q-mt-lg full-width submit-btn" label="APLICAR AGORA" color="primary"
-          size="lg" @click="startApplication(vaga.id)" />
+        <q-btn
+          v-if="!isApplying"
+          push
+          class="q-mt-lg full-width submit-btn"
+          label="APLICAR AGORA"
+          color="primary"
+          size="lg"
+          @click="isApplying = true"
+        />
       </div>
 
+      <!-- Passa o vagaId para o ApplyForm -->
       <div v-else>
-        <apply-form />
+        <apply-form :vagaId="vaga.id" />
       </div>
     </div>
   </q-page>
@@ -64,16 +72,16 @@ export default {
     return {
       owner: {},
       vaga: {},
-      location : [],
+      location: [],
       showDescription: true,
       isApplying: false,
+      timeDifference: ''
     };
   },
   created() {
-    // Verifique se o ID está sendo passado corretamente
     if (this.id) {
       this.loadDetails();
-      console.log("get in") // Chama o método para carregar os detalhes
+      console.log("ID da vaga: ", this.id); // Verifica o ID ao carregar os detalhes
     } else {
       console.error('ID não encontrado!');
     }
@@ -87,51 +95,45 @@ export default {
         const OwerResponse = await axios.get(`http://localhost:8000/api/user/${this.vaga.owner_id}`);
         this.owner = OwerResponse.data;
 
-        const locationResponse = await axios.get(`http://localhost:8000/api/user/${this.vaga.owner_id }/locations`);
+        const locationResponse = await axios.get(`http://localhost:8000/api/user/${this.vaga.owner_id}/locations`);
         this.location = locationResponse.data;
 
         this.calculateDaysDifference();
-
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
       }
     },
     calculateDaysDifference() {
-  const now = new Date(); // Data atual
-  const submissionDate = new Date(this.vaga.submission_start_date); // Data de início
-  const differenceInMs = now - submissionDate; // Diferença em milissegundos
+      const now = new Date();
+      const submissionDate = new Date(this.vaga.submission_start_date);
+      const differenceInMs = now - submissionDate;
 
-  // Calcula a diferença em segundos, minutos, horas e dias
-  const seconds = Math.floor(differenceInMs / 1000);
-  const minutes = Math.floor(differenceInMs / (1000 * 60));
-  const hours = Math.floor(differenceInMs / (1000 * 60 * 60));
-  const days = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
-  const months = Math.floor(differenceInMs / (1000 * 60 * 60 * 24 * 30)); // Aproximado
+      const seconds = Math.floor(differenceInMs / 1000);
+      const minutes = Math.floor(differenceInMs / (1000 * 60));
+      const hours = Math.floor(differenceInMs / (1000 * 60 * 60));
+      const days = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
+      const months = Math.floor(differenceInMs / (1000 * 60 * 60 * 24 * 30));
 
-  // Define `this.timeDifference` com o texto apropriado
-  if (seconds < 60) {
-    this.timeDifference = `${seconds} segundos atrás`;
-  } else if (minutes < 60) {
-    this.timeDifference = `${minutes} minutos atrás`;
-  } else if (hours < 24) {
-    this.timeDifference = `${hours} horas atrás`;
-  } else if (days < 30) {
-    this.timeDifference = `${days} dias atrás`;
-  } else {
-    this.timeDifference = `${months} meses atrás`;
-  }
-}  ,
+      if (seconds < 60) {
+        this.timeDifference = `${seconds} segundos atrás`;
+      } else if (minutes < 60) {
+        this.timeDifference = `${minutes} minutos atrás`;
+      } else if (hours < 24) {
+        this.timeDifference = `${hours} horas atrás`;
+      } else if (days < 30) {
+        this.timeDifference = `${days} dias atrás`;
+      } else {
+        this.timeDifference = `${months} meses atrás`;
+      }
+    },
     goBack() {
-      this.$router.go(-1); // Função de voltar para a página anterior
+      this.$router.go(-1);
     },
-    startApplication(vagaId) {
-      this.isApplying = true;
-      console.log('ID da vaga:', vagaId);
-    },
+
     fetchMoreInfo(vagaId) {
-      console.log('ID da vaga:', vagaId);
-    },
-  },
+      console.log('Buscando mais informações para a vaga ID:', vagaId);
+    }
+  }
 };
 </script>
 
@@ -186,5 +188,4 @@ export default {
   margin-left: 8px;        /* Espaçamento após o ponto */
   color: #666;
 }
-
 </style>

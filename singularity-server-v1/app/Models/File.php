@@ -30,7 +30,6 @@ class File extends Model
         'mime_type',
         'user_id',
         'vacancy_id',
-        'reason'
     ];
 
     /**

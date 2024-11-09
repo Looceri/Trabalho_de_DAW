@@ -60,20 +60,18 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
-import { useFileStore } from 'src/stores/files';
 import SuccessComponent from './SuccessComponent.vue';
 
-// Store instance
-const fileStore = useFileStore();
-
-// Local state
-const information = ref("");
+// Estado para o arquivo, informações e status da aplicação
 const cvFile = ref(null);
+const information = ref("");
 const applicationSubmitted = ref(false);
+const uploadStatus = ref(null);
+const applicationStatus = ref(null);
 
-// Prop to receive the vagaId from the parent component
+// Recebe a prop vagaId do componente pai
 const props = defineProps({
   vagaId: {
     type: Number,
@@ -81,94 +79,98 @@ const props = defineProps({
   }
 });
 
-// Method to handle file addition
+// Função para armazenar o arquivo quando ele for adicionado
 const handleFileAdded = (files) => {
-    cvFile.value = files[0];
-    fileStore.fileAdded(files);
+  if (files && files.length > 0) {
+    cvFile.value = files[0];  // Armazena o arquivo no estado
+    console.log("Arquivo adicionado:", cvFile.value);
+  } else {
+    console.error("Nenhum arquivo selecionado.");
+  }
 };
 
-// Method to submit application
+// Função para fazer o upload do arquivo
+const uploadFile = async (vagaId) => {
+  if (!cvFile.value) {
+    uploadStatus.value = "No file to upload.";
+    console.log(uploadStatus.value);
+    return { status: uploadStatus.value };
+  }
+
+  const userId = localStorage.getItem("id");
+  if (!userId) {
+    uploadStatus.value = "User ID not found.";
+    console.log(uploadStatus.value);
+    return { status: uploadStatus.value };
+  }
+
+  const formData = new FormData();
+  formData.append("file", cvFile.value);  // Adiciona o arquivo ao FormData
+  formData.append("user_id", userId);
+  formData.append("vacancy_id", vagaId);
+
+  console.log("FormData a ser enviado:", formData);  // Verifique o FormData antes de enviar
+
+  try {
+    const response = await axios.post("http://localhost:8000/api/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    uploadStatus.value = "File uploaded successfully";
+    console.log("Upload concluído:", response.data);
+    return { status: uploadStatus.value, fileData: response.data };
+  } catch (error) {
+    uploadStatus.value = "Failed to upload file";
+    console.error("Erro ao fazer upload do arquivo:", error.response ? error.response.data : error.message);
+    return { status: uploadStatus.value, error: error.response?.data || error.message };
+  }
+};
+
+// Função para submeter a candidatura após o upload
 const submitApplication = async () => {
   if (!cvFile.value) {
-    alert('Por favor, adicione seu CV antes de enviar a candidatura.');
-    return;
+    applicationStatus.value = "No file selected for application.";
+    console.log(applicationStatus.value);
+    return { status: applicationStatus.value };
   }
 
   try {
-    const vacancyId = props.vagaId; // Obtém o ID da vaga
-    const reason = information.value; // Obtém o motivo enviado pelo usuário
-    const userId = localStorage.getItem('id'); // ID do usuário
+    const uploadResponse = await uploadFile(props.vagaId);
 
-    // Criação do FormData para enviar o arquivo
-    const formData = new FormData();
-    formData.append('file', cvFile.value);
+    if (uploadResponse.status === "File uploaded successfully") {
+      const formData = new FormData();
+      formData.append("file", cvFile.value);
+      formData.append("information", information.value);
+      formData.append("vagaId", props.vagaId);
 
-    // Envio do arquivo para o backend
-    const uploadResponse = await axios.post('http://localhost:8000/api/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
+      const response = await axios.post("http://localhost:8000/api/candidate", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (response.status === 201) {
+        applicationStatus.value = "Application submitted successfully!";
+        console.log("Candidatura enviada com sucesso:", response.data);
+        applicationSubmitted.value = true;
+      } else {
+        applicationStatus.value = "Unexpected response status for application.";
+        console.log(applicationStatus.value);
       }
-    });
-
-    const fileName = uploadResponse.data.file.filename; // Obtém o nome do arquivo
-
-    // Envio da candidatura para o backend
-    const applicationResponse = await axios.post('http://localhost:8000/api/candidate', {
-      file: fileName,
-      vacancy_id: vacancyId,
-      user_id: userId,
-      reason: reason
-    });
-
-    console.log(applicationResponse.data.message);
-    applicationSubmitted.value = true;
-
+    } else {
+      console.log("Erro no upload do arquivo.", uploadResponse.status);
+    }
   } catch (error) {
-    console.error('Erro ao enviar a candidatura:', error);
+    applicationStatus.value = "Failed to submit application.";
+    console.error("Erro ao submeter a candidatura:", error.response ? error.response.data : error.message);
   }
 };
-
-
-
 </script>
 
 <style scoped>
-.apply-page {
-  height: fit-content;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.upload-card, .info-card {
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .upload-btn {
-  background-color: #ffcc80;
-  border-radius: 8px;
-}
-
-.q-uploader .q-uploader__container {
-  border: 2px dashed #ff9800;
-  padding: 20px;
+  margin-top: 16px;
 }
 
 .submit-btn {
-  border-radius: 8px;
-  font-weight: bold;
-  background: linear-gradient(to right, #ff9800, #f57c00);
-}
-
-.text-bold {
-  font-weight: bold;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.q-input {
-  border-radius: 8px;
+  margin-top: 24px;
 }
 </style>

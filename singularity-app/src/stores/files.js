@@ -1,84 +1,97 @@
+// useFileStore.js
 import { defineStore } from "pinia";
 import axios from "axios";
 
 export const useFileStore = defineStore("file", {
   state: () => ({
-    cvFile: null, // Armazenar os dados do arquivo
-    uploadStatus: null, // Armazenar o status do upload (opcional)
+    cvFile: null,
+    uploadStatus: null,
+    applicationStatus: null,
   }),
 
   actions: {
-    // Chamado quando um arquivo é adicionado ao uploader
-    fileAdded(files) {
-      if (files.length > 0) {
-        this.cvFile = files[0]; // Armazena o primeiro arquivo
-        console.log("File added:", this.cvFile);
+    // Recebe e armazena o arquivo carregado
+    fileAdded(file) {
+      // O arquivo é passado como um array, então acessamos o primeiro item
+      if (file && file.length > 0) {
+        this.cvFile = file[0];  // Atribui o arquivo à variável cvFile
+        console.log("Arquivo adicionado:", this.cvFile);
       } else {
-        this.cvFile = null;
+        console.error("Nenhum arquivo selecionado.");
       }
     },
 
-    // Envia o arquivo para o servidor com o ID da vaga e as informações adicionais
-    async uploadFile(vagaId, information) {
-      if (!this.cvFile) {
-        console.log("No file to upload.");
-        return;
+    // Função para enviar o arquivo para o servidor
+    async uploadFile(vagaId, file) {
+      if (file && file.length > 0) {
+        this.cvFile = file[0];
+        this.uploadStatus = "No file to upload.";
+        console.log(this.uploadStatus+vagaId);
+        return { status: this.uploadStatus };
       }
 
-      // Recupera o ID do usuário (por exemplo, do localStorage)
       const userId = localStorage.getItem("id");
+      if (!userId) {
+        this.uploadStatus = "User ID not found.";
+        console.log(this.uploadStatus);
+        return { status: this.uploadStatus };
+      }
 
       const formData = new FormData();
-      formData.append("file", this.cvFile); // Adiciona o arquivo
-      formData.append("user_id", userId); // Adiciona o ID do usuário
-      formData.append("vaga_id", vagaId); // Adiciona o ID da vaga
-      formData.append("information", information); // Adiciona as informações do candidato
+      formData.append("file", this.cvFile);
+      formData.append("user_id", userId);
+      formData.append("vacancy_id", vagaId);
+
+      console.log("FormData a ser enviado:", formData);  // Verifique o FormData antes de enviar
 
       try {
-        // Envia o arquivo usando uma requisição POST com o FormData
-        const response = await axios.post(
-          "http://localhost:8000/api/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data", // Define o tipo de conteúdo
-            },
-          }
-        );
+        const response = await axios.post("http://localhost:8000/api/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
 
-        // Se o upload for bem-sucedido, atualiza o estado
-        console.log("File uploaded successfully:", response.data);
-        this.cvFile = response.data.file; // Atualiza o estado com os detalhes do arquivo enviado
-        this.uploadStatus = "File uploaded successfully"; // Status do upload
+        this.uploadStatus = "File uploaded successfully";
+        console.log("Upload concluído:", response.data);
+        return { status: this.uploadStatus, fileData: response.data };
       } catch (error) {
-        console.error("Error uploading file:", error);
-        this.uploadStatus = "Failed to upload file"; // Status em caso de falha
+        this.uploadStatus = "Failed to upload file";
+        console.error("Erro ao fazer upload do arquivo:", error.response ? error.response.data : error.message);
+        return { status: this.uploadStatus, error: error.response?.data || error.message };
       }
-    },
+    }
+    ,
 
-    // Recupera um arquivo do servidor (se necessário)
-    async fetchFile(fileId) {
+    // Função para submeter a candidatura após o upload
+    async submitApplication(vagaId, information) {
+      if (!this.cvFile) {
+        this.applicationStatus = "No file selected for application.";
+        console.log(this.applicationStatus);
+        return { status: this.applicationStatus };
+      }
+
       try {
-        const response = await axios.get(
-          `http://localhost:8000/api/files/${fileId}`,
-          {
-            responseType: "blob", // Espera o arquivo como blob
-          }
-        );
+        const formData = new FormData();
+        formData.append("file", this.cvFile);
+        formData.append("information", information);
+        formData.append("vagaId", vagaId);
 
-        // Cria uma URL do arquivo para exibir ou baixar
-        const fileUrl = URL.createObjectURL(response.data);
-        this.cvFile = fileUrl; // Salva a URL do arquivo no estado
-        console.log("File fetched successfully:", fileUrl);
-      } catch (error) {z
-        console.error("Error fetching file:", error);
+        const response = await axios.post("http://localhost:8000/api/candidate", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        if (response.status === 201) {
+          this.applicationStatus = "Application submitted successfully!";
+          console.log("Candidatura enviada com sucesso:", response.data);
+          return { status: this.applicationStatus };
+        } else {
+          this.applicationStatus = "Unexpected response status for application.";
+          console.log(this.applicationStatus);
+          return { status: this.applicationStatus };
+        }
+      } catch (error) {
+        this.applicationStatus = "Failed to submit application.";
+        console.error("Erro ao submeter a candidatura:", error.response ? error.response.data : error.message);
+        return { status: this.applicationStatus, error: error.response?.data || error.message };
       }
-    },
-
-    // Método opcional para limpar o arquivo do estado
-    clearFile() {
-      this.cvFile = null;
-      this.uploadStatus = null;
     },
   },
 });
