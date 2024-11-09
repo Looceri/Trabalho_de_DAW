@@ -63,6 +63,9 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import SuccessComponent from './SuccessComponent.vue';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();  // Inicializa o Quasar
 
 // Estado para o arquivo, informações e status da aplicação
 const cvFile = ref(null);
@@ -82,10 +85,14 @@ const props = defineProps({
 // Função para armazenar o arquivo quando ele for adicionado
 const handleFileAdded = (files) => {
   if (files && files.length > 0) {
-    cvFile.value = files[0];  // Armazena o arquivo no estado
+    cvFile.value = files[0];
     console.log("Arquivo adicionado:", cvFile.value);
   } else {
     console.error("Nenhum arquivo selecionado.");
+    $q.notify({
+      type: 'negative',
+      message: 'Nenhum arquivo selecionado. Por favor, selecione um arquivo para enviar.',
+    });
   }
 };
 
@@ -93,23 +100,27 @@ const handleFileAdded = (files) => {
 const uploadFile = async (vagaId) => {
   if (!cvFile.value) {
     uploadStatus.value = "No file to upload.";
-    console.log(uploadStatus.value);
+    $q.notify({
+      type: 'negative',
+      message: uploadStatus.value,
+    });
     return { status: uploadStatus.value };
   }
 
   const userId = localStorage.getItem("id");
   if (!userId) {
     uploadStatus.value = "User ID not found.";
-    console.log(uploadStatus.value);
+    $q.notify({
+      type: 'negative',
+      message: uploadStatus.value,
+    });
     return { status: uploadStatus.value };
   }
 
   const formData = new FormData();
-  formData.append("file", cvFile.value);  // Adiciona o arquivo ao FormData
+  formData.append("file", cvFile.value);
   formData.append("user_id", userId);
   formData.append("vacancy_id", vagaId);
-
-  console.log("FormData a ser enviado:", formData);  // Verifique o FormData antes de enviar
 
   try {
     const response = await axios.post("http://localhost:8000/api/upload", formData, {
@@ -119,14 +130,17 @@ const uploadFile = async (vagaId) => {
     uploadStatus.value = "File uploaded successfully";
     console.log("Upload concluído:", response.data);
 
-    // Agora, vamos pegar o ID do arquivo que foi retornado pela API
-    const fileId = response.data.file.id;  // Supondo que a API retorne esse id
-
-    return { status: uploadStatus.value, fileId }; // Retorna o fileId para usar na candidatura
+    const fileId = response.data.file.id;
+    return { status: uploadStatus.value, fileId };
   } catch (error) {
     uploadStatus.value = "Failed to upload file";
-    console.error("Erro ao fazer upload do arquivo:", error.response ? error.response.data : error.message);
-    return { status: uploadStatus.value, error: error.response?.data || error.message };
+    const errorMessage = error.response ? error.response.data : error.message;
+    console.error("Erro ao fazer upload do arquivo:", errorMessage);
+    $q.notify({
+      type: 'negative',
+      message: `Erro ao fazer upload do arquivo: ${errorMessage}`,
+    });
+    return { status: uploadStatus.value, error: errorMessage };
   }
 };
 
@@ -134,14 +148,20 @@ const uploadFile = async (vagaId) => {
 const submitApplication = async () => {
   if (!cvFile.value) {
     applicationStatus.value = "No file selected for application.";
-    console.log(applicationStatus.value);
-    return { status: applicationStatus.value };
+    $q.notify({
+      type: 'negative',
+      message: applicationStatus.value,
+    });
+    return;
   }
 
   if (!information.value || information.value.trim() === "") {
     applicationStatus.value = "Please provide a reason for applying.";
-    console.log(applicationStatus.value);
-    return { status: applicationStatus.value };
+    $q.notify({
+      type: 'negative',
+      message: applicationStatus.value,
+    });
+    return;
   }
 
   try {
@@ -149,43 +169,54 @@ const submitApplication = async () => {
 
     if (uploadResponse.status === "File uploaded successfully") {
       const userId = localStorage.getItem("id");
-
-      // Corrigindo a interpolação da URL do GET
-      const idFileResponse = await axios.get(`http://localhost:8000/api/last-cv/${userId}/${props.vagaId}`);
-
-      console.log("Id do arquivo: ", idFileResponse.data.file_id);
-      const fileId = idFileResponse.data.file_id;  // Usa o ID do arquivo no campo esperado
+      const fileId = uploadResponse.fileId;
 
       const applicationData = {
-        file_id: fileId,  // Usa o ID do arquivo no campo esperado
-        information: information.value,
+        file_id: fileId,
+        reason: information.value,
         vacancy_id: props.vagaId,
         user_id: userId,
+        application_date: new Date().toISOString().split('T')[0],
       };
-
-      console.log("Dados da candidatura:", applicationData);  // Verifique os dados antes de enviar a candidatura
 
       const response = await axios.post("http://localhost:8000/api/candidate", applicationData);
 
       if (response.status === 201) {
         applicationStatus.value = "Application submitted successfully!";
-        console.log("Candidatura enviada com sucesso:", response.data);
         applicationSubmitted.value = true;
+        $q.notify({
+          type: 'positive',
+          message: 'Candidatura enviada com sucesso!',
+        });
+      } else if (response.status === 409) {  // Supondo que o status 409 significa "candidatura já enviada"
+        applicationStatus.value = "Você já enviou um CV para esta vaga.";
+        $q.notify({
+          type: 'negative',
+          message: applicationStatus.value,
+        });
       } else {
         applicationStatus.value = "Unexpected response status for application.";
-        console.log(applicationStatus.value);
+        $q.notify({
+          type: 'negative',
+          message: applicationStatus.value,
+        });
       }
     } else {
-      console.log("Erro no upload do arquivo.", uploadResponse.status);
+      $q.notify({
+        type: 'negative',
+        message: `Erro no upload do arquivo: ${uploadResponse.status}`,
+      });
     }
   } catch (error) {
     applicationStatus.value = "Failed to submit application.";
-    console.error("Erro ao submeter a candidatura:", error.response ? error.response.data : error.message);
+    const errorMessage = error.response ? error.response.data : error.message;
+    $q.notify({
+      type: 'negative',
+      message: `Erro ao submeter a candidatura: ${errorMessage}`,
+    });
   }
 };
 </script>
-
-
 
 <style scoped>
 .upload-btn {

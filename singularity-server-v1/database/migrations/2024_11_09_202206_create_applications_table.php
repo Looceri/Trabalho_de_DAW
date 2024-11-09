@@ -12,11 +12,12 @@ return new class extends Migration {
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->comment('Usuário');
-            $table->foreignId('vacancy_id')->constrained('vacancies')->onDelete('cascade')->comment('Vaga');
-            $table->foreignId('file_id')->nullable()->constrained('files')->onDelete('set null')->comment('Arquivo');
-            $table->boolean('status')->default(true)->comment('Status da aplicação');
-            $table->date('application_date')->comment('Data de aplicação');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('vacancy_id');
+            $table->unsignedBigInteger('file_id')->nullable();
+            $table->tinyInteger('status')->default(1)->comment('Status da aplicação');
+            $table->string('reason')->nullable()->comment('Motivo da candidatura');
+            $table->date('application_date')->comment('Data de aplicação'); // Sem default
             $table->timestamps();
         });
     }

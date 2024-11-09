@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Application;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 
 
@@ -112,6 +113,7 @@ class FileController extends Controller
             'vacancy_id' => 'required|exists:vacancies,id',
             'user_id' => 'required|exists:users,id',
             'reason' => 'required|string|max:500',
+            'application_date' => 'required|date_format:Y-m-d',
         ]);
 
         if ($validator->fails()) {
@@ -131,10 +133,12 @@ class FileController extends Controller
         $application = Application::create([
             'user_id' => $request->user_id,
             'vacancy_id' => $request->vacancy_id,
-            'file_id' => $request->file_id, // Usa o file_id passado na requisição
-            'status' => true,
-            'application_date' => now(),
+            'file_id' => $request->file_id,
+            'status' => 1,
+            'reason' => $request->reason,
+            'application_date' => $request->application_date,  // Define a data atual manualmente
         ]);
+
 
         return response()->json([
             'message' => 'Candidatura enviada com sucesso!',
