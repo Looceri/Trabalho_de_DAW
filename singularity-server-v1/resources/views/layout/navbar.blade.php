@@ -63,12 +63,20 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a class="nav-link " href="{{route('add-category')}}" role="button" aria-expanded="true"
-                            aria-controls="navbarVerticalMenuDashboards">
-                            <i class="bi-house-door nav-icon"></i>
-                            <span class="nav-link-title">Adicionar categoria</span>
+                        <a class="nav-link  " href="#navbarVerticalMenuPagesProvider" role="button"
+                            data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProvider"
+                            aria-controls="navbarVerticalMenuPagesProvider">
+                            <i class="bi-building nav-icon"></i>
+                            <span class="nav-link-title">Categorias</span>
                         </a>
+
+                        <div id="navbarVerticalMenuPagesProvider" class="nav-collapse collapse "
+                            data-bs-parent="#navbarVerticalMenuPagesMenu">
+                            <a class="nav-link " href="{{route('add-category')}}">Adicionar categoria</a>
+                            <a class="nav-link " href="{{route('list-category')}}">Lista de Categorias</a>
+                        </div>
                     </div>
+               
 
                   
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Vacancy;
 use App\Models\VacancyCategory;
+use Illuminate\Validation\Rule;
+
 
 class VacancieController extends Controller
 {
@@ -52,10 +54,45 @@ class VacancieController extends Controller
         return redirect()->route('add-category')->with('success', 'Categoria criada com sucesso!');
 
     }
+
+    public function updateCategory(Request $request,$id){
+        $request->validate([
+            'name' => ['required','string',Rule::unique('vacancy_categories')->ignore($id),],
+            'description' => 'nullable|string',
+        ]);
+    
+        // Buscar a categoria pelo ID
+        $category = VacancyCategory::findOrFail($id);
+    
+        // Atualizar os dados
+        $category->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+    
+        // Redirecionar com uma mensagem de sucesso
+        return redirect()->route('list-category')->with('success', 'Categoria atualizada com sucesso!');
+    }
     
     public function openCategory(){
        return view('pages.add-category');
     }
+
+    public function showCategories(){
+        $categories = VacancyCategory::all();
+        return view('pages.categories', compact('categories'));
+    }
+    public function deleteCategory($id){
+        $category = VacancyCategory::findOrFail($id);
+        $category->delete();
+        return redirect()->route('list-category')->with('success', 'Categoria Apagada com sucesso!');
+    }
+    public function editCategory($id)
+    {
+        $category = VacancyCategory::findOrFail($id);
+        return view('pages.add-category', compact('category')); 
+    }
+    
     public function openVacancie(){
        return view('pages.add-vacancies');
     }

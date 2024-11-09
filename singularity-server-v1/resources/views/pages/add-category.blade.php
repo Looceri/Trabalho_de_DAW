@@ -131,7 +131,7 @@
                         <!-- Body -->
                         <div class="card-body">
                             <!-- Form -->
-                            <form action="{{route('add-category')}}" method="POST">
+                            <form  action="{{ isset($category) ? route('update-category', $category->id) : route('add-category') }}" method="POST">
                                 @csrf
                                 <!-- Form -->
                                 <div class="row mb-4">
@@ -144,6 +144,7 @@
                                         <div class="input-group input-group-sm-vertical">
                                             <input type="text" class="form-control" name="name" id="title"
                                                 placeholder="Digite o nome da categoria" 
+                                                value="{{ old('name', $category->name ?? '') }}">
                                                 >
                                           
                                         </div>
@@ -161,7 +162,7 @@
                                     <div class="col-sm-9">
                                         <textarea name="description" id="" cols="30" rows="10"
                                          style="width: 100%; height: 150px;" class="form-control"
-                                          placeholder="Descreva a categoria"></textarea>
+                                          placeholder="Descreva a categoria">{{ old('description', $category->description ?? '') }}</textarea>
                                     </div>
                                 </div>
                                 <!-- End Form -->
@@ -171,7 +172,7 @@
                               
 
                                 <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                    <button type="submit" class="btn btn-primary">Cadastrar</button>
                                 </div>
                             </form>
                             <!-- End Form -->
