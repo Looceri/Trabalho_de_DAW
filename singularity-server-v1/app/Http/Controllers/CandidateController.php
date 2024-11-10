@@ -25,7 +25,7 @@ class CandidateController extends Controller {
     }
 
     public function findById($id)
-{
+    {
     // Tenta encontrar o usuário com o ID fornecido
     $user = User::find($id);
 
@@ -37,7 +37,7 @@ class CandidateController extends Controller {
 
     // Caso o usuário não seja encontrado, retorna um erro
     return response()->json(['error' => 'Usuário não encontrado'], 404);
-}
+    }
 
 
     public function register(Request $request)

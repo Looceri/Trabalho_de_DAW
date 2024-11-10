@@ -8,6 +8,7 @@ use App\Models\VacancyCategory;
 use Illuminate\Validation\Rule;
 use App\Models\Benefit;
 use App\Models\Requirement;
+use App\Models\File;
 
 
 
@@ -18,21 +19,6 @@ class VacancieController extends Controller
         $vacancies = Vacancy::with('owner')->get();
         return  $vacancies;
     }
-    public function showVacancie()
-    {
-        // $vacancies = Vacancy::with('owner')->get();
-        $vacancies = Vacancy::where('status', '=', true)->with('owner')->get();
-
-        return view('pages.vacancies', compact('vacancies'));
-    }
-
-    public function Vacancydetails($id)
-    {
-        $vacancy = Vacancy::with('owner', 'categories','requirements','benefits')->findOrFail($id);
-        return view('pages.vacancyDetails', compact('vacancy'));
-        
-    }
-
 
     public function findById($id)
     {
@@ -52,6 +38,25 @@ class VacancieController extends Controller
 
 
         return response()->json($vaga);
+    }
+
+
+    //rotas web vagas
+    public function showVacancie()
+    {
+        // $vacancies = Vacancy::with('owner')->get();
+        $vacancies = Vacancy::where('status', '=', true)->with('owner')->get();
+
+        return view('pages.vacancies', compact('vacancies'));
+    }
+
+    public function Vacancydetails($id)
+    {
+        $vacancy = Vacancy::with('owner', 'categories','requirements','benefits')->findOrFail($id);
+        $applications = File::where('vacancy_id', $id)->get();
+
+        return view('pages.vacancyDetails', compact('vacancy','applications'));
+        
     }
 
     public function update_vacancy($id)
@@ -190,7 +195,18 @@ class VacancieController extends Controller
             return redirect()->route('list-vacancy')->with('success', 'Vaga atualizada com sucesso!');
     }
         
+    // candidaturas
+    public function show_applications($id)
+    {
+        $applications = Application::with('vacancy', 'user')->where('vacancy_id', $id)->get();
+        return view('pages.applications', compact('applications'));
+    }
 
+    public function show_file(){
+        return view('pages.open-file');
+    }
+    
+    
 
    
    

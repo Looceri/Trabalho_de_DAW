@@ -254,146 +254,101 @@
                     <!-- Card -->
                     <div id="emailSection" class="card" style=" display: none;">
                         <div class="card-header">
-                            <h4 class="card-title">Email</h4>
+                            <h4 class="card-title">Candidaturas</h4>
                         </div>
 
                         <!-- Body -->
                         <div class="card-body">
-                            <p>Seu Email actual é <span class="fw-semibold">mark@site.com</span></p>
-
-                            <!-- Form -->
-                            <form>
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="newEmailLabel" class="col-sm-3 col-form-label form-label">Novo
-                                        Email</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="email" class="form-control" name="newEmail" id="newEmailLabel"
-                                            placeholder="Insira o seu Email" aria-label="Enter new email address">
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                                </div>
-                            </form>
-                            <!-- End Form -->
-                        </div>
-                        <!-- End Body -->
-                    </div>
-                    <!-- End Card -->
-
-                    <!-- Card -->
-                    <div id="passwordSection" class="card" style=" display: none;">
-                        <div class="card-header">
-                            <h4 class="card-title">Actualize sua Senha</h4>
-                        </div>
-
-                        <!-- Body -->
-                        <div class="card-body">
-                            <!-- Form -->
-                            <form id="changePasswordForm">
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="currentPasswordLabel" class="col-sm-3 col-form-label form-label"> Senha
-                                        Actual</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control" name="currentPassword"
-                                            id="currentPasswordLabel" placeholder="Insira a sua senha actual"
-                                            aria-label="Enter current password">
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="newPassword" class="col-sm-3 col-form-label form-label">Nova Senha</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control" name="newPassword" id="newPassword"
-                                            placeholder="Insira sua nova senha" aria-label="Enter new password">
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="confirmNewPasswordLabel"
-                                        class="col-sm-3 col-form-label form-label">Confirme a nova
-                                        senha</label>
-
-                                    <div class="col-sm-9">
-                                        <div class="mb-3">
-                                            <input type="password" class="form-control" name="confirmNewPassword"
-                                                id="confirmNewPasswordLabel" placeholder="Confirme sua nova senha"
-                                                aria-label="Confirm your new password">
-                                        </div>
-                                        <!--
-                            <h5>Password requirements:</h5>
-
-                            <p class="fs-6 mb-2">Ensure that these requirements are met:</p>
-
-                            <ul class="fs-6">
-                              <li>Minimum 8 characters long - the more, the better</li>
-                              <li>At least one lowercase character</li>
-                              <li>At least one uppercase character</li>
-                              <li>At least one number, symbol, or whitespace character</li>
-                            </ul> -->
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                                </div>
-                            </form>
-                            <!-- End Form -->
-                        </div>
-                        <!-- End Body -->
-                    </div>
-                    <!-- End Card -->
-
-
-
-
-
-
-                    <!-- Card -->
-                    <div id="deleteAccountSection" class="card" style=" display: none;">
-                        <div class="card-header">
-                            <h4 class="card-title">Eliminar sua conta</h4>
-                        </div>
-
-                        <!-- Body -->
-                        <div class="card-body">
-                            <p class="card-text">Quando você exclui sua conta, você perde o acesso aos serviços da conta
-                                Moz+, e nós
-                                excluímos permanentemente seus dados pessoais. Você pode cancelar a exclusão em até 14 dias
-                            </p>
-
-                            <div class="mb-4">
-                                <!-- Form Check -->
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value=""
-                                        id="deleteAccountCheckbox">
-                                    <label class="form-check-label" for="deleteAccountCheckbox">
-                                        Confirmo que quero excluir minha conta.
-                                    </label>
-                                </div>
-                                <!-- End Form Check -->
-                            </div>
-
-                            <div class="d-flex justify-content-end gap-3">
-                                <a class="btn btn-white" href="#">Saiba mais</a>
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            
+                            <div class="table-responsive datatable-custom position-relative">
+                                <table id="datatable"
+                                    class="table table-lg table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
+                                    data-hs-datatables-options='{
+                                        "columnDefs": [{"targets": [0, 4], "orderable": false}],
+                                        "order": [],
+                                        "info": {"totalQty": "#datatableWithPaginationInfoTotalQty"},
+                                        "search": "#datatableSearch",
+                                        "entries": "#datatableEntries",
+                                        "pageLength": 7,
+                                        "isResponsive": false,
+                                        "isShowPaging": false,
+                                        "pagination": "datatablePagination"
+                                    }'>
+                            
+                                    <thead class="thead-light text-center">
+                                        <tr>
+                                            <th class="table-column-pe-0">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="datatableCheckAll">
+                                                    <label class="form-check-label" for="datatableCheckAll"></label>
+                                                </div>
+                                            </th>
+                                            <th>ID</th>
+                                            <th class="table-column-ps-0">Proprietario</th>
+                                            <th>Documento</th>
+                                            <th>Estado da candidatura</th>
+                                            <th>Accoes</th>
+                                        </tr>
+                                    </thead>
+                            
+                                    <tbody class="text-center align-middle">
+                                        @if($applications->count() > 0)
+                                        @foreach($applications as $application)
+                                            <tr>
+                                                <td class="table-column-pe-0">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="usersDataCheck{{$application->id}}">
+                                                        <label class="form-check-label" for="usersDataCheck{{$application->id}}"></label>
+                                                    </div>
+                                                </td>
+                                                <td>{{$application->id}}</td>
+                                                <td class="table-column-ps-0">
+                                                    <a class="d-flex align-items-center justify-content-center">
+                                                        <div class="flex-grow-1 ms-2">
+                                                            <h6 class="text-inherit mb-0">{{$application->user->name}}</h6>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                <td>{{$application->file_path}}</td>
+                                                <td>{{$application->status}}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center gap-2">
+                                                        <a href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}" class="btn btn-primary btn-sm" title="Ver">
+                                                            <i class="bi-eye-fill"></i>
+                                                        </a>
+                                                        <form action="{{ route('desactive-vacancy', $vacancy->id) }}" method="POST" style="display: inline;">
+                                                            @csrf
+                                                            @method('POST') <!-- Aqui estamos forçando o método POST -->
+                                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                                <i class="bi-trash-fill me-1"></i> 
+                                                            </button>
+                                                        </form>
+                                                        
+                                                      
+                                                    </div>
+                                                    
+                                                </td>
+                                            </tr>
+                            
+                                        @endforeach
+                               
+                                        @endif
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <!-- End Body -->
                     </div>
                     <!-- End Card -->
+
+                
+
+
+
+
+
+
+                 
                 </div>
 
                 <!-- Sticky Block End Point -->
@@ -411,8 +366,8 @@
             <div class="col">
                 <p class="fs-6 mb-0">&copy; Todos os direitos reservados. Feito pela <a
                         class="d-none d-sm-inline-block nav-link d-inline fw-normal p-0 ms-1"
-                        href="https://explicador.co.mz/" target="_blank" rel="noopener"
-                        style="color: #377dff;">Explicador Inc.</a></p>
+                        href="#" target="_blank" rel="noopener"
+                        style="color: #377dff;">Singularity Inc.</a></p>
             </div>
         </div>
     </div>
@@ -420,7 +375,86 @@
 @endsection
 
 @section('js')
+<script>
+    $(document).on('ready', function () {
+      // INITIALIZATION OF DATATABLES
+      // =======================================================
+      HSCore.components.HSDatatables.init($('#datatable'), {
+        dom: 'Bfrtip',
+        buttons: [
+          {
+            extend: 'copy',
+            className: 'd-none'
+          },
+          {
+            extend: 'excel',
+            className: 'd-none'
+          },
+          {
+            extend: 'csv',
+            className: 'd-none'
+          },
+          {
+            extend: 'pdf',
+            className: 'd-none'
+          },
+          {
+            extend: 'print',
+            className: 'd-none'
+          },
+        ],
+        select: {
+          style: 'multi',
+          selector: 'td:first-child input[type="checkbox"]',
+          classMap: {
+            checkAll: '#datatableCheckAll',
+            counter: '#datatableCounter',
+            counterInfo: '#datatableCounterInfo'
+          }
+        },
+        language: {
+          zeroRecords: `<div class="text-center p-4">
+            <img class="mb-3" src="{{ asset('assets/svg/illustrations/oc-error.svg') }}" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
+            <img class="mb-3" src="{{ asset('assets/svg/illustrations-light/oc-error.svg') }}" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
+            <p class="mb-0">Nenhuma Candidatura encontrada</p>
 
+            </div>`
+        }
+      })
+
+      const datatable = HSCore.components.HSDatatables.getItem(0)
+
+      $('#export-copy').click(function () {
+        datatable.button('.buttons-copy').trigger()
+      });
+
+      $('#export-excel').click(function () {
+        datatable.button('.buttons-excel').trigger()
+      });
+
+      $('#export-csv').click(function () {
+        datatable.button('.buttons-csv').trigger()
+      });
+
+      $('#export-pdf').click(function () {
+        datatable.button('.buttons-pdf').trigger()
+      });
+
+      $('#export-print').click(function () {
+        datatable.button('.buttons-print').trigger()
+      });
+
+      $('.js-datatable-filter').on('change', function () {
+        var $this = $(this),
+          elVal = $this.val(),
+          targetColumnIndex = $this.data('target-column-index');
+
+        if (elVal === 'null') elVal = ''
+
+        datatable.column(targetColumnIndex).search(elVal).draw();
+      });
+    });
+  </script>
     <!-- Style Switcher JS -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -428,40 +462,45 @@
             const sections = {
                 '#content': 'basicSection',
                 '#emailSection': 'emailSection',
-                '#passwordSection': 'passwordSection',
-                '#deleteAccountSection': 'deleteAccountSection'
             };
-
+    
             // Função para ocultar todas as seções
             function hideAllSections() {
                 for (const sectionId of Object.values(sections)) {
                     document.getElementById(sectionId).style.display = 'none';
                 }
             }
-
+    
             // Função para mostrar a seção correspondente ao link clicado
             function showSection(sectionId) {
                 hideAllSections(); // Oculta todas as seções
                 document.getElementById(sectionId).style.display = 'block'; // Exibe a seção desejada
             }
-
+    
+            // Verifica se o parâmetro 'showEmail' existe na URL e se é 'true'
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('showEmail') && urlParams.get('showEmail') === 'true') {
+                showSection('emailSection'); // Exibe a seção de email se o parâmetro for true
+            } else {
+                showSection('basicSection'); // Exibe a seção básica por padrão
+            }
+    
             // Adiciona um ouvinte de eventos para cada link na barra de navegação
             document.querySelectorAll('#navbarSettings .nav-link').forEach(link => {
                 link.addEventListener('click', function(event) {
                     event.preventDefault(); // Previne o comportamento padrão do link
-                    const sectionId = sections[this.getAttribute(
-                    'href')]; // Pega o ID da seção correspondente
+                    const sectionId = sections[this.getAttribute('href')]; // Pega o ID da seção correspondente
                     if (sectionId) {
                         showSection(sectionId); // Exibe a seção correspondente
                     }
                 });
             });
-
-            // Inicialmente, oculta todas as seções e mostra apenas a primeira
-            hideAllSections();
-            showSection('basicSection'); // Exibe a seção de Informações Pessoais como padrão
         });
     </script>
+    
+
+
+
 
     <script>
         (function() {

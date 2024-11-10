@@ -1,6 +1,6 @@
 ﻿@extends('layout.base')
 
-@section('title', '| Vagas')
+@section('title', '| Candidaturas')
 
 @section('content')
 <!-- Alerta de Sucesso -->
@@ -32,15 +32,11 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h1 class="page-header-title">Vagas</h1>
+                    <h1 class="page-header-title">Candidaturas</h1>
                 </div>
                 <!-- End Col -->
 
-                <div class="col-auto">
-                    <a class="btn btn-primary" href="{{ route('add-vacancy') }}">
-                        <i class="bi-person-plus-fill me-1"></i> Adicionar vaga
-                    </a>
-                </div>
+             
                 <!-- End Col -->
             </div>
             <!-- End Row -->
@@ -65,7 +61,7 @@
                 <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Total de Vagas  </h6>
+                        <h6 class="card-subtitle mb-2">Total de Candidaturas  </h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
@@ -91,7 +87,7 @@
                 <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Total de vagas Publicadas</h6>
+                        <h6 class="card-subtitle mb-2">Total de Candidaturas aprovadas</h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
@@ -115,7 +111,7 @@
                 <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Total de candidaturas</h6>
+                        <h6 class="card-subtitle mb-2">Total de candidaturas nao aprovadas</h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
@@ -143,17 +139,6 @@
             <!-- Header -->
             <div class="card-header card-header-content-md-between">
                 <div class="mb-2 mb-md-0">
-                    <form>
-                        <!-- Search -->
-                        <div class="input-group input-group-merge input-group-flush">
-                            <div class="input-group-prepend input-group-text">
-                                <i class="bi-search"></i>
-                            </div>
-                            <input id="datatableSearch" type="search" class="form-control" placeholder="Pesquisar Vagas"
-                                aria-label="Search users">
-                        </div>
-                        <!-- End Search -->
-                    </form>
                 </div>
 
             
@@ -185,44 +170,37 @@
                     </div>
                 </th>
                 <th>ID</th>
-                <th class="table-column-ps-0">Titulo</th>
-                <th>Data de publicacao</th>
-                <th>Data fim de submissao</th>
-                <th>Quantidade de vagas</th>
-                <th>quantidade de Candidaturas</th>
+                <th class="table-column-ps-0">Proprietario</th>
+                <th>Documento</th>
+                <th>Estado da candidatura</th>
                 <th>Accoes</th>
             </tr>
         </thead>
 
         <tbody class="text-center align-middle">
-            @if($vacancies->count() > 0)
-            @foreach($vacancies as $vacancy)
+            @if($applications->count() > 0)
+            @foreach($applications as $application)
                 <tr>
                     <td class="table-column-pe-0">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="usersDataCheck{{$vacancy->id}}">
-                            <label class="form-check-label" for="usersDataCheck{{$vacancy->id}}"></label>
+                            <input class="form-check-input" type="checkbox" id="usersDataCheck{{$application->id}}">
+                            <label class="form-check-label" for="usersDataCheck{{$application->id}}"></label>
                         </div>
                     </td>
-                    <td>{{$vacancy->id}}</td>
+                    <td>{{$application->id}}</td>
                     <td class="table-column-ps-0">
                         <a class="d-flex align-items-center justify-content-center">
                             <div class="flex-grow-1 ms-2">
-                                <h6 class="text-inherit mb-0">{{$vacancy->title}}</h6>
+                                <h6 class="text-inherit mb-0">{{$application->user->name}}</h6>
                             </div>
                         </a>
                     </td>
-                    <td>{{$vacancy->submission_start_date}}</td>
-                    <td>{{$vacancy->submission_end_date}}</td>
-                    <td>{{$vacancy->vacancies_count}}</td>
-                    <td><a href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}?showEmail=true">5</a></td>
+                    <td>{{$application->file_path}}</td>
+                    <td>{{$application->status}}</td>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
                             <a href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}" class="btn btn-primary btn-sm" title="Ver">
                                 <i class="bi-eye-fill"></i>
-                            </a>
-                            <a href="{{ route('update-vacancy', ['id' => $vacancy->id]) }}" class="btn btn-warning btn-sm" title="Editar">
-                                <i class="bi-pencil-fill"></i>
                             </a>
                             <form action="{{ route('desactive-vacancy', $vacancy->id) }}" method="POST" style="display: inline;">
                                 @csrf

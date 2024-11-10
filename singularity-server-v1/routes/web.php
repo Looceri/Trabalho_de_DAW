@@ -53,6 +53,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/edit-vacancy/{id}', [VacancieController::class, 'edit_vacancy'])->name('edit-vacancy');
     Route::post('/desactive-vacancy/{id}', [VacancieController::class, 'desactive_vacancy'])->name('desactive-vacancy');
 
+   //candidaturas
+   Route::get('/aplications/{id}', [VacancieController::class, 'show_applications'])->name('aplications');
+   Route::get('/file', [VacancieController::class, 'show_file'])->name('file');
+
 
 });
 
