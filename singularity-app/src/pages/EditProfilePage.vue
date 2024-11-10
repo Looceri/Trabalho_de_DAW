@@ -1,16 +1,22 @@
 <template>
-  <q-page padding>
-    <q-card class="q-pa-md">
-      <q-card-section class="text-center">
-        <q-avatar size="100px" rounded>
-          <img src="https://via.placeholder.com/150" alt="Avatar" />
-        </q-avatar>
-        <div class="text-h6 q-mt-md">Orlando Diggs</div>
-        <div class="text-subtitle2">Maputo, Moçambique</div>
-        <div class="q-mt-sm">120k seguidores | 23k a seguir</div>
-        <q-btn color="primary" label="Edit profile" flat icon="edit" class="q-mt-sm" />
+  <img src="../assets/ilustrations/profile_background.jpg" style="width: 101%;" alt="">
+   <q-card class="q-pa-md">
+      <q-card-section class="row items-center justify-between">
+        <div class="column">
+          <q-avatar size="100px" rounded>
+            <img src="https://via.placeholder.com/150" alt="Avatar" />
+          </q-avatar>
+          <div class="text-h6 q-mt-md">Orlando Diggs</div>
+          <div class="text-subtitle2">Maputo, Moçambique</div>
+          <div class="q-mt-sm">120k seguidores | 23k a seguir</div>
+        </div>
+        <div class="column items-end">
+          <q-btn color="primary" label="Edit profile" flat icon="edit" class="q-mt-sm" />
+        </div>
       </q-card-section>
     </q-card>
+  <q-page padding>
+
     <br>
     <content_card icon="account_circle" title="Sobre Mim"
       content="Sou um profissional em Tecnologia da Informação formado pela University of Oxford, com 7 anos de experiência na Amazon Inc como Manager." />
@@ -40,7 +46,7 @@
     <curriculum_card icon="content_paste" title="Cúrriculo" :files="[{
       name: 'Jamet kudasi - CV - UI/UX Designer',
       details: '867 Kb · 14 Feb 2022 as 11:30'
-    },{
+    }, {
       name: 'Jamet kudasi - CV - UI/UX Designer',
       details: '867 Kb · 14 Feb 2022 as 11:30'
     }]" />
