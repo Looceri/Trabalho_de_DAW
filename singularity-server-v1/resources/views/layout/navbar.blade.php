@@ -55,13 +55,37 @@
                             <span class="nav-link-title">Usuarios</span>
                         </a>
                     </div>
+                 
                     <div class="nav-item">
-                        <a class="nav-link " href="{{route('vagas')}}" role="button" aria-expanded="true"
-                            aria-controls="navbarVerticalMenuDashboards">
-                            <i class="bi-house-door nav-icon"></i>
-                            <span class="nav-link-title">Publicar vagas</span>
+                        <a class="nav-link  " href="#navbarVerticalMenuPagesProvider" role="button"
+                            data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProvider"
+                            aria-controls="navbarVerticalMenuPagesProvider">
+                            <i class="bi-building nav-icon"></i>
+                            <span class="nav-link-title">Gerir Categorias</span>
                         </a>
+
+                        <div id="navbarVerticalMenuPagesProvider" class="nav-collapse collapse "
+                            data-bs-parent="#navbarVerticalMenuPagesMenu">
+                            <a class="nav-link " href="{{route('add-category')}}">Adicionar categoria</a>
+                            <a class="nav-link " href="{{route('list-category')}}">Lista de Categorias</a>
+                        </div>
                     </div>
+
+                    <div class="nav-item">
+                        <a class="nav-link  " href="#navbarVerticalMenuPagesProvider" role="button"
+                            data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProvider"
+                            aria-controls="navbarVerticalMenuPagesProvider">
+                            <i class="bi-building nav-icon"></i>
+                            <span class="nav-link-title">Gerir Vagas</span>
+                        </a>
+
+                        <div id="navbarVerticalMenuPagesProvider" class="nav-collapse collapse "
+                            data-bs-parent="#navbarVerticalMenuPagesMenu">
+                            <a class="nav-link " href="{{route('add-vacancie')}}">Adicionar vagas</a>
+                            <a class="nav-link " href="#">Lista de vagas</a>
+                        </div>
+                    </div>
+               
 
                   
 

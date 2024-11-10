@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\API\V1\CandidateController as V1CandidateController;
-use App\Http\Controllers\API\V1\UserController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
