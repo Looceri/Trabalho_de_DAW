@@ -14,11 +14,13 @@ const routes = [
   },
   {
     path: '/home',
-    component: () => import('layouts/AuthLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     redirect: { name: 'description' },
     children: [
       { path: 'description', name: 'description', component: () => import('pages/jobSekker.vue') },
       { path: 'account', name: 'home-account', component: () => import('pages/DescriptionPage.vue') },
+      { path: 'profile', name: 'profile', component: () => import('pages/ProfilePage.vue') },
+      { path: 'profile_edit', name: 'profile_edit', component: () => import('pages/EditProfilePage.vue') },
       {
         path: 'vaga/:id',
         name: 'JobDetails',
