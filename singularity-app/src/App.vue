@@ -1,19 +1,19 @@
 <template>
   <div id="app">
-    <jobSekker/>
-    <router-view />
+    <q-layout>
+      <q-page-container>
+        <router-view />
+      </q-page-container>
+    </q-layout>
   </div>
 </template>
 
 <script setup>
 
-import jobSekker from './pages/jobSekker.vue';
 
 defineOptions({
   name: 'App'
 });
 </script>
 
-<style>
-
-</style>
+<style></style>
