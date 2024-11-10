@@ -13,7 +13,9 @@ class Application extends Model
         'vacancy_id',
         'user_id',
         'reason',
-        'file_path', // Caminho do arquivo
+        'file_id',
+        'file_path',
+        'application_date'
     ];
 
     // Relacionamentos

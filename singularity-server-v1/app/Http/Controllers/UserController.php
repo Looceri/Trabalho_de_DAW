@@ -88,16 +88,7 @@ class UserController extends Controller
         return $user;
     }
 
-    public function findByIdd($id)
-    {
-        $user = User::with('location_id')->find($id);
 
-        if (!$user) {
-            return response()->json(['error' => 'Vaga não encontrada'], 404);
-        }
-
-        return response()->json($user);
-    }
 
 
     public function showUserLocations($userId)
@@ -110,7 +101,9 @@ class UserController extends Controller
 
         return response()->json($user->locations);
     }
-
+    /**
+     * Store a newly created resource in storage.
+     */
     public function login(Request $request)
     {
         // Validação dos dados recebidos
