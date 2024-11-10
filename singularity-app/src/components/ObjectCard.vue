@@ -11,29 +11,36 @@
     <div v-if="objects.length > 0">
       <q-separator color="gainsboro" inset />
 
-      <template v-for="(object, index) in objects" :key="index">
-        <q-card-section class="row items-center justify-between">
-          <div class="column">
-            <h6 class="q-mb-xs q-mt-xs" style="font-size: medium;">{{ object.role }}</h6>
-            <p class="text-grey-8 q-mb-xs" style="font-size: small;">{{ object.company }}</p>
-            <p class="text-grey-8" style="font-size: small;">{{ object.dates }}</p>
-          </div>
-          <q-btn flat dense color="primary" icon="edit" @click="editObject(index)" />
-        </q-card-section>
-        <q-separator v-if="index < objects.length - 1" color="gainsboro" inset />
+      <template v-if="showMore || objects.length <= 1">
+        <template v-for="(object, index) in objects" :key="index">
+          <q-card-section class="row items-center justify-between">
+            <div class="column">
+              <h6 class="q-mb-xs q-mt-xs" style="font-size: medium;">{{ object.role }}</h6>
+              <p class="text-grey-8 q-mb-xs" style="font-size: small;">{{ object.company }}</p>
+              <p class="text-grey-8" style="font-size: small;">{{ object.dates }}</p>
+            </div>
+            <q-btn flat dense color="primary" icon="edit" @click="editObject(index)" />
+          </q-card-section>
+          <q-separator v-if="index < objects.length - 1" color="gainsboro" inset />
+        </template>
       </template>
 
-      <template v-if="objects.length > 1">
-        <q-card-section class="row justify-end no-padding">
-          <q-btn
-            flat
-            dense
-            color="secondary"
-            :label="showMore ? 'Ver Mais' : 'Ver Menos'"
-            @click="showMore = !showMore"
-          />
-        </q-card-section>
+      <template v-else>
+        <template v-for="(object, index) in objects.slice(0, 1)" :key="index">
+          <q-card-section class="row items-center justify-between">
+            <div class="column">
+              <h6 class="q-mb-xs q-mt-xs" style="font-size: medium;">{{ object.role }}</h6>
+              <p class="text-grey-8 q-mb-xs" style="font-size: small;">{{ object.company }}</p>
+              <p class="text-grey-8" style="font-size: small;">{{ object.dates }}</p>
+            </div>
+            <q-btn flat dense color="primary" icon="edit" @click="editObject(index)" />
+          </q-card-section>
+        </template>
       </template>
+      <q-card-section v-if=" objects.length > 1" class="row justify-end no-padding">
+          <q-btn flat dense color="secondary" :label="showMore ? 'Ver Menos' : 'Ver Mais'"
+            @click="showMore = !showMore" />
+        </q-card-section>
     </div>
   </q-card>
 </template>
@@ -56,7 +63,7 @@ const props = defineProps({
   }
 });
 
-const showMore = ref(true);
+const showMore = ref(false); // start showing only one if there are more
 
 const addObject = () => {
   console.log('Adicionar Objecto');

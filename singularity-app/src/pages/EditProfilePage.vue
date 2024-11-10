@@ -15,13 +15,13 @@
     <content_card icon="account_circle" title="Sobre Mim"
       content="Sou um profissional em Tecnologia da Informação formado pela University of Oxford, com 7 anos de experiência na Amazon Inc como Manager." />
     <br>
-    <expiriences_card icon="business_center" title="Experiência de Trabalho" :objects="[{
+    <objects_card icon="business_center" title="Experiência de Trabalho" :objects="[{
       role: 'Manager',
       company: 'Amazon Inc',
       dates: 'Jan 2015 - Feb 2022 · 5 anos'
     }]" />
     <br>
-    <education_card icon="school" title="Educação" :objects="[{
+    <objects_card icon="school" title="Educação" :objects="[{
       role: 'Tecnologia da Informação',
       company: 'Universidade de Oxford',
       dates: 'Set 2010 - Ago 2013 · 5 anos'
@@ -52,8 +52,7 @@
 import { ref } from 'vue';
 import list_card from '../components/ListCard.vue';
 import content_card from '../components/ContentCard.vue';
-import expiriences_card from '../components/ObjectCard.vue';
-import education_card from '../components/ObjectCard.vue';
+import objects_card from '../components/ObjectCard.vue';
 import curriculum_card from '../components/FileCard.vue';
 
 
