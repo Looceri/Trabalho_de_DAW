@@ -1,6 +1,6 @@
 @extends('layout.base')
 
-@section('title', '| Meu perfil')
+@section('title', '|Adicionar Categoria')
 
 @section('content')
 
@@ -32,87 +32,38 @@
         /* Cor ao passar o mouse */
     }
 </style>
+<!-- Alerta de Sucesso -->
+@if(session('success'))
+    <div class="alert alert-success" id="success-alert">
+        <button type="button" class="close" id="close-alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+        </button>
+        {{ session('success') }}
+    </div>
+@endif
+
+<!-- Alerta de Erro de Validação -->
+@if($errors->any())
+    <div class="alert alert-danger" id="close-alert">
+        <button type="button" class="close" id="close-alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+        </button>
+        <ul>
+            @foreach ($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        </ul>
+    </div>
+@endif
 
     <!-- Content -->
     <div class="content container-fluid">
-        <!-- Page Header -->
-        {{-- <div class="page-header">
-            <div class="row align-items-end">
-                <div class="col-sm mb-2 mb-sm-0">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb breadcrumb-no-gutter">
-                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Perfil</a></li>
-                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Configurações</a></li>
-
-                        </ol>
-                    </nav>
-
-                    <h1 class="page-header-title">Configurações</h1>
-                </div>
-                <!-- End Col -->
-
-                <div class="col-sm-auto">
-                    <a class="btn btn-primary" href="user-profile-my-profile.html">
-                        <i class="bi-person-fill me-1"></i> Meu Perfil
-                    </a>
-                </div>
-                <!-- End Col -->
-            </div>
-            <!-- End Row -->
-        </div> --}}
-        <!-- End Page Header -->
+        
 
         <div class="row">
             <div>
-                <!-- Navbar -->
-                {{-- <div class="navbar-expand-lg navbar-vertical mb-3 mb-lg-5">
-                    <!-- Navbar Toggle -->
-                    <!-- Navbar Toggle -->
-                    <div class="d-grid">
-                        <button type="button" class="navbar-toggler btn btn-white mb-3" data-bs-toggle="collapse"
-                            data-bs-target="#navbarVerticalNavMenu" aria-label="Toggle navigation" aria-expanded="false"
-                            aria-controls="navbarVerticalNavMenu">
-                            <span class="d-flex justify-content-between align-items-center">
-                                <span class="text-dark">Menu</span>
-
-                                <span class="navbar-toggler-default">
-                                    <i class="bi-list"></i>
-                                </span>
-
-                                <span class="navbar-toggler-toggled">
-                                    <i class="bi-x"></i>
-                                </span>
-                            </span>
-                        </button>
-                    </div>
-                    <!-- End Navbar Toggle -->
-                    <!-- End Navbar Toggle -->
-
-                    <!-- Navbar Collapse -->
-                    {{-- <div id="" class="">
-                        <ul id="navbarSettings">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#content">
-                                    <i class="bi-person nav-icon"></i> Informações Pessoais
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#emailSection">
-                                    <i class="bi-at nav-icon"></i> Email
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#passwordSection">
-                                    <i class="bi-key nav-icon"></i> Senha
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#deleteAccountSection">
-                                    <i class="bi-trash nav-icon"></i> Eliminar Conta
-                                </a>
-                            </li>
-                        </ul>
-                    </div> --}}
+                
+                 
 
                     <!-- End Navbar Collapse -->
                 {{-- </div> --}}
@@ -126,7 +77,7 @@
                         <!-- Profile Cover -->
                         <div class="profile-cover">
                             <div class="profile-cover-img-wrapper">
-                                <img id="profileCoverImg" class="profile-cover-img" src="{{ asset('assets/img/1920x400/img2.jpg') }}"
+                                <img id="profileCoverImg" class="profile-cover-img" src="{{ asset('template/admin/assets/img/1920x400/img2.jpg') }}"
                                     alt="Image Description">
 
                                 <!-- Custom File Cover -->
@@ -139,11 +90,7 @@
                                   "targetAttr": "src",
                                   "allowTypes": [".png", ".jpeg", ".jpg"]
                                }'>
-                                    <label class="profile-cover-uploader-label btn btn-sm btn-white"
-                                        for="profileCoverUplaoder">
-                                        <i class="bi-camera-fill"></i>
-                                        <span class="d-none d-sm-inline-block ms-1">Upload header</span>
-                                    </label>
+                                 
                                 </div>
                                 <!-- End Custom File Cover -->
                             </div>
@@ -153,7 +100,7 @@
                         <!-- Avatar -->
                         <label class="avatar avatar-xxl avatar-circle avatar-uploader profile-cover-avatar"
                             for="editAvatarUploaderModal">
-                            <img id="editAvatarImgModal" class="avatar-img" src="{{ asset('assets/img/160x160/img6.jpg') }}"
+                            <img id="editAvatarImgModal" class="avatar-img" src="{{ asset('template/admin/assets/img/160x160/img6.jpg') }}"
                                 alt="Image Description">
 
                             <input type="file" class="js-file-attach avatar-uploader-input" id="editAvatarUploaderModal"
@@ -164,37 +111,40 @@
                               "allowTypes": [".png", ".jpeg", ".jpg"]
                            }'>
 
-                            <span class="avatar-uploader-trigger">
-                                <i class="bi-pencil-fill avatar-uploader-icon shadow-sm"></i>
-                            </span>
+                           
                         </label>
                     </div>
                     <!-- End Avatar -->
 
-                
+                    <!-- Body -->
+
+                    <!-- End Body -->
 
                     <!-- End Card -->
 
                     <!-- Card -->
                     <div class="card" id="basicSection">
                         <div class="card-header">
-                            <h2 class="card-title h4">Publicar Anuncio de vagas</h2>
+                            <h2 class="card-title h4">Criar Categoria</h2>
                         </div>
-                        <form>
+
                         <!-- Body -->
                         <div class="card-body">
-                    
+                            <!-- Form -->
+                            <form  action="{{ isset($category) ? route('update-category', $category->id) : route('add-category') }}" method="POST">
+                                @csrf
                                 <!-- Form -->
                                 <div class="row mb-4">
-                                    <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">Titulo<i
+                                    <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">Nome<i
                                             class="bi-question-circle text-body ms-1" data-bs-toggle="tooltip"
                                             data-bs-placement="top"
                                             title="Displayed on public forums, such as Front."></i></label>
 
                                     <div class="col-sm-9">
                                         <div class="input-group input-group-sm-vertical">
-                                            <input type="text" class="form-control" name="title" id="title"
-                                                placeholder="Digite o titulo do anuncio" 
+                                            <input type="text" class="form-control" name="name" id="title"
+                                                placeholder="Digite o nome da categoria" 
+                                                value="{{ old('name', $category->name ?? '') }}">
                                                 >
                                           
                                         </div>
@@ -202,36 +152,8 @@
                                 </div>
                                 <!-- End Form -->
 
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="submission_start_date" class="col-sm-3 col-form-label form-label">Data de inicio de submissao</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="date" class="form-control" name="submission_start_date" id="submission_start_date"
-                                            placeholder="Data de publicacao da vaga" aria-label="Email" >
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="submission_end_date" class="col-sm-3 col-form-label form-label">Data fim de submissao</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="date" class="form-control" name="submission_end_date"
-                                            aria-label="Email" >
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="emailLabel" class="col-sm-3 col-form-label form-label">Quantidade de vagas</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" name="data_nascimento"
-                                            aria-label="Email"  placeholder="Digite a quantidade total de vagas existentes">
-                                    </div>
-                                </div>
-                                <!-- End Form -->
+                               
+                           
 
                                 <!-- Form -->
                                 <div class="row mb-4">
@@ -240,36 +162,29 @@
                                     <div class="col-sm-9">
                                         <textarea name="description" id="" cols="30" rows="10"
                                          style="width: 100%; height: 150px;" class="form-control"
-                                          placeholder="Descreva o objectivo da vaga e os proficionais que busca"></textarea>
+                                          placeholder="Descreva a categoria">{{ old('description', $category->description ?? '') }}</textarea>
                                     </div>
                                 </div>
                                 <!-- End Form -->
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="phoneLabel" class="col-sm-3 col-form-label form-label">Requisitos </label>
+                              
 
-                                    <div class="col-sm-9">
-                                        <textarea name="description" id="" cols="30" rows="10"
-                                         style="width: 100%; height: 150px;" class="form-control"
-                                          placeholder="Descreva oque e necessario  para se candidatar as vagas"></textarea>
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-                           
-
-
-                               
 
                               
-                           
+
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                </div>
+                            </form>
                             <!-- End Form -->
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Actualizar</button>
-                        </div>
-                    </form>
                         <!-- End Body -->
                     </div>
+              <!-- Alerta de Sucesso -->
+ 
+                          
+
+          
+                
                     <!-- End Card -->
 
                     <!-- Card -->
