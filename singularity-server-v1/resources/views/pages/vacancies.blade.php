@@ -69,14 +69,14 @@
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
-                                <span class="js-counter display-4 text-dark">124051</span>
-                                <span class="text-body fs-5 ms-1">de 118144</span>
+                                <span class="js-counter display-4 text-dark">{{$vacancies->count()}}</span>
+                                <span class="text-body fs-5 ms-1">de {{$vacancies->count()}}</span>
                             </div>
                             <!-- End Col -->
 
                             <div class="col-auto">
                                 <span class="badge bg-soft-success text-success p-1">
-                                    <i class="bi-graph-up"></i> 5.0%
+                                    <i class="bi-graph-up"></i> 100.0%
                                 </span>
                             </div>
                             <!-- End Col -->
@@ -95,13 +95,29 @@
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
-                                <span class="js-counter display-4 text-dark">12347</span>
-                                <span class="text-body fs-5 ms-1">de 12201</span>
+                                <span class="js-counter display-4 text-dark">
+                                    @php
+                                    $today = \Carbon\Carbon::today(); // Obtém a data atual
+                                @endphp
+                                
+                                {{$vacancies->where('status', true)->where('submission_start_date', '>', $today)->count()}}
+                                                                </span>
+                                <span class="text-body fs-5 ms-1">de {{$vacancies->count()}}</span>
                             </div>
 
                             <div class="col-auto">
                                 <span class="badge bg-soft-success text-success p-1">
-                                    <i class="bi-graph-up"></i> 1.2%
+                                    <i class="bi-graph-up"></i> 
+                                @php
+                                    $today = \Carbon\Carbon::today(); // Obtém a data atual
+                                    $filteredCount = $vacancies->where('status', true)->where('submission_start_date', '>', $today)->count();
+                                    $totalCount = $vacancies->count();
+                                    $percentage = $totalCount > 0 ? ($filteredCount / $totalCount) * 100 : 0; // Calcula a porcentagem
+                                @endphp
+                                
+                                <span class="text-body fs-5 ms-1">  {{ number_format($percentage, 2) }}%</span>
+                                
+                                    
                                 </span>
                             </div>
                         </div>
@@ -247,47 +263,52 @@
 <!-- Fim Tabela -->
 
 
-            <!-- Footer -->
-            <div class="card-footer">
-                <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
-                    <div class="col-sm mb-2 mb-sm-0">
-                        <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
-                            <span class="me-2">Showing:</span>
+@php
+$totalUsers = $vacancies->count();
+$initialDisplay = $totalUsers > 10 ? 10 : $totalUsers; // Mostra 10 ou o total de usuários, se menor que 10
+@endphp
 
-                            <!-- Select -->
-                            <div class="tom-select-custom">
-                                <select id="datatableEntries"
-                                    class="js-select form-select form-select-borderless w-auto" autocomplete="off"
-                                    data-hs-tom-select-options='{
-                              "searchInDropdown": false,
-                              "hideSearch": true
-                            }'>
-                                    <option value="5">5</option>
-                                    <option value="10" selected="">10</option>
-                                    <option value="15">15</option>
-                                </select>
-                            </div>
-                            <!-- End Select -->
+<div class="card-footer">
+<div class="row justify-content-center justify-content-sm-between align-items-sm-center">
+    <div class="col-sm mb-2 mb-sm-0">
+        <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
+            <span class="me-2">Showing:</span>
 
-                            <span class="text-secondary me-2">of</span>
-
-                            <!-- Pagination Quantity -->
-                            <span id="datatableWithPaginationInfoTotalQty"></span>
-                        </div>
-                    </div>
-                    <!-- End Col -->
-
-                    <div class="col-sm-auto">
-                        <div class="d-flex justify-content-center justify-content-sm-end">
-                            <!-- Pagination -->
-                            <nav id="datatablePagination" aria-label="Activity pagination"></nav>
-                        </div>
-                    </div>
-                    <!-- End Col -->
-                </div>
-                <!-- End Row -->
+            <!-- Select -->
+            <div class="tom-select-custom">
+                <select id="datatableEntries"
+                    class="js-select form-select form-select-borderless w-auto" autocomplete="off"
+                    data-hs-tom-select-options='{
+                  "searchInDropdown": false,
+                  "hideSearch": true
+                }'>
+                    <option value="5" {{ $initialDisplay == 5 ? 'selected' : '' }}>5</option>
+                    <option value="7" {{ $initialDisplay == 7 ? 'selected' : '' }}>7</option>
+                    <option value="9" {{ $initialDisplay == 9 ? 'selected' : '' }}>9</option>
+                    <option value="10" {{ $initialDisplay == 10 ? 'selected' : '' }}>10</option>
+                    <option value="{{ $totalUsers }}" {{ $initialDisplay == $totalUsers ? 'selected' : '' }}>{{ $totalUsers }}</option>
+                </select>
             </div>
-            <!-- End Footer -->
+            <!-- End Select -->
+
+            <span class="text-secondary me-2">of</span>
+
+            <!-- Pagination Quantity -->
+            <span id="datatableWithPaginationInfoTotalQty">{{ $totalUsers }}</span>
+        </div>
+    </div>
+    <!-- End Col -->
+
+    <div class="col-sm-auto">
+        <div class="d-flex justify-content-center justify-content-sm-end">
+            <!-- Pagination -->
+            <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+        </div>
+    </div>
+    <!-- End Col -->
+</div>
+<!-- End Row -->
+</div>
         </div>
     <!-- End Content -->
 

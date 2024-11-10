@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/users', [UserController::class, 'showUsers'])->name('users');
+
+
     //Categories
     Route::get('/add-category', [VacancieController::class, 'openCategory'])->name('add-category');
     Route::post('/add-category', [VacancieController::class,'storeCategorie'])->name('add-category');

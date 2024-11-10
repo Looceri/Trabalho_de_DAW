@@ -69,14 +69,21 @@
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
-                                <span class="js-counter display-4 text-dark">124051</span>
-                                <span class="text-body fs-5 ms-1">de 118144</span>
+                                <span class="js-counter display-4 text-dark">{{$categories->count()}}</span>
+                                <span class="text-body fs-5 ms-1">{{$categories->count()}}</span>
                             </div>
                             <!-- End Col -->
 
                             <div class="col-auto">
                                 <span class="badge bg-soft-success text-success p-1">
-                                    <i class="bi-graph-up"></i> 5.0%
+                                    <i class="bi-graph-up"></i>
+                                @php
+                                    $totalUsers = $categories->count();
+                                    $activeUsers = $categories->where('status', true)->count();
+                                    $percentage = $totalUsers > 0 ? ($activeUsers / $totalUsers) * 100 : 0;
+                                @endphp
+                                
+                                {{ number_format($percentage, 2) }}%
                                 </span>
                             </div>
                             <!-- End Col -->
@@ -194,7 +201,6 @@
         <tbody class="text-center align-middle">
             @if($categories->count() > 0)
             @foreach($categories as $category)
-            @if($category->status==1)
                 <tr>
                     <td class="table-column-pe-0">
                         <div class="form-check">
@@ -224,7 +230,7 @@
                         </div>
                     </td>
                 </tr>
-                @endif
+              
             @endforeach
    
             @endif
@@ -235,45 +241,52 @@
 
 
             <!-- Footer -->
-            <div class="card-footer">
-                <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
-                    <div class="col-sm mb-2 mb-sm-0">
-                        <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
-                            <span class="me-2">Showing:</span>
-
-                            <!-- Select -->
-                            <div class="tom-select-custom">
-                                <select id="datatableEntries"
-                                    class="js-select form-select form-select-borderless w-auto" autocomplete="off"
-                                    data-hs-tom-select-options='{
+            @php
+            $totalUsers = $categories->count();
+            $initialDisplay = $totalUsers > 10 ? 10 : $totalUsers; // Mostra 10 ou o total de usuários, se menor que 10
+        @endphp
+        
+        <div class="card-footer">
+            <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
+                <div class="col-sm mb-2 mb-sm-0">
+                    <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
+                        <span class="me-2">Showing:</span>
+        
+                        <!-- Select -->
+                        <div class="tom-select-custom">
+                            <select id="datatableEntries"
+                                class="js-select form-select form-select-borderless w-auto" autocomplete="off"
+                                data-hs-tom-select-options='{
                               "searchInDropdown": false,
                               "hideSearch": true
                             }'>
-                                    <option value="5">5</option>
-                                    <option value="10" selected="">10</option>
-                                    <option value="15">15</option>
-                                </select>
-                            </div>
-                            <!-- End Select -->
-
-                            <span class="text-secondary me-2">of</span>
-
-                            <!-- Pagination Quantity -->
-                            <span id="datatableWithPaginationInfoTotalQty"></span>
+                                <option value="5" {{ $initialDisplay == 5 ? 'selected' : '' }}>5</option>
+                                <option value="7" {{ $initialDisplay == 7 ? 'selected' : '' }}>7</option>
+                                <option value="9" {{ $initialDisplay == 9 ? 'selected' : '' }}>9</option>
+                                <option value="10" {{ $initialDisplay == 10 ? 'selected' : '' }}>10</option>
+                                <option value="{{ $totalUsers }}" {{ $initialDisplay == $totalUsers ? 'selected' : '' }}>{{ $totalUsers }}</option>
+                            </select>
                         </div>
+                        <!-- End Select -->
+        
+                        <span class="text-secondary me-2">of</span>
+        
+                        <!-- Pagination Quantity -->
+                        <span id="datatableWithPaginationInfoTotalQty">{{ $totalUsers }}</span>
                     </div>
-                    <!-- End Col -->
-
-                    <div class="col-sm-auto">
-                        <div class="d-flex justify-content-center justify-content-sm-end">
-                            <!-- Pagination -->
-                            <nav id="datatablePagination" aria-label="Activity pagination"></nav>
-                        </div>
-                    </div>
-                    <!-- End Col -->
                 </div>
-                <!-- End Row -->
+                <!-- End Col -->
+        
+                <div class="col-sm-auto">
+                    <div class="d-flex justify-content-center justify-content-sm-end">
+                        <!-- Pagination -->
+                        <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+                    </div>
+                </div>
+                <!-- End Col -->
             </div>
+            <!-- End Row -->
+        </div>
             <!-- End Footer -->
         </div>
     <!-- End Content -->

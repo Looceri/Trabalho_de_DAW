@@ -67,7 +67,9 @@
         <div class="row">
             <div class="col-12">
                 <iframe src="{{asset('storage/uploads/ddw1KCu4hAOFljzC8nO3LIvlMCPsAALTB9Io0ty4.pdf') }}" width="100%" height="600px" style="border: none;"></iframe>
-            </div>
+            </div> 
+            
+            
             
         </div>
     </div>
