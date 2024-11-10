@@ -10,7 +10,8 @@ class VacancyCategory extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'status'
         ];
 
     public function vacancies()

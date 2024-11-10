@@ -1,6 +1,6 @@
 ﻿@extends('layout.base')
 
-@section('title', '| User')
+@section('title', '| Vagas')
 
 @section('content')
 <!-- Alerta de Sucesso -->
@@ -32,13 +32,13 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h1 class="page-header-title">Categorias</h1>
+                    <h1 class="page-header-title">Vagas</h1>
                 </div>
                 <!-- End Col -->
 
                 <div class="col-auto">
-                    <a class="btn btn-primary" href="{{ route('add-category') }}">
-                        <i class="bi-person-plus-fill me-1"></i> Adicionar Categoria
+                    <a class="btn btn-primary" href="{{ route('add-vacancy') }}">
+                        <i class="bi-person-plus-fill me-1"></i> Adicionar vaga
                     </a>
                 </div>
                 <!-- End Col -->
@@ -65,7 +65,7 @@
                 <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Total de Categorias </h6>
+                        <h6 class="card-subtitle mb-2">Total de Vagas  </h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
@@ -88,10 +88,10 @@
             </div>
 
             <div class="col-sm-6 col-lg-4 mb-3 mb-lg-5">
-                {{-- <!-- Card -->
+                <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Usarios Activos anuais</h6>
+                        <h6 class="card-subtitle mb-2">Total de vagas Publicadas</h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
@@ -108,14 +108,14 @@
                         <!-- End Row -->
                     </div>
                 </div>
-                <!-- End Card --> --}}
+                <!-- End Card -->
             </div>
 
             <div class="col-sm-12 col-lg-4 mb-3 mb-lg-5">
-                {{-- <!-- Card -->
+                <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Novos/recorrentes</h6>
+                        <h6 class="card-subtitle mb-2">Total de candidaturas</h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
@@ -133,7 +133,7 @@
                         <!-- End Row -->
                     </div>
                 </div>
-                <!-- End Card --> --}}
+                <!-- End Card -->
             </div>
 
         </div>
@@ -149,7 +149,7 @@
                             <div class="input-group-prepend input-group-text">
                                 <i class="bi-search"></i>
                             </div>
-                            <input id="datatableSearch" type="search" class="form-control" placeholder="Pesquisar categoria"
+                            <input id="datatableSearch" type="search" class="form-control" placeholder="Pesquisar Vagas"
                                 aria-label="Search users">
                         </div>
                         <!-- End Search -->
@@ -185,46 +185,59 @@
                     </div>
                 </th>
                 <th>ID</th>
-                <th class="table-column-ps-0">Nome</th>
-                <th>Descrição</th>
-                <th>Ações</th>
+                <th class="table-column-ps-0">Titulo</th>
+                <th>Data de publicacao</th>
+                <th>Data fim de submissao</th>
+                <th>Quantidade de vagas</th>
+                <th>quantidade de Candidaturas</th>
+                <th>Accoes</th>
             </tr>
         </thead>
 
         <tbody class="text-center align-middle">
-            @if($categories->count() > 0)
-            @foreach($categories as $category)
-            @if($category->status==1)
+            @if($vacancies->count() > 0)
+            @foreach($vacancies as $vacancy)
                 <tr>
                     <td class="table-column-pe-0">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="usersDataCheck{{$category->id}}">
-                            <label class="form-check-label" for="usersDataCheck{{$category->id}}"></label>
+                            <input class="form-check-input" type="checkbox" id="usersDataCheck{{$vacancy->id}}">
+                            <label class="form-check-label" for="usersDataCheck{{$vacancy->id}}"></label>
                         </div>
                     </td>
-                    <td>{{$category->id}}</td>
+                    <td>{{$vacancy->id}}</td>
                     <td class="table-column-ps-0">
                         <a class="d-flex align-items-center justify-content-center">
                             <div class="flex-grow-1 ms-2">
-                                <h6 class="text-inherit mb-0">{{$category->name}}</h6>
+                                <h6 class="text-inherit mb-0">{{$vacancy->title}}</h6>
                             </div>
                         </a>
                     </td>
-                    <td>{{$category->description}}</td>
+                    <td>{{$vacancy->submission_start_date}}</td>
+                    <td>{{$vacancy->submission_end_date}}</td>
+                    <td>{{$vacancy->vacancies_count}}</td>
+                    <td><a href="{{ route('edit-category', ['id' => $vacancy->id]) }}">5</a></td>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="{{ route('edit-category', ['id' => $category->id]) }}" class="btn btn-primary btn-sm" >
-                                <i class="bi-pencil-fill me-1"></i> 
+                            <a href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}" class="btn btn-primary btn-sm" title="Ver">
+                                <i class="bi-eye-fill"></i>
                             </a>
-                            <a href="{{ route('delete-category', ['id' => $category->id]) }}" class="btn btn-danger btn-sm">
-                                <i class="bi-trash-fill me-1"></i> 
+                            <a href="{{ route('update-vacancy', ['id' => $vacancy->id]) }}" class="btn btn-warning btn-sm" title="Editar">
+                                <i class="bi-pencil-fill"></i>
                             </a>
+                            <form action="{{ route('desactive-vacancy', $vacancy->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('POST') <!-- Aqui estamos forçando o método POST -->
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi-trash-fill me-1"></i> 
+                                </button>
+                            </form>
                             
-                            
+                          
                         </div>
+                        
                     </td>
                 </tr>
-                @endif
+
             @endforeach
    
             @endif
@@ -338,7 +351,7 @@
           zeroRecords: `<div class="text-center p-4">
               <img class="mb-3" src="./assets/svg/illustrations/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
               <img class="mb-3" src="./assets/svg/illustrations-light/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
-            <p class="mb-0">Nenhuma categoria encontrada</p>
+            <p class="mb-0">Nenhuma Vaga encontrada</p>
             </div>`
         }
       })

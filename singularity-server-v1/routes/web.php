@@ -43,7 +43,16 @@ Route::middleware('auth')->group(function () {
 
 
     //Vacancie
-    Route::get('/add-vacancie', [VacancieController::class, 'openVacancie'])->name('add-vacancie');
+    Route::get('/add-vacancy', [VacancieController::class, 'openVacancie'])->name('add-vacancy');
+    Route::post('/add-vacancy', [VacancieController::class, 'store'])->name('add-vacancy');
+
+    Route::get('/list-vacancy', [VacancieController::class, 'showVacancie'])->name('list-vacancy');
+    Route::get('/details-vacancy/{id}', [VacancieController::class, 'Vacancydetails'])->name('details-vacancy');
+
+    Route::get('/update-vacancy/{id}', [VacancieController::class, 'update_vacancy'])->name('update-vacancy');
+    Route::put('/edit-vacancy/{id}', [VacancieController::class, 'edit_vacancy'])->name('edit-vacancy');
+    Route::post('/desactive-vacancy/{id}', [VacancieController::class, 'desactive_vacancy'])->name('desactive-vacancy');
+
 
 });
 

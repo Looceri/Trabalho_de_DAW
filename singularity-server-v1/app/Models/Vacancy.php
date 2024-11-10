@@ -17,7 +17,8 @@ class Vacancy extends Model
         'submission_end_date',
         'vacancies_count',
         'description',
-        'requirements'
+        'status'
+      
     ];
 
     // Relacionamento com o usuário (owner)

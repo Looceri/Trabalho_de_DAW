@@ -5,3 +5,5 @@
 <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js') }}"></script>
 <script src="{{ asset('assets/js/theme.min.js') }}"></script>
+
+

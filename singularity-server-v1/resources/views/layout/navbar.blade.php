@@ -81,8 +81,8 @@
 
                         <div id="navbarVerticalMenuPagesProvider" class="nav-collapse collapse "
                             data-bs-parent="#navbarVerticalMenuPagesMenu">
-                            <a class="nav-link " href="{{route('add-vacancie')}}">Adicionar vagas</a>
-                            <a class="nav-link " href="#">Lista de vagas</a>
+                            <a class="nav-link " href="{{route('add-vacancy')}}">Adicionar vagas</a>
+                            <a class="nav-link " href="{{route('list-vacancy')}}">Lista de vagas</a>
                         </div>
                     </div>
                

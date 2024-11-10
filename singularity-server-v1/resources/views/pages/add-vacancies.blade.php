@@ -1,6 +1,6 @@
 @extends('layout.base')
 
-@section('title', '| Meu perfil')
+@section('title', '| Adicionar Vagas')
 
 @section('content')
 
@@ -35,89 +35,31 @@
 
     <!-- Content -->
     <div class="content container-fluid">
-        <!-- Page Header -->
-        {{-- <div class="page-header">
-            <div class="row align-items-end">
-                <div class="col-sm mb-2 mb-sm-0">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb breadcrumb-no-gutter">
-                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Perfil</a></li>
-                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Configurações</a></li>
-
-                        </ol>
-                    </nav>
-
-                    <h1 class="page-header-title">Configurações</h1>
-                </div>
-                <!-- End Col -->
-
-                <div class="col-sm-auto">
-                    <a class="btn btn-primary" href="user-profile-my-profile.html">
-                        <i class="bi-person-fill me-1"></i> Meu Perfil
-                    </a>
-                </div>
-                <!-- End Col -->
-            </div>
-            <!-- End Row -->
-        </div> --}}
-        <!-- End Page Header -->
+        @if(session('success'))
+        <div class="alert alert-success" id="success-alert">
+            <button type="button" class="close" id="close-alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+            </button>
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    <!-- Alerta de Erro de Validação -->
+    @if($errors->any())
+        <div class="alert alert-danger" id="close-alert">
+            <button type="button" class="close" id="close-alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+            </button>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    {{ $error }}
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
         <div class="row">
-            <div>
-                <!-- Navbar -->
-                {{-- <div class="navbar-expand-lg navbar-vertical mb-3 mb-lg-5">
-                    <!-- Navbar Toggle -->
-                    <!-- Navbar Toggle -->
-                    <div class="d-grid">
-                        <button type="button" class="navbar-toggler btn btn-white mb-3" data-bs-toggle="collapse"
-                            data-bs-target="#navbarVerticalNavMenu" aria-label="Toggle navigation" aria-expanded="false"
-                            aria-controls="navbarVerticalNavMenu">
-                            <span class="d-flex justify-content-between align-items-center">
-                                <span class="text-dark">Menu</span>
-
-                                <span class="navbar-toggler-default">
-                                    <i class="bi-list"></i>
-                                </span>
-
-                                <span class="navbar-toggler-toggled">
-                                    <i class="bi-x"></i>
-                                </span>
-                            </span>
-                        </button>
-                    </div>
-                    <!-- End Navbar Toggle -->
-                    <!-- End Navbar Toggle -->
-
-                    <!-- Navbar Collapse -->
-                    {{-- <div id="" class="">
-                        <ul id="navbarSettings">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#content">
-                                    <i class="bi-person nav-icon"></i> Informações Pessoais
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#emailSection">
-                                    <i class="bi-at nav-icon"></i> Email
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#passwordSection">
-                                    <i class="bi-key nav-icon"></i> Senha
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#deleteAccountSection">
-                                    <i class="bi-trash nav-icon"></i> Eliminar Conta
-                                </a>
-                            </li>
-                        </ul>
-                    </div> --}}
-
-                    <!-- End Navbar Collapse -->
-                {{-- </div> --}}
-                <!-- End Navbar -->
-            </div>
+           
 
             <div class=" col-lg-12">
                 <div class="d-grid gap-3 gap-lg-5">
@@ -139,11 +81,7 @@
                                   "targetAttr": "src",
                                   "allowTypes": [".png", ".jpeg", ".jpg"]
                                }'>
-                                    <label class="profile-cover-uploader-label btn btn-sm btn-white"
-                                        for="profileCoverUplaoder">
-                                        <i class="bi-camera-fill"></i>
-                                        <span class="d-none d-sm-inline-block ms-1">Upload header</span>
-                                    </label>
+                                  
                                 </div>
                                 <!-- End Custom File Cover -->
                             </div>
@@ -164,9 +102,7 @@
                               "allowTypes": [".png", ".jpeg", ".jpg"]
                            }'>
 
-                            <span class="avatar-uploader-trigger">
-                                <i class="bi-pencil-fill avatar-uploader-icon shadow-sm"></i>
-                            </span>
+                       
                         </label>
                     </div>
                     <!-- End Avatar -->
@@ -180,431 +116,206 @@
                         <div class="card-header">
                             <h2 class="card-title h4">Publicar Anuncio de vagas</h2>
                         </div>
-                        <form>
-                        <!-- Body -->
-                        <div class="card-body">
-                    
-                                <!-- Form -->
+                        <form action="{{ isset($vacancy) ? route('edit-vacancy', $vacancy->id) : route('add-vacancy') }}" method="POST">
+                            @csrf
+                            @if (isset($vacancy))
+                                @method('PUT')  <!-- Para indicar que é uma atualização -->
+                            @endif
+                            
+                            <!-- Body -->
+                            <div class="card-body" id="card-1">
+                                <!-- Form 1 -->
                                 <div class="row mb-4">
-                                    <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">Titulo<i
+                                    <label for="title" class="col-sm-3 col-form-label form-label">Titulo<i
                                             class="bi-question-circle text-body ms-1" data-bs-toggle="tooltip"
                                             data-bs-placement="top"
                                             title="Displayed on public forums, such as Front."></i></label>
-
                                     <div class="col-sm-9">
                                         <div class="input-group input-group-sm-vertical">
-                                            <input type="text" class="form-control" name="title" id="title"
-                                                placeholder="Digite o titulo do anuncio" 
-                                                >
-                                          
+                                            <input type="text" class="form-control" name="title" id="title" 
+                                                   placeholder="Digite o titulo do anuncio" 
+                                                   value="{{ old('title', $vacancy->title ?? '') }}">
                                         </div>
                                     </div>
                                 </div>
-                                <!-- End Form -->
-
-                                <!-- Form -->
+                                <!-- Categories Form -->
                                 <div class="row mb-4">
-                                    <label for="submission_start_date" class="col-sm-3 col-form-label form-label">Data de inicio de submissao</label>
-
+                                    <label for="categories" class="col-sm-3 col-form-label form-label">Selecione Categorias:</label>
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" name="submission_start_date" id="submission_start_date"
-                                            placeholder="Data de publicacao da vaga" aria-label="Email" >
+                                        <select id="categories" name="categories[]" multiple class="form-control">
+                                            @if($categories->count() > 0 )
+                                            @foreach($categories as $category)
+                                                <option value="{{$category->id}}" 
+                                                    @if(isset($vacancy) && $vacancy->categories->contains($category->id)) selected @endif>
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                            @endif
+                                        </select>
                                     </div>
                                 </div>
-                                <!-- End Form -->
-                                <!-- Form -->
+                                <!-- Start Date Form -->
                                 <div class="row mb-4">
-                                    <label for="submission_end_date" class="col-sm-3 col-form-label form-label">Data fim de submissao</label>
-
+                                    <label for="submission_start_date" class="col-sm-3 col-form-label form-label">Data de início de submissão</label>
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" name="submission_end_date"
-                                            aria-label="Email" >
+                                        <input type="date" class="form-control" name="submission_start_date" 
+                                               value="{{ old('submission_start_date', $vacancy->submission_start_date ?? '') }}">
                                     </div>
                                 </div>
-                                <!-- End Form -->
-                                <!-- Form -->
+                                <!-- End Date Form -->
                                 <div class="row mb-4">
-                                    <label for="emailLabel" class="col-sm-3 col-form-label form-label">Quantidade de vagas</label>
-
+                                    <label for="submission_end_date" class="col-sm-3 col-form-label form-label">Data fim de submissão</label>
                                     <div class="col-sm-9">
-                                        <input type="number" class="form-control" name="data_nascimento"
-                                            aria-label="Email"  placeholder="Digite a quantidade total de vagas existentes">
+                                        <input type="date" class="form-control" name="submission_end_date" 
+                                               value="{{ old('submission_end_date', $vacancy->submission_end_date ?? '') }}">
                                     </div>
                                 </div>
-                                <!-- End Form -->
-
-                                <!-- Form -->
+                                <!-- Quantity of Vacancies Form -->
                                 <div class="row mb-4">
-                                    <label for="phoneLabel" class="col-sm-3 col-form-label form-label">Descricao </label>
-
+                                    <label for="vacancy_quantity" class="col-sm-3 col-form-label form-label">Quantidade de vagas</label>
                                     <div class="col-sm-9">
-                                        <textarea name="description" id="" cols="30" rows="10"
-                                         style="width: 100%; height: 150px;" class="form-control"
-                                          placeholder="Descreva o objectivo da vaga e os proficionais que busca"></textarea>
+                                        <input type="number" class="form-control" name="vacancies_count" 
+                                               placeholder="Digite a quantidade total de vagas existentes" 
+                                               value="{{ old('vacancies_count', $vacancy->vacancies_count ?? '') }}">
                                     </div>
                                 </div>
-                                <!-- End Form -->
-                                <!-- Form -->
                                 <div class="row mb-4">
-                                    <label for="phoneLabel" class="col-sm-3 col-form-label form-label">Requisitos </label>
-
+                                    <label for="salary" class="col-sm-3 col-form-label form-label">Salário</label>
                                     <div class="col-sm-9">
-                                        <textarea name="description" id="" cols="30" rows="10"
-                                         style="width: 100%; height: 150px;" class="form-control"
-                                          placeholder="Descreva oque e necessario  para se candidatar as vagas"></textarea>
+                                        <input type="number" class="form-control" name="salary" 
+                                               placeholder="Digite o salario" 
+                                               value="{{ old('salary', $vacancy->salary ?? '') }}">
                                     </div>
                                 </div>
-                                <!-- End Form -->
-                           
-
-
-                               
-
-                              
-                           
-                            <!-- End Form -->
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Actualizar</button>
-                        </div>
-                    </form>
+                                <!-- Description Form -->
+                                <div class="row mb-4">
+                                    <label for="description" class="col-sm-3 col-form-label form-label">Descrição</label>
+                                    <div class="col-sm-9">
+                                        <textarea name="description" id="description" cols="30" rows="10" class="form-control"
+                                                  placeholder="Descreva o objetivo da vaga e os profissionais que busca">{{ old('description', $vacancy->description ?? '') }}</textarea>
+                                    </div>
+                                </div>
+                                
+                                <!-- Navigation Buttons -->
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-primary" onclick="showNextCard(2)">Próximo</button>
+                                </div>
+                            </div>
+                            <div class="card-body" id="card-2" style="display: none;">
+                                <div class="row mb-4">
+                                    <label for="campo_dinamico_2" class="col-sm-3 col-form-label form-label">Requisitos</label>
+                                    <div class="col-sm-9" id="dynamic-fields-2">
+                                        @foreach($vacancy->requirements ?? [] as $requirement)
+                                            <input type="text" class="form-control mb-2" name="requirements[]" placeholder="Digite algo" value="{{ $requirement->requirement }}">
+                                        @endforeach
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-2">
+                                        <button type="button" class="btn btn-secondary" onclick="addField(2)">+</button>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-secondary" onclick="showPreviousCard(1)">Voltar</button>
+                                    <button type="button" class="btn btn-primary" onclick="showNextCard(3)">Próximo</button>
+                                </div>
+                            </div>
+                            
+                            <div class="card-body" id="card-3" style="display: none;">
+                                <div class="row mb-4">
+                                    <label for="campo_dinamico_3" class="col-sm-3 col-form-label form-label">Benefícios</label>
+                                    <div class="col-sm-9" id="dynamic-fields-3">
+                                        @foreach($vacancy->benefits ?? [] as $benefit)
+                                            <input type="text" class="form-control mb-2" name="benefits[]" placeholder="Digite algo" value="{{ $benefit->benefit }}">
+                                        @endforeach
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-2">
+                                        <button type="button" class="btn btn-secondary" onclick="addField(3)">+</button>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-secondary" onclick="showPreviousCard(2)">Voltar</button>
+                                    <button type="submit" class="btn btn-primary">Finalizar</button>
+                                </div>
+                            </div>
+                            
+                            
+                        </form>
+                        
                         <!-- End Body -->
                     </div>
                     <!-- End Card -->
 
-                    <!-- Card -->
-                    {{-- <div id="emailSection" class="card" style=" display: none;">
-                        <div class="card-header">
-                            <h4 class="card-title">Email</h4>
-                        </div>
-
-                        <!-- Body -->
-                        <div class="card-body">
-                            <p>Seu Email actual é <span class="fw-semibold">mark@site.com</span></p>
-
-                            <!-- Form -->
-                            <form>
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="newEmailLabel" class="col-sm-3 col-form-label form-label">Novo
-                                        Email</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="email" class="form-control" name="newEmail" id="newEmailLabel"
-                                            placeholder="Insira o seu Email" aria-label="Enter new email address">
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                                </div>
-                            </form>
-                            <!-- End Form -->
-                        </div>
-                        <!-- End Body -->
-                    </div> --}}
-                    <!-- End Card -->
-
-                    <!-- Card -->
-                    {{-- <div id="passwordSection" class="card" style=" display: none;">
-                        <div class="card-header">
-                            <h4 class="card-title">Actualize sua Senha</h4>
-                        </div>
-
-                        <!-- Body -->
-                        <div class="card-body">
-                            <!-- Form -->
-                            <form id="changePasswordForm">
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="currentPasswordLabel" class="col-sm-3 col-form-label form-label"> Senha
-                                        Actual</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control" name="currentPassword"
-                                            id="currentPasswordLabel" placeholder="Insira a sua senha actual"
-                                            aria-label="Enter current password">
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="newPassword" class="col-sm-3 col-form-label form-label">Nova Senha</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control" name="newPassword" id="newPassword"
-                                            placeholder="Insira sua nova senha" aria-label="Enter new password">
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-
-                                <!-- Form -->
-                                <div class="row mb-4">
-                                    <label for="confirmNewPasswordLabel"
-                                        class="col-sm-3 col-form-label form-label">Confirme a nova
-                                        senha</label>
-
-                                    <div class="col-sm-9">
-                                        <div class="mb-3">
-                                            <input type="password" class="form-control" name="confirmNewPassword"
-                                                id="confirmNewPasswordLabel" placeholder="Confirme sua nova senha"
-                                                aria-label="Confirm your new password">
-                                        </div>
-                                        <!--
-                            <h5>Password requirements:</h5>
-
-                            <p class="fs-6 mb-2">Ensure that these requirements are met:</p>
-
-                            <ul class="fs-6">
-                              <li>Minimum 8 characters long - the more, the better</li>
-                              <li>At least one lowercase character</li>
-                              <li>At least one uppercase character</li>
-                              <li>At least one number, symbol, or whitespace character</li>
-                            </ul> -->
-                                    </div>
-                                </div>
-                                <!-- End Form -->
-
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                                </div>
-                            </form>
-                            <!-- End Form -->
-                        </div>
-                        <!-- End Body -->
-                    </div> --}}
-                    <!-- End Card -->
-
-
-
-
-
-
-                    <!-- Card -->
-                    {{-- <div id="deleteAccountSection" class="card" style=" display: none;">
-                        <div class="card-header">
-                            <h4 class="card-title">Eliminar sua conta</h4>
-                        </div>
-
-                        <!-- Body -->
-                        <div class="card-body">
-                            <p class="card-text">Quando você exclui sua conta, você perde o acesso aos serviços da conta
-                                Moz+, e nós
-                                excluímos permanentemente seus dados pessoais. Você pode cancelar a exclusão em até 14 dias
-                            </p>
-
-                            <div class="mb-4">
-                                <!-- Form Check -->
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value=""
-                                        id="deleteAccountCheckbox">
-                                    <label class="form-check-label" for="deleteAccountCheckbox">
-                                        Confirmo que quero excluir minha conta.
-                                    </label>
-                                </div>
-                                <!-- End Form Check -->
-                            </div>
-
-                            <div class="d-flex justify-content-end gap-3">
-                                <a class="btn btn-white" href="#">Saiba mais</a>
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </div>
-                        </div>
-                        <!-- End Body -->
-                    </div> --}}
-                    <!-- End Card -->
-                </div>
-
-                <!-- Sticky Block End Point -->
-                {{-- <div id="stickyBlockEndPoint"></div> --}}
-            </div>
-        </div>
-        <!-- End Row -->
-    </div>
-    <!-- End Content -->
-
-    <!-- Footer -->
-
+                    
     <div class="footer">
         <div class="row justify-content-between align-items-center">
             <div class="col">
                 <p class="fs-6 mb-0">&copy; Todos os direitos reservados. Feito pela <a
                         class="d-none d-sm-inline-block nav-link d-inline fw-normal p-0 ms-1"
-                        href="https://explicador.co.mz/" target="_blank" rel="noopener"
-                        style="color: #377dff;">Explicador Inc.</a></p>
+                        href="#" target="_blank" rel="noopener"
+                        style="color: #377dff;">Singularity Inc.</a></p>
             </div>
         </div>
     </div>
 
 @endsection
 
-{{-- @section('js')
+ @section('js')
 
     <!-- Style Switcher JS -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mapeamento dos links de navegação para as seções correspondentes
-            const sections = {
-                '#content': 'basicSection',
-                '#emailSection': 'emailSection',
-                '#passwordSection': 'passwordSection',
-                '#deleteAccountSection': 'deleteAccountSection'
-            };
+function showNextCard(cardNumber) {
+    // Hide all cards
+    let cards = document.querySelectorAll('.card-body');
+    cards.forEach(card => {
+        card.style.display = 'none';
+    });
 
-            // Função para ocultar todas as seções
-            function hideAllSections() {
-                for (const sectionId of Object.values(sections)) {
-                    document.getElementById(sectionId).style.display = 'none';
-                }
-            }
+    // Show the selected card
+    let nextCard = document.getElementById(`card-${cardNumber}`);
+    nextCard.style.display = 'block';
+}
 
-            // Função para mostrar a seção correspondente ao link clicado
-            function showSection(sectionId) {
-                hideAllSections(); // Oculta todas as seções
-                document.getElementById(sectionId).style.display = 'block'; // Exibe a seção desejada
-            }
+function showPreviousCard(cardNumber) {
+    // Hide all cards
+    let cards = document.querySelectorAll('.card-body');
+    cards.forEach(card => {
+        card.style.display = 'none';
+    });
 
-            // Adiciona um ouvinte de eventos para cada link na barra de navegação
-            document.querySelectorAll('#navbarSettings .nav-link').forEach(link => {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault(); // Previne o comportamento padrão do link
-                    const sectionId = sections[this.getAttribute(
-                    'href')]; // Pega o ID da seção correspondente
-                    if (sectionId) {
-                        showSection(sectionId); // Exibe a seção correspondente
-                    }
-                });
-            });
+    // Show the selected previous card
+    let previousCard = document.getElementById(`card-${cardNumber}`);
+    previousCard.style.display = 'block';
+}
 
-            // Inicialmente, oculta todas as seções e mostra apenas a primeira
-            hideAllSections();
-            showSection('basicSection'); // Exibe a seção de Informações Pessoais como padrão
-        });
+function addField(cardNumber) {
+    let dynamicFields;
+    let inputName;
+
+    if (cardNumber === 2) {
+        // Add field to requirements
+        dynamicFields = document.getElementById('dynamic-fields-2');
+        inputName = 'requirements[]';
+    } else if (cardNumber === 3) {
+        // Add field to benefits
+        dynamicFields = document.getElementById('dynamic-fields-3');
+        inputName = 'benefits[]';
+    }
+
+    // Create new input field
+    let newField = document.createElement('input');
+    newField.type = 'text';
+    newField.className = 'form-control mb-2';
+    newField.name = inputName;  // Set the correct name for the field
+    newField.placeholder = 'Digite algo';
+    
+    // Append the new field to the corresponding dynamic fields container
+    dynamicFields.appendChild(newField);
+}
+
+function submitForm() {
+    // Submit form logic here, currently doesn't submit but could trigger validation
+    alert('Formulário Finalizado');
+}
+
     </script>
 
-    <script>
-        (function() {
-            // STYLE SWITCHER
-            // =======================================================
-            const $dropdownBtn = document.getElementById('selectThemeDropdown') // Dropdowon trigger
-            const $variants = document.querySelectorAll(
-                `[aria-labelledby="selectThemeDropdown"] [data-icon]`) // All items of the dropdown
-
-            // Function to set active style in the dorpdown menu and set icon for dropdown trigger
-            const setActiveStyle = function() {
-                $variants.forEach($item => {
-                    if ($item.getAttribute('data-value') === HSThemeAppearance.getOriginalAppearance()) {
-                        $dropdownBtn.innerHTML = `<i class="${$item.getAttribute('data-icon')}" />`
-                        return $item.classList.add('active')
-                    }
-
-                    $item.classList.remove('active')
-                })
-            }
-
-            // Add a click event to all items of the dropdown to set the style
-            $variants.forEach(function($item) {
-                $item.addEventListener('click', function() {
-                    HSThemeAppearance.setAppearance($item.getAttribute('data-value'))
-                })
-            })
-
-            // Call the setActiveStyle on load page
-            setActiveStyle()
-
-            // Add event listener on change style to call the setActiveStyle function
-            window.addEventListener('on-hs-appearance-change', function() {
-                setActiveStyle()
-            })
-        })()
-    </script>
-
-
- <!-- JS Plugins Init. -->
- <script>
-    (function () {
-      window.onload = function () {
-
-
-        // INITIALIZATION OF NAVBAR VERTICAL ASIDE
-        // =======================================================
-        new HSSideNav('.js-navbar-vertical-aside').init()
-
-
-        // INITIALIZATION OF FORM SEARCH
-        // =======================================================
-        new HSFormSearch('.js-form-search')
-
-
-        // INITIALIZATION OF BOOTSTRAP DROPDOWN
-        // =======================================================
-        HSBsDropdown.init()
-
-
-        // INITIALIZATION OF FILE ATTACH
-        // =======================================================
-        new HSFileAttach('.js-file-attach')
-
-
-        // INITIALIZATION OF STEP FORM
-        // =======================================================
-        new HSStepForm('.js-step-form', {
-          finish: () => {
-            document.getElementById("addUserStepFormProgress").style.display = 'none'
-            document.getElementById("addUserStepProfile").style.display = 'none'
-            document.getElementById("addUserStepConfirmation").style.display = 'none'
-            document.getElementById("successMessageContent").style.display = 'block'
-            scrollToTop('#header');
-            const formContainer = document.getElementById('formContainer')
-          },
-          onNextStep: function () {
-            scrollToTop()
-          },
-          onPrevStep: function () {
-            scrollToTop()
-          }
-        })
-
-        function scrollToTop(el = '.js-step-form') {
-          el = document.querySelector(el)
-          window.scrollTo({
-            top: (el.getBoundingClientRect().top + window.scrollY) - 30,
-            left: 0,
-            behavior: 'smooth'
-          })
-        }
-
-
-        // INITIALIZATION OF ADD FIELD
-        // =======================================================
-        new HSAddField('.js-add-field', {
-          addedField: field => {
-            HSCore.components.HSTomSelect.init(field.querySelector('.js-select-dynamic'))
-            HSCore.components.HSMask.init(field.querySelector('.js-input-mask'))
-          }
-        })
-
-
-        // INITIALIZATION OF SELECT
-        // =======================================================
-        HSCore.components.HSTomSelect.init('.js-select', {
-          render: {
-            'option': function (data, escape) {
-              return data.optionTemplate || `<div>${data.text}</div>>`
-            },
-            'item': function (data, escape) {
-              return data.optionTemplate || `<div>${data.text}</div>>`
-            }
-          }
-        })
-
-
-        // INITIALIZATION OF INPUT MASK
-        // =======================================================
-        HSCore.components.HSMask.init('.js-input-mask')
-      }
-    })()
-  </script>
-@endsection --}}
+@endsection
