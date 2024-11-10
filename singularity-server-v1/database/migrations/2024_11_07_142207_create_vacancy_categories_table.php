@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('vacancy_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('Nome da categoria de vaga');
-            $table->text('description')->nullable()->comment('descricao da categoria de vaga');
+            $table->text('description')->nullable()->comment('Descricao da categoria de vaga');
             $table->timestamps();
         });
     }
