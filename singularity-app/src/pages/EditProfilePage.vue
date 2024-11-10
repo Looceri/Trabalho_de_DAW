@@ -1,23 +1,49 @@
 <template>
-  <img src="../assets/ilustrations/profile_background.jpg" style="width: 101%;" alt="">
-   <q-card class="q-pa-md">
-      <q-card-section class="row items-center justify-between">
+
+  <q-card style="background-image: url('assets/profile_background.jpg');
+  background-size: cover;
+  background-position: center;
+  position: fixed; z-index: 1; border-radius:  0px 0px 30px 40px; width: 101%;">
+    <q-card-section class="row items-center justify-between">
+      <div class="row">
         <div class="column">
-          <q-avatar size="100px" rounded>
-            <img src="https://via.placeholder.com/150" alt="Avatar" />
+          <q-avatar style="height: 100px; width: 100px;">
+            <img src="https://picsum.photos/100" alt="Avatar" />
           </q-avatar>
-          <div class="text-h6 q-mt-md">Orlando Diggs</div>
-          <div class="text-subtitle2">Maputo, Moçambique</div>
-          <div class="q-mt-sm">120k seguidores | 23k a seguir</div>
+          <div class="text-h6 q-mt-md text-primary">Orlando Diggs</div>
+          <div class="text-subtitle2 text-white">Maputo, Moçambique</div>
         </div>
-        <div class="column items-end">
-          <q-btn color="primary" label="Edit profile" flat icon="edit" class="q-mt-sm" />
+      </div>
+      <div class="row items-center full-width">
+        <div class="col-4 q-mt-sm text-white justify-around" style="font-size: small;">120k seguidores</div>
+        <div class="col-3 q-mt-sm text-white" style="font-size: small;">23k a seguir</div>
+        <div class="col-5 q-mt-sm">
+          <q-btn rounded color="white" style="background-color: lab(100 0 -0.03 / 0.12); font-size: small;" label="Edit profile"
+            flat icon="edit" />
         </div>
-      </q-card-section>
-    </q-card>
+      </div>
+    </q-card-section>
+  </q-card>
+  <br>
+  <q-card class="" style="background-image: url('assets/profile_background.jpg');
+  background-size: cover;
+  background-position: center;visibility: hidden;">
+    <q-card-section class="row items-center justify-between">
+      <div class="column">
+        <q-avatar size="100px" rounded>
+          <img src="https://via.placeholder.com/150" alt="Avatar" />
+        </q-avatar>
+        <div class="text-h6 q-mt-md">Orlando Diggs</div>
+        <div class="text-subtitle2">Maputo, Moçambique</div>
+        <div class="q-mt-sm">120k seguidores | 23k a seguir</div>
+      </div>
+      <div class="column items-end">
+        <q-btn color="primary" label="Edit profile" flat icon="edit" class="q-mt-sm" />
+      </div>
+    </q-card-section>
+  </q-card>
   <q-page padding>
 
-    <br>
     <content_card icon="account_circle" title="Sobre Mim"
       content="Sou um profissional em Tecnologia da Informação formado pela University of Oxford, com 7 anos de experiência na Amazon Inc como Manager." />
     <br>
