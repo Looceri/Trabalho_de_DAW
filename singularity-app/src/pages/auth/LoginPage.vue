@@ -13,35 +13,17 @@
       <q-form @submit.prevent="login">
         <div>
           <LabelInput label="Email" />
-          <q-input
-            borderless
-            v-model="email"
-            :dense="true"
-            placeholder="Digite seu email"
-            type="email"
-            class="q-px-md"
-            style="background-color: white;"
-            required
-          />
+          <q-input borderless v-model="email" :dense="true" placeholder="Digite seu email" type="email" class="q-px-md"
+            style="background-color: white;" required />
         </div>
 
         <div>
           <LabelInput label="Senha" />
-          <q-input
-            borderless
-            v-model="password"
-            :dense="true"
-            placeholder="Digite sua senha"
-            :type="passwordFieldType"
-            class="q-px-md"
-            required
-          >
+          <q-input borderless v-model="password" :dense="true" placeholder="Digite sua senha" :type="passwordFieldType"
+            class="q-px-md" required>
             <template v-slot:append>
-              <q-icon
-                :name="showPassword ? 'visibility' : 'visibility_off'"
-                @click="togglePasswordVisibility"
-                class="cursor-pointer"
-              />
+              <q-icon :name="showPassword ? 'visibility' : 'visibility_off'" @click="togglePasswordVisibility"
+                class="cursor-pointer" />
             </template>
           </q-input>
         </div>
@@ -58,7 +40,8 @@
         <div>
           <q-btn label="LOGIN" color="primary" class="q-mb-md full-width q-py-md" type="submit" />
           <q-btn color="accent" class="q-mb-md full-width q-py-md">
-            <img src="../../assets/icons/google.svg" alt="Google Logo" style="width: 24px; height: 24px; margin-right: 8px;" />
+            <img src="../../assets/icons/google.svg" alt="Google Logo"
+              style="width: 24px; height: 24px; margin-right: 8px;" />
             SIGN IN COM GOOGLE
           </q-btn>
         </div>
@@ -82,7 +65,9 @@ import { useRouter } from 'vue-router';
 import LabelInput from '../../components/LabelInput.vue';
 import axios from 'axios';
 import { useQuasar } from "quasar";
+import { useUserStore } from '../../stores/users.js'
 
+const userStore = useUserStore();
 const email = ref("");
 const password = ref("");
 const remember = ref(false);
@@ -106,8 +91,22 @@ const login = async () => {
 
     if (response.data.success) {
       console.log(response.data.user.name)
-      localStorage.setItem('nome', response.data.user.name);
-      localStorage.setItem('id', response.data.user.id);
+
+      localStorage.setItem('user', JSON.stringify({
+        id: response.data.user.id,
+        name: response.data.user.name,
+        email: response.data.user.email,
+        email_verified_at: response.data.user.email_verified_at,
+        role: response.data.user.role,
+        status: response.data.user.status,
+        avatar_id: response.data.user.avatar_id,
+        description: response.data.user.description,
+        created_at: response.data.user.created_at,
+        updated_at: response.data.user.updated_at
+      }));
+
+      userStore.setUser(response.data.user);
+      console.log(userStore.user);
       router.push('/home');
       $q.notify({
         color: 'positive',

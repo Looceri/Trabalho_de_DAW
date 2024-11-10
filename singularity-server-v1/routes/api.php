@@ -44,3 +44,4 @@ Route::post('/candidate', [V1CandidateController::class, 'apply']);
 Route::post('/candidate', [FileController::class, 'apply']);
 
 Route::get('/user/{id}/locations', [UserLocationController::class, 'getUserLocation']);
+

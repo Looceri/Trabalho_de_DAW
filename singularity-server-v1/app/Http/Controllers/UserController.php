@@ -110,7 +110,6 @@ class UserController extends Controller
 
         return response()->json($user->locations);
     }
-
     public function login(Request $request)
     {
         // Validação dos dados recebidos
@@ -122,10 +121,15 @@ class UserController extends Controller
         // Tenta autenticar o usuário
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
+
+            // Cria um token JWT para o usuário
+            $token = $user->createToken('authToken')->plainTextToken;
+
             return response()->json([
                 'success' => true,
                 'message' => 'Login bem-sucedido',
                 'user' => $user, // Retorna os dados do usuário
+                'token' => $token, // Retorna o token JWT
             ]);
         }
 
@@ -135,5 +139,94 @@ class UserController extends Controller
             'message' => 'Credenciais inválidas',
         ], 401);
     }
+
+
+    public function getUserEducation($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['error' => 'Usuário não encontrado'], 404);
+        }
+
+        return response()->json($user->educations);
+    }
+
+    public function createUserEducation(Request $request)
+    {
+        // Valida o os dados recebidos
+        $request->validate([
+            'user_id' => 'required|integer',
+            'level' => 'required|string',
+            'institution' => 'required|string',
+            'course' => 'required|string',
+            'start_year' => 'required|integer',
+            'end_year' => 'required|integer',
+        ]);
+
+        try {
+            // Cria um novo registro na tabela user_educations
+            $education = \App\Models\UserEducation::create([
+                'user_id' => $request->user_id,
+                'level' => $request->level,
+                'institution' => $request->institution,
+                'course' => $request->course,
+                'start_year' => $request->start_year,
+                'end_year' => $request->end_year,
+            ]);
+
+            // Retorna o registro criado
+            return response()->json($education, 201);
+        } catch (\Exception $e) {
+            // Tratamento de erros
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao criar o registro de educa o',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function updateUserEducation(Request $request, $id)
+    {
+        // Valida o os dados recebidos
+        $request->validate([
+            'user_id' => 'required|integer',
+            'level' => 'required|string',
+            'institution' => 'required|string',
+            'course' => 'required|string',
+            'start_year' => 'required|integer',
+            'end_year' => 'required|integer',
+        ]);
+
+        try {
+            // Tenta encontrar o registro na tabela user_educations
+            $education = \App\Models\UserEducation::find($id);
+
+            if (!$education) {
+                return response()->json(['error' => 'Registro de educa o n o encontrado'], 404);
+            }
+
+            // Atualiza o registro
+            $education->user_id = $request->user_id;
+            $education->level = $request->level;
+            $education->institution = $request->institution;
+            $education->course = $request->course;
+            $education->start_year = $request->start_year;
+            $education->end_year = $request->end_year;
+            $education->save();
+
+            // Retorna o registro atualizado
+            return response()->json($education);
+        } catch (\Exception $e) {
+            // Tratamento de erros
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao atualizar o registro de educa o',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
 }
 

@@ -11,7 +11,7 @@
           <q-avatar style="height: 100px; width: 100px;">
             <img src="https:picsum.photos/100" alt="Avatar" />
           </q-avatar>
-          <div class="text-h6 q-mt-md text-primary">Orlando Diggs</div>
+          <div class="text-h6 q-mt-md text-primary">{{ userStore.user.name }}</div>
           <div class="text-subtitle2 text-white">Maputo, Moçambique</div>
         </div>
       </div>
@@ -19,7 +19,7 @@
         <div class="col-4 q-mt-sm text-white justify-around" style="font-size: small;">120k seguidores</div>
         <div class="col-3 q-mt-sm text-white" style="font-size: small;">23k a seguir</div>
         <div class="col-5 q-mt-sm">
-          <q-btn rounded color="white" style="background-color: lab(100 0 -0.03 / 0.12); font-size: small;"
+          <q-btn @click="editProfile" rounded color="white" style="background-color: lab(100 0 -0.03 / 0.12); font-size: small;"
             label="Edit profile" flat icon="edit" />
         </div>
       </div>
@@ -99,14 +99,23 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import list_card from '../components/ListCard.vue';
 import content_card from '../components/ContentCard.vue';
 import objects_card from '../components/ObjectCard.vue';
 import curriculum_card from '../components/FileCard.vue';
+import { useUserStore } from '../stores/users.js'
 
+const userStore = useUserStore();
+userStore.setUser(JSON.parse(localStorage.getItem('user')));
 
-const editableSections = ref([
-  { label: 'Cúrriculo', icon: 'picture_as_pdf', content: 'Jamet kudasi - CV - UI/UX Designer' },
-]);
+onMounted(() => {
+  console.log('User data:', userStore.user);
+});
+
+const editProfile = () => {
+  // Implementar lógica para edição
+  console.log('Add itens');
+};
+
 </script>

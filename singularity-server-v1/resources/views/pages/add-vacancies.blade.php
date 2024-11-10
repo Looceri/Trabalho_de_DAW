@@ -171,7 +171,7 @@
                     </div>
                     <!-- End Avatar -->
 
-                
+
 
                     <!-- End Card -->
 
@@ -183,7 +183,7 @@
                         <form>
                         <!-- Body -->
                         <div class="card-body">
-                    
+
                                 <!-- Form -->
                                 <div class="row mb-4">
                                     <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">Titulo<i
@@ -194,9 +194,9 @@
                                     <div class="col-sm-9">
                                         <div class="input-group input-group-sm-vertical">
                                             <input type="text" class="form-control" name="title" id="title"
-                                                placeholder="Digite o titulo do anuncio" 
+                                                placeholder="Digite o titulo do anuncio"
                                                 >
-                                          
+
                                         </div>
                                     </div>
                                 </div>
@@ -255,13 +255,13 @@
                                     </div>
                                 </div>
                                 <!-- End Form -->
-                           
 
 
-                               
 
-                              
-                           
+
+
+
+
                             <!-- End Form -->
                         </div>
                         <div class="d-flex justify-content-end">
