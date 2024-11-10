@@ -9,6 +9,7 @@ use App\Http\Controllers\VacancieController;
 use App\Http\Controllers\BenefitController;
 use App\Http\Controllers\UserLocationController;
 use App\Http\Controllers\CandidateController;
+use App\Http\controllers\ProvinceController;
 
 
 
@@ -45,3 +46,5 @@ Route::get('/vacancies/{id}', [VacancieController::class, 'show']);
 Route::post('/candidate', [FileController::class, 'apply']);
 
 Route::get('/user/{id}/locations', [UserLocationController::class, 'getUserLocation']);
+
+Route::get('/provinces', [ProvinceController::class, 'index']);

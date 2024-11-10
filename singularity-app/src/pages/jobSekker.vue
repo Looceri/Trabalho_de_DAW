@@ -72,12 +72,8 @@
         <q-card-section class="q-pt-none">
           <div class="row">
             <div class="col text-subtitle2">MZN {{ vaga.salary }}/Mounth</div>
-            <q-btn
-              flat
-              label="Aplicar"
-              class="text-primary q-ml-auto"
-              @click="$router.push({ name: 'JobDetails', params: { id: vaga.id } })"
-            />
+            <q-btn flat label="Aplicar" class="text-primary q-ml-auto"
+              @click="$router.push({ name: 'JobDetails', params: { id: vaga.id } })" />
           </div>
           <div class="row q-pt-xs">
             <q-chip v-for="tag in vaga.tags" :key="tag" outline :label="tag" />
@@ -91,11 +87,11 @@
 
     <!-- Rodapé -->
     <q-footer class="row justify-around q-mt-md">
-      <q-btn flat icon="home" />
+      <q-btn flat icon="home" @click="$router.push('/')" />
       <q-btn flat icon="favorite_border" />
       <q-btn flat icon="add_circle" color="orange" />
       <q-btn flat icon="chat" />
-      <q-btn flat icon="person" />
+      <q-btn flat icon="person" @click="$router.push('/map')" />
     </q-footer>
   </q-page>
 </template>

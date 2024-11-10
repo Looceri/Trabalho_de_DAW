@@ -24,6 +24,10 @@ const routes = [
         name: 'JobDetails',
         component: () => import('src/pages/DescriptionPage.vue'),
         props: true, // Passa o id como prop para o componente
+      }, {
+        path: '/map',
+        name: 'map',
+        component: () => import('src/pages/MapPage.vue') // Página do mapa
       }
     ]
   },
