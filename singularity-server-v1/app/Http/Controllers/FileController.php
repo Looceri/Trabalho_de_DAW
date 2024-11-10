@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Application;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 
 
@@ -108,10 +109,11 @@ class FileController extends Controller
     {
         // Validação dos dados recebidos
         $validator = Validator::make($request->all(), [
-            'file' => 'required|mimes:pdf,doc,docx|max:10240', // Limite de 10MB
+            'file_id' => 'required|exists:files,id', // Valida que o file_id existe na tabela files
             'vacancy_id' => 'required|exists:vacancies,id',
             'user_id' => 'required|exists:users,id',
             'reason' => 'required|string|max:500',
+            'application_date' => 'required|date_format:Y-m-d',
         ]);
 
         if ($validator->fails()) {
@@ -127,30 +129,44 @@ class FileController extends Controller
             return response()->json(['message' => 'Você já se candidatou para essa vaga.'], 400);
         }
 
-        // Processa o arquivo enviado
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $filePath = $file->store('public/cvs'); // Armazenando o arquivo em storage
-
-            // Cria o registro de arquivo
-            $fileModel = File::create([
-                'path' => $filePath,
-                'original_name' => $file->getClientOriginalName(),
-                'mime_type' => $file->getClientMimeType(),
-                'user_id' => $request->user_id,
-                'vacancy_id' => $request->vacancy_id,
-            ]);
-        }
-
-        // Cria a candidatura
+        // Cria a candidatura na tabela applications com o file_id fornecido
         $application = Application::create([
             'user_id' => $request->user_id,
             'vacancy_id' => $request->vacancy_id,
-            'file_id' => $fileModel->id ?? null, // Verifica se há file_id
-            'status' => true,
-            'application_date' => now(),
+            'file_id' => $request->file_id,
+            'status' => 1,
+            'reason' => $request->reason,
+            'application_date' => $request->application_date,  // Define a data atual manualmente
         ]);
 
-        return response()->json(['message' => 'Candidatura enviada com sucesso!', 'application' => $application], 201);
+
+        return response()->json([
+            'message' => 'Candidatura enviada com sucesso!',
+            'application' => $application,
+        ], 201);
+    }
+
+
+    public function getLastCv($user_id, $vacancy_id)
+    {
+        // Busca o último arquivo onde user_id e vacancy_id correspondem aos parâmetros
+        $lastFile = File::where('user_id', $user_id)
+            ->where('vacancy_id', $vacancy_id)
+            ->latest() // Ordena do mais recente para o mais antigo
+            ->first(); // Pega apenas o primeiro registro
+
+        // Verifica se um arquivo foi encontrado
+        if ($lastFile) {
+            return response()->json([
+                'success' => true,
+                'file_id' => $lastFile->id,
+                'message' => 'Último CV encontrado com sucesso!'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Nenhum CV encontrado para esse usuário e vaga.'
+            ], 404);
+        }
     }
 }
