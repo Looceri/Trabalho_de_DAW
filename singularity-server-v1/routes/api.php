@@ -50,3 +50,5 @@ Route::post('/candidate', [FileController::class, 'apply']);
 Route::get('/user/{id}/locations', [UserLocationController::class, 'getUserLocation']);
 
 Route::get('/provinces', [ProvinceController::class, 'index']);
+
+Route::get('province/{name}', [ProvinceController::class, 'getProvinceData']);

@@ -48,4 +48,18 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Location::class, 'user_locations', 'user_id', 'location_id');
     }
+
+
+
+    // Relacionamento com as localizações
+    public function locationss()
+    {
+        return $this->hasManyThrough(Location::class, District::class);
+    }
+
+    // Relacionamento com as vagas de emprego
+    public function vacancies()
+    {
+        return $this->hasMany(Vacancy::class, 'owner_id');
+    }
 }

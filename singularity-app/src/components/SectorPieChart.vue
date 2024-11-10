@@ -1,26 +1,27 @@
 <template>
-  <q-card>
-    <q-card-section>
-      <q-chart type="pie" :data="chartData" />
-    </q-card-section>
-  </q-card>
+  <div class="chart-container">
+    <q-chart :options="chartOptions" class="sector-pie-chart"/>
+  </div>
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue'
+import { defineProps } from 'vue'
 import { QChart } from 'quasar'
-
-const props = defineProps({
-  data: Array
-})
-
-const chartData = computed(() => ({
-  labels: props.data.map(d => d.label),
-  datasets: [
-    {
-      data: props.data.map(d => d.value),
-      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-    }
-  ]
-}))
+const props = defineProps({ chartOptions: Object })
 </script>
+
+<style scoped>
+.chart-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sector-pie-chart {
+  max-width: 100%;
+}
+</style>
