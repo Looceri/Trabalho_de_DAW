@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class VacancyCategoryAssignment extends Model
 {
     use HasFactory;
+  
 }

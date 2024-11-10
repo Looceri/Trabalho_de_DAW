@@ -6,6 +6,10 @@ use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Application;
+use Illuminate\Support\Facades\Validator;
+
+
 
 class FileController extends Controller
 {
@@ -21,7 +25,6 @@ class FileController extends Controller
         $request->validate([
             'file' => 'required|file|max:10240',  // Max size of 10MB
             'vacancy_id' => 'required|exists:vacancies,id',  // Verifica se o ID da vaga existe
-            'reason' => 'required|string|max:255',  // Valida o campo reason
             'user_id' => 'required|exists:users,id',  // Verifica se o ID do usuário existe
         ]);
 
@@ -51,13 +54,12 @@ class FileController extends Controller
             'mime_type' => $file->getMimeType(),
             'user_id' => $request->user_id,  // Armazena o user_id
             'vacancy_id' => $request->vacancy_id,  // Armazena o vacancy_id
-            'reason' => $request->reason,  // Armazena o motivo
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Arquivo enviado com sucesso!',
-            'file' => $storedFile,
+            'file' => $storedFile,  // Retorna o arquivo enviado
         ], 201);
     }
 
@@ -100,5 +102,55 @@ class FileController extends Controller
             'success' => true,
             'message' => 'File deleted successfully!',
         ]);
+    }
+
+    public function apply(Request $request)
+    {
+        // Validação dos dados recebidos
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|mimes:pdf,doc,docx|max:10240', // Limite de 10MB
+            'vacancy_id' => 'required|exists:vacancies,id',
+            'user_id' => 'required|exists:users,id',
+            'reason' => 'required|string|max:500',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Verifica se o usuário já se candidatou à vaga
+        $existingApplication = Application::where('user_id', $request->user_id)
+            ->where('vacancy_id', $request->vacancy_id)
+            ->first();
+
+        if ($existingApplication) {
+            return response()->json(['message' => 'Você já se candidatou para essa vaga.'], 400);
+        }
+
+        // Processa o arquivo enviado
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filePath = $file->store('public/cvs'); // Armazenando o arquivo em storage
+
+            // Cria o registro de arquivo
+            $fileModel = File::create([
+                'path' => $filePath,
+                'original_name' => $file->getClientOriginalName(),
+                'mime_type' => $file->getClientMimeType(),
+                'user_id' => $request->user_id,
+                'vacancy_id' => $request->vacancy_id,
+            ]);
+        }
+
+        // Cria a candidatura
+        $application = Application::create([
+            'user_id' => $request->user_id,
+            'vacancy_id' => $request->vacancy_id,
+            'file_id' => $fileModel->id ?? null, // Verifica se há file_id
+            'status' => true,
+            'application_date' => now(),
+        ]);
+
+        return response()->json(['message' => 'Candidatura enviada com sucesso!', 'application' => $application], 201);
     }
 }

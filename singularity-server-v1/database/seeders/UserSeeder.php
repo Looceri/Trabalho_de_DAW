@@ -16,11 +16,9 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'Admin User',
-            'email' => 'admin@example.com', // Altere para o e-mail desejado
-            'url_alvara' => 'https://example.com/alvara', // Altere para o URL desejado
-            'status' => -1, // Status do usuário admin
+            'email' => 'admin@example.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('password'), // Altere para a senha desejada
+            'password' => Hash::make('12345678'), 
             'remember_token' => Str::random(10),
         ]);
     }
