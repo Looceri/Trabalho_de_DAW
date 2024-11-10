@@ -205,9 +205,12 @@
                                 <div class="row mb-4">
                                     <label for="campo_dinamico_2" class="col-sm-3 col-form-label form-label">Requisitos</label>
                                     <div class="col-sm-9" id="dynamic-fields-2">
-                                        @foreach($vacancy->requirements ?? [] as $requirement)
+                                        @forelse($vacancy->requirements ?? [] as $requirement)
                                             <input type="text" class="form-control mb-2" name="requirements[]" placeholder="Digite algo" value="{{ $requirement->requirement }}">
-                                        @endforeach
+                                        @empty
+                                            <!-- Adiciona um campo vazio caso não haja requisitos -->
+                                            <input type="text" class="form-control mb-2" name="requirements[]" placeholder="Digite algo">
+                                        @endforelse
                                     </div>
                                     <div class="d-flex justify-content-end mt-2">
                                         <button type="button" class="btn btn-secondary" onclick="addField(2)">+</button>
@@ -223,9 +226,12 @@
                                 <div class="row mb-4">
                                     <label for="campo_dinamico_3" class="col-sm-3 col-form-label form-label">Benefícios</label>
                                     <div class="col-sm-9" id="dynamic-fields-3">
-                                        @foreach($vacancy->benefits ?? [] as $benefit)
+                                        @forelse($vacancy->benefits ?? [] as $benefit)
                                             <input type="text" class="form-control mb-2" name="benefits[]" placeholder="Digite algo" value="{{ $benefit->benefit }}">
-                                        @endforeach
+                                        @empty
+                                            <!-- Adiciona um campo vazio caso não haja benefícios -->
+                                            <input type="text" class="form-control mb-2" name="benefits[]" placeholder="Digite algo">
+                                        @endforelse
                                     </div>
                                     <div class="d-flex justify-content-end mt-2">
                                         <button type="button" class="btn btn-secondary" onclick="addField(3)">+</button>
@@ -236,6 +242,7 @@
                                     <button type="submit" class="btn btn-primary">Finalizar</button>
                                 </div>
                             </div>
+                            
                             
                             
                         </form>
