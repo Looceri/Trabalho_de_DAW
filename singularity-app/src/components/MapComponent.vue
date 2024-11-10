@@ -7,13 +7,11 @@
 
     <!-- Card de dados da província -->
     <div class="province-info-container">
-      <ProvinceDataCard :provinceName="provinces[currentIndex]" />
+      <ProvinceDataCard :provinceName="provinces[currentIndex].name" />
     </div>
 
     <!-- Slider de faixa salarial -->
-    <div style="" class="salary-slider-container">
-      <SalaryRangeSlider :minSalary="45000" :maxSalary="50000" />
-    </div>
+
 
     <!-- Botões de navegação -->
     <NavigationButton @click="previousProvince" icon="keyboard_arrow_left" class="nav-button left" />
@@ -25,7 +23,7 @@
 import { ref, watch, nextTick, onMounted } from 'vue';
 import NavigationButton from '../components/NavigationButton.vue';
 import ProvinceDataCard from './ProvinceDataCard.vue';
-import SalaryRangeSlider from './SalaryRangeSlider.vue';
+
 
 const mapPath = '/mozamb.svg';
 

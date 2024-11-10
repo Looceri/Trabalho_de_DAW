@@ -1,12 +1,15 @@
 <template>
   <div class="salary-range-slider">
     <q-range
-      v-model="salaryRange"
       :min="minSalary"
       :max="maxSalary"
+      :step="1000"
+      :model-value="[0, 100000]"
       class="range-slider"
       color="primary"
       label
+      :markers="[minSalary, maxSalary]"
+      :disable="true"
     />
     <div class="salary-labels">
       <span>{{ minSalary }} MZN</span>
@@ -16,9 +19,9 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue'
+import { defineProps } from 'vue'
+
 const props = defineProps({ minSalary: Number, maxSalary: Number })
-const salaryRange = ref([props.minSalary, props.maxSalary])
 </script>
 
 <style scoped>

@@ -51,4 +51,4 @@ Route::get('/user/{id}/locations', [UserLocationController::class, 'getUserLocat
 
 Route::get('/provinces', [ProvinceController::class, 'index']);
 
-Route::get('province/{name}', [ProvinceController::class, 'getProvinceData']);
+Route::get('/province/{name}', [ProvinceController::class, 'getProvinceData']);
