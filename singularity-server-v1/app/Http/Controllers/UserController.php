@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserLocation;
 
@@ -228,5 +229,64 @@ class UserController extends Controller
         }
     }
 
-}
+    public function updateUser(Request $request)
+    {
+        // Valida os dados recebidos
+        $request->validate([
+            'name' => 'nullable|string|max:191',
+            'email' => 'nullable|string|email|max:191|unique:users,email,' . $request->id,
+            'email_verified_at' => 'nullable|date',
+            'password' => 'nullable|string|min:8',
+            'bio' => 'nullable|string|max:500',
+            'role' => 'nullable|string|max:50',
+            'status' => 'nullable|integer',
+            'description' => 'nullable|string|max:1000',
+            'remember_token' => 'nullable|string|max:100',
+            'birth_date' => 'nullable|date',
+        ], [
+            'email.unique' => 'Já existe um usu rio com este e-mail',
+            'email_verified_at.date' => 'O campo data de e-mail verificado deve ser uma data válida',
+            'password.min' => 'O campo senha deve ter pelo menos :min caracteres',
+            'bio.max' => 'O campo bio deve ter no máximo :max caracteres',
+            'role.max' => 'O campo role deve ter no máximo :max caracteres',
+            'status.integer' => 'O campo status deve ser um número inteiro',
+            'description.max' => 'O campo descri o deve ter no máximo :max caracteres',
+            'remember_token.max' => 'O campo token de lembran a deve ter no máximo :max caracteres',
+            'birth_date.date' => 'O campo data de nascimento deve ser uma data válida',
+        ]);
 
+        $request->updated_at = Carbon::now();
+
+        try {
+            // Tenta encontrar o usuário na tabela users
+            $user = User::find(id: $request->id);
+
+            if (!$user) {
+                return response()->json(['error' => 'Usuário não encontrado'], 404);
+            }
+
+            // Atualiza o usuário
+            foreach (['name', 'email', 'email_verified_at', 'password', 'bio', 'role', 'status', 'description', 'remember_token', 'birth_date'] as $field) {
+                if ($request->has($field) && $request->filled($field) &&  $request->$field !== $user->$field ) {
+                    $user->$field = $field === 'password' ? Hash::make($request->$field) : $request->$field;
+                }
+            }
+            $user->save();
+
+            // Retorna o usuário atualizado
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuário atualizado com sucesso',
+                'data' => $user,
+            ], 200);
+        } catch (\Exception $e) {
+            // Tratamento de erros
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao atualizar o usuário',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+}

@@ -32,7 +32,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'), // Layout principal do perfil
     children: [
       { path: '', name: 'profile', component: () => import('pages/ProfilePage.vue') },
-      { path: 'edit-about-me', name: 'edit-about-me', component: () => import('pages/AboutMeEditPage.vue') },
+      { path: 'edit', name: 'profile-edit', component: () => import('pages/ProfileEdit.vue') },
+      { path: 'edit/about_me', name: 'profile-edit-about_me', component: () => import('pages/AboutMeEditPage.vue') },
     ]
   },
   {

@@ -33,6 +33,7 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -47,12 +48,18 @@ const props = defineProps({
   icon: {
     type: String,
     default: 'label'
+  },
+  route:{
+    type: String,
+    default: 'profile'
   }
 });
 
 const showMore = ref(true);
+const router = useRouter();
 
 const editContent = () => {
+  router.push({ name: props.route });
   // Implementar lógica para edição
   console.log('Editar conteúdo');
 };

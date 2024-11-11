@@ -31,7 +31,7 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
 Route::post('/upload', [FileController::class, 'store']);
-
+Route::post('/user/update', [UserController::class, 'updateUser'])->name('user_update');
 
 Route::get('/vagas', [VacancieController::class, 'index']);
 Route::get('/vagas/{id}', [VacancieController::class, 'findById']);

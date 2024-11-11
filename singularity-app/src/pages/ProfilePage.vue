@@ -52,8 +52,9 @@
   <br>
   <q-page padding style="min-height: fit-content;">
 
-    <content_card icon="account_circle" title="Sobre Mim"
-      content="Sou um profissional em Tecnologia da Informação formado pela University of Oxford, com 7 anos de experiência na Amazon Inc como Manager." />
+    <content_card icon = "account_circle" title = "Sobre Mim"
+      content = "Sou um profissional em Tecnologia da Informação formado pela University of Oxford, com 7 anos de experiência na Amazon Inc como Manager."
+      route ="profile-edit-about_me" />
     <br>
     <objects_card icon="business_center" title="Experiência de Trabalho" :objects="[
       {
@@ -105,17 +106,18 @@ import content_card from '../components/ContentCard.vue';
 import objects_card from '../components/ObjectCard.vue';
 import curriculum_card from '../components/FileCard.vue';
 import { useUserStore } from '../stores/users.js'
+import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 userStore.setUser(JSON.parse(localStorage.getItem('user')));
+const router = useRouter();
 
 onMounted(() => {
   console.log('User data:', userStore.user);
 });
 
 const editProfile = () => {
-  // Implementar lógica para edição
-  console.log('Add itens');
+  router.push({ name: 'profile-edit' });
 };
 
 </script>
