@@ -13,11 +13,11 @@
                 </div>
                 <!-- End Col -->
 
-                <div class="col-auto">
+                {{-- <div class="col-auto">
                     <a class="btn btn-primary" href="{{ route('register') }}">
                         <i class="bi-person-plus-fill me-1"></i> Adicionar Usuário
                     </a>
-                </div>
+                </div> --}}
                 <!-- End Col -->
             </div>
             <!-- End Row -->
@@ -46,14 +46,14 @@
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
-                                <span class="js-counter display-4 text-dark">124051</span>
-                                <span class="text-body fs-5 ms-1">de 118144</span>
+                                <span class="js-counter display-4 text-dark">{{$users->count()}}</span>
+                                <span class="text-body fs-5 ms-1">de {{$users->count()}}</span>
                             </div>
                             <!-- End Col -->
 
                             <div class="col-auto">
                                 <span class="badge bg-soft-success text-success p-1">
-                                    <i class="bi-graph-up"></i> 5.0%
+                                    <i class="bi-graph-up"></i> 100.0%
                                 </span>
                             </div>
                             <!-- End Col -->
@@ -68,17 +68,27 @@
                 <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Usarios Activos anuais</h6>
+                        <h6 class="card-subtitle mb-2">Usarios Activos </h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
-                                <span class="js-counter display-4 text-dark">12347</span>
-                                <span class="text-body fs-5 ms-1">de 12201</span>
+                                <span class="js-counter display-4 text-dark">
+                                    {{$users->where('status', true)->count()}}
+                                </span>
+                                <span class="text-body fs-5 ms-1">{{$users->count()}}</span>
                             </div>
 
                             <div class="col-auto">
                                 <span class="badge bg-soft-success text-success p-1">
-                                    <i class="bi-graph-up"></i> 1.2%
+                                    <i class="bi-graph-up"></i>
+                                    @php
+                                    $totalUsers = $users->count();
+                                    $activeUsers = $users->where('status', true)->count();
+                                    $percentage = $totalUsers > 0 ? ($activeUsers / $totalUsers) * 100 : 0;
+                                @endphp
+                                
+                                {{ number_format($percentage, 2) }}%
+                                
                                 </span>
                             </div>
                         </div>
@@ -92,18 +102,26 @@
                 <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Novos/recorrentes</h6>
+                        <h6 class="card-subtitle mb-2">Usarios Desactivos</h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
-                                <span class="js-counter display-4 text-dark">48.7</span>
-                                <span class="display-4 text-dark">%</span>
-                                <span class="text-body fs-5 ms-1">de 56%</span>
+                                <span class="js-counter display-4 text-dark">
+                                    {{$users->where('status', false)->count()}}
+                                </span>
+                                <span class="text-body fs-5 ms-1">de {{$users->count()}}</span>
                             </div>
 
                             <div class="col-auto">
                                 <span class="badge bg-soft-danger text-danger p-1">
-                                    <i class="bi-graph-down"></i> 2.8%
+                                    <i class="bi-graph-down"></i> 
+                                @php
+                                    $totalUsers = $users->count();
+                                    $activeUsers = $users->where('status', false)->count();
+                                    $percentage = $totalUsers > 0 ? ($activeUsers / $totalUsers) * 100 : 0;
+                                @endphp
+                                
+                                {{ number_format($percentage, 2) }}%
                                 </span>
                             </div>
                         </div>
@@ -149,7 +167,7 @@
                     <!-- End Datatable Info -->
 
                     <!-- Dropdown -->
-                    <div class="dropdown">
+                    {{-- <div class="dropdown">
                         <button type="button" class="btn btn-white btn-sm dropdown-toggle w-100" id="usersExportDropdown"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi-download me-2"></i> Export
@@ -185,7 +203,7 @@
                                 PDF
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- End Dropdown -->
 
                     <!-- Dropdown -->
@@ -260,12 +278,7 @@
                                         "hideSearch": true,
                                         "dropdownWidth": "10rem"
                                       }'>
-                                                        <option value="">Any</option>
-                                                        <option value="Accountant">Accountant</option>
-                                                        <option value="Co-founder">Co-founder</option>
-                                                        <option value="Designer">Designer</option>
-                                                        <option value="Developer">Developer</option>
-                                                        <option value="Director">Director</option>
+                                                      
                                                     </select>
                                                     <!-- End Select -->
                                                 </div>
@@ -1174,45 +1187,53 @@
             <!-- End Table -->
 
             <!-- Footer -->
-            <div class="card-footer">
-                <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
-                    <div class="col-sm mb-2 mb-sm-0">
-                        <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
-                            <span class="me-2">Showing:</span>
+ @php
+    $totalUsers = $users->count();
+    $initialDisplay = $totalUsers > 10 ? 10 : $totalUsers; // Mostra 10 ou o total de usuários, se menor que 10
+@endphp
 
-                            <!-- Select -->
-                            <div class="tom-select-custom">
-                                <select id="datatableEntries"
-                                    class="js-select form-select form-select-borderless w-auto" autocomplete="off"
-                                    data-hs-tom-select-options='{
-                              "searchInDropdown": false,
-                              "hideSearch": true
-                            }'>
-                                    <option value="5">5</option>
-                                    <option value="7" selected="">7</option>
-                                    <option value="9">9</option>
-                                </select>
-                            </div>
-                            <!-- End Select -->
+<div class="card-footer">
+    <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
+        <div class="col-sm mb-2 mb-sm-0">
+            <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
+                <span class="me-2">Showing:</span>
 
-                            <span class="text-secondary me-2">of</span>
-
-                            <!-- Pagination Quantity -->
-                            <span id="datatableWithPaginationInfoTotalQty"></span>
-                        </div>
-                    </div>
-                    <!-- End Col -->
-
-                    <div class="col-sm-auto">
-                        <div class="d-flex justify-content-center justify-content-sm-end">
-                            <!-- Pagination -->
-                            <nav id="datatablePagination" aria-label="Activity pagination"></nav>
-                        </div>
-                    </div>
-                    <!-- End Col -->
+                <!-- Select -->
+                <div class="tom-select-custom">
+                    <select id="datatableEntries"
+                        class="js-select form-select form-select-borderless w-auto" autocomplete="off"
+                        data-hs-tom-select-options='{
+                      "searchInDropdown": false,
+                      "hideSearch": true
+                    }'>
+                        <option value="5" {{ $initialDisplay == 5 ? 'selected' : '' }}>5</option>
+                        <option value="7" {{ $initialDisplay == 7 ? 'selected' : '' }}>7</option>
+                        <option value="9" {{ $initialDisplay == 9 ? 'selected' : '' }}>9</option>
+                        <option value="10" {{ $initialDisplay == 10 ? 'selected' : '' }}>10</option>
+                        <option value="{{ $totalUsers }}" {{ $initialDisplay == $totalUsers ? 'selected' : '' }}>{{ $totalUsers }}</option>
+                    </select>
                 </div>
-                <!-- End Row -->
+                <!-- End Select -->
+
+                <span class="text-secondary me-2">of</span>
+
+                <!-- Pagination Quantity -->
+                <span id="datatableWithPaginationInfoTotalQty">{{ $totalUsers }}</span>
             </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col-sm-auto">
+            <div class="d-flex justify-content-center justify-content-sm-end">
+                <!-- Pagination -->
+                <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+            </div>
+        </div>
+        <!-- End Col -->
+    </div>
+    <!-- End Row -->
+</div>
+
             <!-- End Footer -->
         </div>
     <!-- End Content -->

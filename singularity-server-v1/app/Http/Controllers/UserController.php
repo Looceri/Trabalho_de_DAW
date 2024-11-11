@@ -40,6 +40,10 @@ class UserController extends Controller
         // Caso o usuário não seja encontrado, retorna um erro
         return response()->json(['error' => 'Usuário não encontrado'], 404);
     }
+    public function showUsers(){
+         $users=User::all();
+         return view('pages.users',compact('users'));
+    }
 
 
     public function register(Request $request)

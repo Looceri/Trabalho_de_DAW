@@ -3,11 +3,11 @@ class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navba
 <div class="navbar-nav-wrap">
   <!-- Logo -->
   <a class="navbar-brand" href="{{route('dashboard')}}" aria-label="Front">
-    <img class="navbar-brand-logo" src="{{ asset('assets/logo-name.png') }}" alt="Logos" data-hs-theme-appearance="default">
-    <img class="navbar-brand-logo" src="{{ asset('assets/logo-name-white.png') }}" alt="Logo" data-hs-theme-appearance="dark">
-    <img class="navbar-brand-logo-mini" style="height: 43x; width: 43px;" src="{{ asset('assets/logo.png') }}" alt="Logo"
+    <img class="navbar-brand-logo" src="{{ asset('assets/logo.svg') }}" alt="Logos" data-hs-theme-appearance="default">
+    <img class="navbar-brand-logo" src="{{ asset('assets/logo.svg') }}" alt="Logo" data-hs-theme-appearance="dark">
+    <img class="navbar-brand-logo-mini" style="height: 43x; width: 43px;" src="{{ asset('assets/logo.svg') }}" alt="Logo"
       data-hs-theme-appearance="default">
-    <img class="navbar-brand-logo-mini" style="height: 43x; width: 43px;" src="{{ asset('assets/logo-dark.png') }}" alt="Logo"
+    <img class="navbar-brand-logo-mini" style="height: 43x; width: 43px;" src="{{ asset('assets/logo.svg') }}" alt="Logo"
       data-hs-theme-appearance="dark">
   </a>
   <!-- End Logo -->
@@ -613,79 +613,16 @@ class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navba
 
             <div class="dropdown-divider"></div>
 
-            <!-- Dropdown -->
-            <div class="dropdown">
-              <a class="navbar-dropdown-submenu-item dropdown-item dropdown-toggle" href="javascript:;"
-                id="navSubmenuPagesAccountDropdown1" data-bs-toggle="dropdown" aria-expanded="false">Set status</a>
+       
 
-              <div
-                class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-sub-menu"
-                aria-labelledby="navSubmenuPagesAccountDropdown1">
-                <a class="dropdown-item" href="#">
-                  <span class="legend-indicator bg-success me-1"></span> Available
-                </a>
-                <a class="dropdown-item" href="#">
-                  <span class="legend-indicator bg-danger me-1"></span> Busy
-                </a>
-                <a class="dropdown-item" href="#">
-                  <span class="legend-indicator bg-warning me-1"></span> Away
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#"> Reset status
-                </a>
-              </div>
-            </div>
-            <!-- End Dropdown -->
-
-            <a class="dropdown-item" href="#">Profile &amp; account</a>
-            <a class="dropdown-item" href="{{ route('profile.edit') }}">Settings</a>
+            <a class="dropdown-item" href="profile">Meu Perfil </a>
 
             <div class="dropdown-divider"></div>
 
-            <a class="dropdown-item" href="#">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0">
-                  <div class="avatar avatar-sm avatar-dark avatar-circle">
-                    <span class="avatar-initials">HS</span>
-                  </div>
-                </div>
-                <div class="flex-grow-1 ms-2">
-                  <h5 class="mb-0">Htmlstream <span
-                      class="badge bg-primary rounded-pill text-uppercase ms-1">PRO</span></h5>
-                  <span class="card-text">hs.example.com</span>
-                </div>
-              </div>
-            </a>
+            
+        
 
-            <div class="dropdown-divider"></div>
 
-            <!-- Dropdown -->
-            <div class="dropdown">
-              <a class="navbar-dropdown-submenu-item dropdown-item dropdown-toggle" href="javascript:;"
-                id="navSubmenuPagesAccountDropdown2" data-bs-toggle="dropdown"
-                aria-expanded="false">Customization</a>
-
-              <div
-                class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-sub-menu"
-                aria-labelledby="navSubmenuPagesAccountDropdown2">
-                <a class="dropdown-item" href="#">
-                  Invite people
-                </a>
-                <a class="dropdown-item" href="#">
-                  Analytics
-                  <i class="bi-box-arrow-in-up-right"></i>
-                </a>
-                <a class="dropdown-item" href="#">
-                  Customize Front
-                  <i class="bi-box-arrow-in-up-right"></i>
-                </a>
-              </div>
-            </div>
-            <!-- End Dropdown -->
-
-            <a class="dropdown-item" href="#">Manage team</a>
-
-            <div class="dropdown-divider"></div>
 
             <a
                 class="dropdown-item"

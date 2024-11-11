@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('submission_end_date');
             $table->integer('vacancies_count');
             $table->text('description');
-            $table->text('requirements');
+            $table->boolean('status')->default(true);
             $table->timestamps();
 
             // Definindo a chave estrangeira

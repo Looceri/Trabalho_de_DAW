@@ -126,7 +126,7 @@
                         <!-- Profile Cover -->
                         <div class="profile-cover">
                             <div class="profile-cover-img-wrapper">
-                                <img id="profileCoverImg" class="profile-cover-img" src="{{ asset('template/admin/assets/img/1920x400/img2.jpg') }}"
+                                <img id="profileCoverImg" class="profile-cover-img" src="{{ asset('assets/img/1920x400/img2.jpg') }}"
                                     alt="Image Description">
 
                                 <!-- Custom File Cover -->
@@ -153,7 +153,7 @@
                         <!-- Avatar -->
                         <label class="avatar avatar-xxl avatar-circle avatar-uploader profile-cover-avatar"
                             for="editAvatarUploaderModal">
-                            <img id="editAvatarImgModal" class="avatar-img" src="{{ asset('template/admin/assets/img/160x160/img6.jpg') }}"
+                            <img id="editAvatarImgModal" class="avatar-img" src="{{ asset('assets/img/160x160/img6.jpg') }}"
                                 alt="Image Description">
 
                             <input type="file" class="js-file-attach avatar-uploader-input" id="editAvatarUploaderModal"
@@ -189,21 +189,19 @@
                             <form>
                                 <!-- Form -->
                                 <div class="row mb-4">
-                                    <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">Nome Completo <i
+                                    <label for="firstNameLabel" class="col-sm-3 col-form-label form-label">Nome  <i
                                             class="bi-question-circle text-body ms-1" data-bs-toggle="tooltip"
                                             data-bs-placement="top"
                                             title="Displayed on public forums, such as Front."></i></label>
 
-                                    <div class="col-sm-9">
-                                        <div class="input-group input-group-sm-vertical">
-                                            <input type="text" class="form-control" name="firstName" id="firstNameLabel"
-                                                placeholder="Your first name" aria-label="Your first name"
-                                                value="Mark">
-                                            <input type="text" class="form-control" name="lastName"
-                                                id="lastNameLabel" placeholder="Your last name"
-                                                aria-label="Your last name" value="Williams">
-                                        </div>
-                                    </div>
+                                            <div class="col-sm-9">
+                                                <div class="input-group input-group-sm-vertical">
+                                                    <input type="text" class="form-control" name="firstName" id="firstNameLabel"
+                                                        placeholder="Your first name" aria-label="Your first name"
+                                                        value="{{ $user->name ?? '' }}">
+                                                </div>
+                                            </div>
+                                            
                                 </div>
                                 <!-- End Form -->
 
@@ -213,7 +211,7 @@
 
                                     <div class="col-sm-9">
                                         <input type="email" class="form-control" name="email" id="emailLabel"
-                                            placeholder="Email" aria-label="Email" value="mark@site.com">
+                                            placeholder="Email" aria-label="Email" value="{{ $user->email ?? '' }}">
                                     </div>
                                 </div>
                                 <!-- End Form -->

@@ -1,6 +1,6 @@
 ﻿@extends('layout.base')
 
-@section('title', '| User')
+@section('title', '| Candidaturas')
 
 @section('content')
 <!-- Alerta de Sucesso -->
@@ -32,15 +32,11 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h1 class="page-header-title">Categorias</h1>
+                    <h1 class="page-header-title">Candidaturas</h1>
                 </div>
                 <!-- End Col -->
 
-                <div class="col-auto">
-                    <a class="btn btn-primary" href="{{ route('add-category') }}">
-                        <i class="bi-person-plus-fill me-1"></i> Adicionar Categoria
-                    </a>
-                </div>
+             
                 <!-- End Col -->
             </div>
             <!-- End Row -->
@@ -65,25 +61,18 @@
                 <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Total de Categorias </h6>
+                        <h6 class="card-subtitle mb-2">Total de Candidaturas  </h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
-                                <span class="js-counter display-4 text-dark">{{$categories->count()}}</span>
-                                <span class="text-body fs-5 ms-1">{{$categories->count()}}</span>
+                                <span class="js-counter display-4 text-dark">124051</span>
+                                <span class="text-body fs-5 ms-1">de 118144</span>
                             </div>
                             <!-- End Col -->
 
                             <div class="col-auto">
                                 <span class="badge bg-soft-success text-success p-1">
-                                    <i class="bi-graph-up"></i>
-                                @php
-                                    $totalUsers = $categories->count();
-                                    $activeUsers = $categories->where('status', true)->count();
-                                    $percentage = $totalUsers > 0 ? ($activeUsers / $totalUsers) * 100 : 0;
-                                @endphp
-                                
-                                {{ number_format($percentage, 2) }}%
+                                    <i class="bi-graph-up"></i> 5.0%
                                 </span>
                             </div>
                             <!-- End Col -->
@@ -95,10 +84,10 @@
             </div>
 
             <div class="col-sm-6 col-lg-4 mb-3 mb-lg-5">
-                {{-- <!-- Card -->
+                <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Usarios Activos anuais</h6>
+                        <h6 class="card-subtitle mb-2">Total de Candidaturas aprovadas</h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
@@ -115,14 +104,14 @@
                         <!-- End Row -->
                     </div>
                 </div>
-                <!-- End Card --> --}}
+                <!-- End Card -->
             </div>
 
             <div class="col-sm-12 col-lg-4 mb-3 mb-lg-5">
-                {{-- <!-- Card -->
+                <!-- Card -->
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2">Novos/recorrentes</h6>
+                        <h6 class="card-subtitle mb-2">Total de candidaturas nao aprovadas</h6>
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
@@ -140,7 +129,7 @@
                         <!-- End Row -->
                     </div>
                 </div>
-                <!-- End Card --> --}}
+                <!-- End Card -->
             </div>
 
         </div>
@@ -150,17 +139,6 @@
             <!-- Header -->
             <div class="card-header card-header-content-md-between">
                 <div class="mb-2 mb-md-0">
-                    <form>
-                        <!-- Search -->
-                        <div class="input-group input-group-merge input-group-flush">
-                            <div class="input-group-prepend input-group-text">
-                                <i class="bi-search"></i>
-                            </div>
-                            <input id="datatableSearch" type="search" class="form-control" placeholder="Pesquisar categoria"
-                                aria-label="Search users">
-                        </div>
-                        <!-- End Search -->
-                    </form>
                 </div>
 
             
@@ -192,45 +170,52 @@
                     </div>
                 </th>
                 <th>ID</th>
-                <th class="table-column-ps-0">Nome</th>
-                <th>Descrição</th>
-                <th>Ações</th>
+                <th class="table-column-ps-0">Proprietario</th>
+                <th>Documento</th>
+                <th>Estado da candidatura</th>
+                <th>Accoes</th>
             </tr>
         </thead>
 
         <tbody class="text-center align-middle">
-            @if($categories->count() > 0)
-            @foreach($categories as $category)
+            @if($applications->count() > 0)
+            @foreach($applications as $application)
                 <tr>
                     <td class="table-column-pe-0">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="usersDataCheck{{$category->id}}">
-                            <label class="form-check-label" for="usersDataCheck{{$category->id}}"></label>
+                            <input class="form-check-input" type="checkbox" id="usersDataCheck{{$application->id}}">
+                            <label class="form-check-label" for="usersDataCheck{{$application->id}}"></label>
                         </div>
                     </td>
-                    <td>{{$category->id}}</td>
+                    <td>{{$application->id}}</td>
                     <td class="table-column-ps-0">
                         <a class="d-flex align-items-center justify-content-center">
                             <div class="flex-grow-1 ms-2">
-                                <h6 class="text-inherit mb-0">{{$category->name}}</h6>
+                                <h6 class="text-inherit mb-0">{{$application->user->name}}</h6>
                             </div>
                         </a>
                     </td>
-                    <td>{{$category->description}}</td>
+                    <td>{{$application->file_path}}</td>
+                    <td>{{$application->status}}</td>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="{{ route('edit-category', ['id' => $category->id]) }}" class="btn btn-primary btn-sm" >
-                                <i class="bi-pencil-fill me-1"></i> 
+                            <a href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}" class="btn btn-primary btn-sm" title="Ver">
+                                <i class="bi-eye-fill"></i>
                             </a>
-                            <a href="{{ route('delete-category', ['id' => $category->id]) }}" class="btn btn-danger btn-sm">
-                                <i class="bi-trash-fill me-1"></i> 
-                            </a>
+                            <form action="{{ route('desactive-vacancy', $vacancy->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('POST') <!-- Aqui estamos forçando o método POST -->
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi-trash-fill me-1"></i> 
+                                </button>
+                            </form>
                             
-                            
+                          
                         </div>
+                        
                     </td>
                 </tr>
-              
+
             @endforeach
    
             @endif
@@ -241,52 +226,45 @@
 
 
             <!-- Footer -->
-            @php
-            $totalUsers = $categories->count();
-            $initialDisplay = $totalUsers > 10 ? 10 : $totalUsers; // Mostra 10 ou o total de usuários, se menor que 10
-        @endphp
-        
-        <div class="card-footer">
-            <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
-                <div class="col-sm mb-2 mb-sm-0">
-                    <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
-                        <span class="me-2">Showing:</span>
-        
-                        <!-- Select -->
-                        <div class="tom-select-custom">
-                            <select id="datatableEntries"
-                                class="js-select form-select form-select-borderless w-auto" autocomplete="off"
-                                data-hs-tom-select-options='{
+            <div class="card-footer">
+                <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
+                    <div class="col-sm mb-2 mb-sm-0">
+                        <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
+                            <span class="me-2">Showing:</span>
+
+                            <!-- Select -->
+                            <div class="tom-select-custom">
+                                <select id="datatableEntries"
+                                    class="js-select form-select form-select-borderless w-auto" autocomplete="off"
+                                    data-hs-tom-select-options='{
                               "searchInDropdown": false,
                               "hideSearch": true
                             }'>
-                                <option value="5" {{ $initialDisplay == 5 ? 'selected' : '' }}>5</option>
-                                <option value="7" {{ $initialDisplay == 7 ? 'selected' : '' }}>7</option>
-                                <option value="9" {{ $initialDisplay == 9 ? 'selected' : '' }}>9</option>
-                                <option value="10" {{ $initialDisplay == 10 ? 'selected' : '' }}>10</option>
-                                <option value="{{ $totalUsers }}" {{ $initialDisplay == $totalUsers ? 'selected' : '' }}>{{ $totalUsers }}</option>
-                            </select>
+                                    <option value="5">5</option>
+                                    <option value="10" selected="">10</option>
+                                    <option value="15">15</option>
+                                </select>
+                            </div>
+                            <!-- End Select -->
+
+                            <span class="text-secondary me-2">of</span>
+
+                            <!-- Pagination Quantity -->
+                            <span id="datatableWithPaginationInfoTotalQty"></span>
                         </div>
-                        <!-- End Select -->
-        
-                        <span class="text-secondary me-2">of</span>
-        
-                        <!-- Pagination Quantity -->
-                        <span id="datatableWithPaginationInfoTotalQty">{{ $totalUsers }}</span>
                     </div>
-                </div>
-                <!-- End Col -->
-        
-                <div class="col-sm-auto">
-                    <div class="d-flex justify-content-center justify-content-sm-end">
-                        <!-- Pagination -->
-                        <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+                    <!-- End Col -->
+
+                    <div class="col-sm-auto">
+                        <div class="d-flex justify-content-center justify-content-sm-end">
+                            <!-- Pagination -->
+                            <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+                        </div>
                     </div>
+                    <!-- End Col -->
                 </div>
-                <!-- End Col -->
+                <!-- End Row -->
             </div>
-            <!-- End Row -->
-        </div>
             <!-- End Footer -->
         </div>
     <!-- End Content -->
@@ -351,7 +329,7 @@
           zeroRecords: `<div class="text-center p-4">
               <img class="mb-3" src="./assets/svg/illustrations/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
               <img class="mb-3" src="./assets/svg/illustrations-light/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
-            <p class="mb-0">Nenhuma categoria encontrada</p>
+            <p class="mb-0">Nenhuma Vaga encontrada</p>
             </div>`
         }
       })
