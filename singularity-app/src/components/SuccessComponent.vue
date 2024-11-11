@@ -2,56 +2,100 @@
   <q-page padding style="min-height: fit-content;">
     <div class="q-pa-md">
       <!-- Uploaded File Display -->
-      <q-card class="q-mb-md uploaded-card">
-        <q-card-section class="file-section">
-          <q-icon name="picture_as_pdf" color="red" size="50px" />
-          <div class="file-info">
-            <div class="file-name">Jamet Kudasi – CV - UI/UX Designer</div>
-            <div class="file-details text-subtitle2">867 Kb • 14 Fev 2024 às 11:30</div>
-          </div>
-        </q-card-section>
-      </q-card>
+
 
       <!-- Success Message -->
       <div class="q-mb-md" style="border: 0;">
-        <q-card-section class="text-center" >
+        <q-card-section class="text-center">
           <div class="icon-container q-mb-md">
-          <q-img
-            src="../assets/ilustrations/file_update_sucess.svg"
-            class="sucess-image"
-
-          />
+            <q-img
+              src="../assets/ilustrations/file_update_sucess.svg"
+              class="sucess-image"
+            />
           </div>
           <div class="text-secondary text-h6">Sucesso</div>
-          <p>Parabéns, sua candidatura foi enviada!</p>
+          <p>Parabéns, {{ userName }}, sua candidatura foi enviada!</p>
         </q-card-section>
       </div>
 
       <!-- Action Buttons -->
       <q-btn
-        label="Encontre outro trabalho similar"
-        color="blue"
-        class="q-mb-md action-btn"
-      />
-      <q-btn
-        label="De volta para casa"
-        color="primary"
-        class="action-btn"
-      />
+  label="Encontre outro trabalho similar"
+  color="blue"
+  class="q-mb-md action-btn"
+  @click="goHome"
+/>
+
+
     </div>
   </q-page>
 </template>
 
 <script>
 export default {
-  data() {
-    return {};
+  props: {
+    fileName: {
+      type: String,
+      required: true,
+    },
+    fileType: {
+      type: String,
+      required: true,
+    },
+    fileSize: {
+      type: Number,
+      required: true,
+    },
   },
+  data() {
+    return {
+      userName: localStorage.getItem('nome') || 'Usuário', // Obtém o nome do usuário do localStorage
+      fileIcon: this.getFileIcon(this.fileType), // Exemplo de ícone dinâmico
+      uploadDate: new Date().toLocaleString(), // Data de envio, definida como a data atual
+    };
+  },
+  computed: {
+    // Formata o tamanho do arquivo para exibição
+    formattedFileSize() {
+      return this.formatFileSize(this.fileSize);
+    },
+  },
+  methods: {
+    // Função que retorna o ícone dependendo do tipo de arquivo
+    getFileIcon(fileType) {
+      switch (fileType) {
+        case 'pdf':
+          return 'picture_as_pdf';
+        case 'docx':
+          return 'description'; // Exemplo para Word
+        case 'png':
+        case 'jpg':
+        case 'jpeg':
+          return 'image'; // Para imagens
+        default:
+          return 'attach_file'; // Tipo de arquivo genérico
+      }
+      // Redireciona para a página inicial
+  }, goHome() {
+    this.$router.push({ name: 'description' });
+
+    },
+
+    // Função que converte o tamanho do arquivo (em bytes) para uma string legível
+    formatFileSize(size) {
+      if (size < 1024) return `${size} B`;
+      const kb = size / 1024;
+      if (kb < 1024) return `${kb.toFixed(2)} KB`;
+      const mb = kb / 1024;
+      return `${mb.toFixed(2)} MB`;
+    },
+
+    // Método para redirecionar para a página inicial
+      },
 };
 </script>
 
 <style scoped>
-
 .uploaded-card {
   display: flex;
   align-items: center;
@@ -64,9 +108,9 @@ export default {
   align-items: center;
 }
 
-.sucess-image{
-height: 10em;
-width: 10em;
+.sucess-image {
+  height: 10em;
+  width: 10em;
 }
 
 .file-info {
@@ -91,7 +135,6 @@ width: 10em;
   display: flex;
   justify-content: center;
 }
-
 
 .action-btn {
   width: 100%;

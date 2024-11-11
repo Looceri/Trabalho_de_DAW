@@ -54,4 +54,15 @@ class User extends Authenticatable
         return $this->hasMany(UserEducation::class);
     }
 
+    // Relacionamento com as localizações
+    public function locationss()
+    {
+        return $this->hasManyThrough(Location::class, District::class);
+    }
+
+    // Relacionamento com as vagas de emprego
+    public function vacancies()
+    {
+        return $this->hasMany(Vacancy::class, 'owner_id');
+    }
 }

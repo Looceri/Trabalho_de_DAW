@@ -52,7 +52,7 @@
 
     <!-- Lista de Trabalhos -->
     <div class="text-h6 q-pt-md">Lista de trabalhos</div>
-    <div v-for="vaga in filteredVagas" :key="vaga.id" class="q-my-sm">
+    <div v-for="vaga in displayedVagas" :key="vaga.id" class="q-my-sm">
       <q-card>
         <q-card-section>
           <q-avatar size="40px">
@@ -72,12 +72,8 @@
         <q-card-section class="q-pt-none">
           <div class="row">
             <div class="col text-subtitle2">MZN {{ vaga.salary }}/Mounth</div>
-            <q-btn
-              flat
-              label="Aplicar"
-              class="text-primary q-ml-auto"
-              @click="$router.push({ name: 'JobDetails', params: { id: vaga.id } })"
-            />
+            <q-btn flat label="Aplicar" class="text-primary q-ml-auto"
+              @click="$router.push({ name: 'JobDetails', params: { id: vaga.id } })" />
           </div>
           <div class="row q-pt-xs">
             <q-chip v-for="tag in vaga.tags" :key="tag" outline :label="tag" />
@@ -86,13 +82,16 @@
       </q-card>
     </div>
 
+    <!-- Carregar Mais Botão -->
+    <q-btn v-if="moreToLoad" label="Carregar Mais" flat color="primary" @click="loadMoreVagas" class="q-mt-md" />
+
     <!-- Rodapé -->
     <q-footer class="row justify-around q-mt-md">
-      <q-btn flat icon="home" />
+      <q-btn flat icon="home" @click="$router.push('/')" />
       <q-btn flat icon="favorite_border" />
       <q-btn flat icon="add_circle" color="orange" />
       <q-btn flat icon="chat" />
-      <q-btn flat icon="person" />
+      <q-btn flat icon="person" @click="$router.push('/map')" />
     </q-footer>
   </q-page>
 </template>
@@ -107,40 +106,39 @@ export default {
       remoto: 44.5,
       tempoIntegral: 66.8,
       meioPeriodo: 38.9,
-      vagas: [], // Array para armazenar as vagas recebidas da API
-      locations: {} // Armazena as localizações carregadas
+      vagas: [],
+      locations: {},
+      displayedVagas: [],
+      vagasPorPagina: 4,
+      paginaAtual: 1,
     };
   },
   computed: {
-    filteredVagas() {
-      const today = new Date(); // Data atual
-      return this.vagas.filter(vaga => {
-        const endDate = new Date(vaga.submission_end_date); // Data de término
-        return endDate > today; // Apenas vagas cuja data final é maior que hoje
-      });
-    }
+    moreToLoad() {
+      return this.displayedVagas.length < this.vagas.length;
+    },
   },
   mounted() {
     this.nomeUsuario = localStorage.getItem('nome') || 'Usuário';
-    this.carregarVagas(); // Chamada para carregar as vagas
+    this.carregarVagas();
   },
   methods: {
     async carregarVagas() {
       try {
         const response = await axios.get('http://localhost:8000/api/vagas');
         this.vagas = response.data;
+        this.shuffleVagas();
+        this.loadMoreVagas();
 
-        // Após carregar as vagas, chama as localizações dos owners
-        await this.carregarLocalizacoes(); // Carregar localizações para cada owner
+        await this.carregarLocalizacoes();
       } catch (error) {
         console.error('Erro ao carregar as vagas:', error);
       }
     },
     async carregarLocalizacoes() {
       try {
-        // Para cada vaga, faz uma requisição para pegar o nome da província
         for (let vaga of this.vagas) {
-          if (!this.locations[vaga.owner_id]) {  // Verifica se a localização já foi carregada
+          if (!this.locations[vaga.owner_id]) {
             const response = await axios.get(`http://localhost:8000/api/user/${vaga.owner_id}/locations`);
             this.locations[vaga.owner_id] = response.data.location.district.province.name;
           }
@@ -150,9 +148,18 @@ export default {
       }
     },
     getLocation(ownerId) {
-      return this.locations[ownerId] || 'Localização carregando...';  // Retorna uma mensagem de carregamento até a localização ser carregada
-    }
-  }
+      return this.locations[ownerId] || 'Localização carregando...';
+    },
+    shuffleVagas() {
+      this.vagas = this.vagas.sort(() => Math.random() - 0.5);
+    },
+    loadMoreVagas() {
+      const start = (this.paginaAtual - 1) * this.vagasPorPagina;
+      const end = this.paginaAtual * this.vagasPorPagina;
+      this.displayedVagas = [...this.displayedVagas, ...this.vagas.slice(start, end)];
+      this.paginaAtual += 1;
+    },
+  },
 };
 </script>
 

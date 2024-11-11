@@ -13,4 +13,12 @@ class Province extends Model
     {
         return $this->belongsTo(Province::class);
     }
+
+    protected $fillable = ['name'];
+
+    // Relacionamento com os distritos
+    public function districts()
+    {
+        return $this->hasMany(District::class);
+    }
 }
