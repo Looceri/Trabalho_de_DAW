@@ -98,6 +98,11 @@ const routes = [
         name: "profile-edit-about_me",
         component: () => import("pages/AboutMeEditPage.vue"),
       },
+      {
+        path: "settings",
+        name: "settings",
+        component: () => import("pages/SettingsPage.vue"),
+      },
     ],
   },
   {

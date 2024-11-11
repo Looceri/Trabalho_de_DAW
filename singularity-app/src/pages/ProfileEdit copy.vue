@@ -64,11 +64,6 @@
   </q-card-section>
 
   <q-card-section>
-    <div class="text-h6">Email</div>
-    <q-input v-model="email" dense outlined />
-  </q-card-section>
-
-  <q-card-section>
     <div class="text-h6">Data de nascimento</div>
     <q-input dense style="max-height: 40px;" readonly outlined :rules="[val => !!val || 'Data de nascimento inválida']"
       v-model="birth_date_exp">
@@ -119,17 +114,15 @@
 <script setup>
 
 import { reactive, ref, computed } from 'vue';
-import { useUserStore } from '../stores/users.js';
 import axios from 'axios';
 import backButton from 'src/components/BackButton.vue';
 import settingsButton from 'src/components/SettingsButton.vue';
 import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
-const userStore = useUserStore();
-const user = reactive(JSON.parse(localStorage.getItem('user')).data || userStore.user);
+const user = JSON.parse(localStorage.getItem('user')).data;
 
-console.log('User data:', user);
+console.log('User data:', user.adress );
 
 const avatar = ref(user.avatar || '');
 const name = ref(user.name || '');
@@ -190,7 +183,7 @@ const salvar = () => {
         message: response.data.message,
         timeout: 2000,
       });
-      console.log(response.data);
+      userStore.setUser(response.data);
     })
     .catch((error) => {
       const errorMessage = error.response?.data?.message || 'Erro ao atualizar perfil. Tente novamente.';
