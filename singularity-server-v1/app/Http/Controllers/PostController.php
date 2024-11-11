@@ -53,10 +53,9 @@ class PostController extends Controller
     // Update an existing post
     public function update(Request $request, Post $post)
     {
-        if ($post->user_id !== Auth::id()) {
-            return redirect()->route('posts.index')->with('error', 'Você não tem permissão para editar este post');
-        }
-    
+      
+
+   
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -65,17 +64,15 @@ class PostController extends Controller
     
         $data = $request->only(['title', 'description']);
     
-        // Handle the image upload
         if ($request->hasFile('url_image')) {
-            // Delete the old image if it exists
-            if ($post->url_image && Storage::disk('public')->exists($post->url_image)) {
-                Storage::disk('public')->delete($post->url_image);
-            }
-    
-            // Save the new image
+            // Save the new image if uploaded
             $imagePath = $request->file('url_image')->store('post', 'public');
             $data['url_image'] = $imagePath;
+        } else {
+            // If no new image is uploaded, keep the existing image path
+            $data['url_image'] = $post->url_image;
         }
+        
     
         $post->update($data);
     
@@ -93,7 +90,7 @@ class PostController extends Controller
         $post->update(['status' => false]);
     
         // Redireciona de volta com uma mensagem de sucesso
-        return redirect()->route('posts.index')->with('success', 'Post desativado com sucesso');
+        return redirect()->route('posts.index')->with('success', 'Post Apagado com sucesso');
     }
     
 }
