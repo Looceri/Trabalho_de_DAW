@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\UserLocation;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserLocationController extends Controller
 {
@@ -19,5 +20,24 @@ class UserLocationController extends Controller
         }
 
         return response()->json(['error' => 'Localização não encontrada'], 404);
+    }
+
+
+    public function getUserLocationn($userId)
+    {
+        // Recupera o usuário com as informações de localização e distrito/província
+        $user = User::with([
+            'locations' => function ($query) {
+                $query->with(['district' => function ($query) {
+                    $query->with('province');
+                }]);
+            }
+        ])->find($userId);
+
+        if (!$user || !$user->locations) {
+            return response()->json(['message' => 'Usuário ou localização não encontrado'], 404);
+        }
+
+        return response()->json($user->locations);
     }
 }

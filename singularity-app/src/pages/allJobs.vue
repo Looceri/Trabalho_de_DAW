@@ -8,6 +8,7 @@
         :logo="company.logo"
         :name="company.name"
         :jobsCount="company.jobsCount"
+        :companyId="company.id"
       />
     </div>
 
@@ -41,7 +42,7 @@
 </template>
 
 <script>
-import { default as CompanyCard } from '../components/CompanyCard.vue';
+import CompanyCard from '../components/CompanyCard.vue';
 import axios from 'axios';
 
 export default {
@@ -50,42 +51,40 @@ export default {
   },
   data() {
     return {
-      companies: [], // Armazenará as empresas e o número de vagas
-      activeButton: 'employers' // O botão "Empregadores" será o ativo por padrão
+      companies: [],
+      activeButton: 'employers',
     };
   },
   methods: {
     async loadOwner() {
       try {
-        // Faz a chamada para obter todos os donos (empresas)
         const response = await axios.get('http://localhost:8000/api/getAllOwner');
         const companies = response.data;
 
-        // Faz a chamada para cada empresa para obter o total de vagas expiradas
         const companiesWithJobs = await Promise.all(
           companies.map(async (company) => {
-            // Chama o endpoint para obter o total de vagas expiradas da empresa
-            const vacanciesResponse = await axios.get(`http://localhost:8000/api/CountVacancies/${company.id}`);
+            console.log(company.id)
+            const vacanciesResponse = await axios.get(`http://localhost:8000/api/count/${company.id}`);
+            console.log(vacanciesResponse)
             return {
               ...company,
-              jobsCount: vacanciesResponse.data.count, // Total de vagas expiradas
+              jobsCount: vacanciesResponse.data.vacancies_count,
+
             };
           })
         );
 
-        this.companies = companiesWithJobs; // Atualiza a lista de empresas com jobsCount
+        this.companies = companiesWithJobs;
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       }
     },
-
-    // Método para definir o botão ativo
     setActiveButton(button) {
       this.activeButton = button;
-    }
+    },
   },
   created() {
-    this.loadOwner(); // Carrega as empresas quando o componente for criado
+    this.loadOwner();
   },
 };
 </script>
@@ -112,7 +111,6 @@ export default {
   width: 90%;
   justify-content: space-around;
   z-index: 1000;
-
 }
 
 .btn-action {
