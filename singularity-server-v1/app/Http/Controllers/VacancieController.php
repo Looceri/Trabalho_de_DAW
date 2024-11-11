@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Vacancy;
 use App\Models\VacancyCategory;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 
 class VacancieController extends Controller
@@ -36,60 +37,64 @@ class VacancieController extends Controller
 
         return response()->json($vaga);
     }
-    public function openVacancie(){
+    public function openVacancie()
+    {
         return view('pages.add-vacancies');
-     }
+    }
 
 
 
     //categoriasController
-     public function openCategory(){
+    public function openCategory()
+    {
         return view('pages.add-category');
-     }
-     public function showCategories(){
+    }
+    public function showCategories()
+    {
         $categories = VacancyCategory::all();
         return view('pages.categories', compact('categories'));
     }
- 
+
     public function storeCategorie(Request $request)
     {
         // Validação dos dados da request
         $request->validate([
-            'name' => 'required|unique:vacancy_categories,name', 
+            'name' => 'required|unique:vacancy_categories,name',
             'description' => 'nullable|string'
         ]);
-   
+
         // Criação da categoria se a validação for bem-sucedida
         $category = VacancyCategory::create([
             'name' => $request->name,
             'description' => $request->description,
         ]);
-    
-        return redirect()->route('add-category')->with('success', 'Categoria criada com sucesso!');
 
+        return redirect()->route('add-category')->with('success', 'Categoria criada com sucesso!');
     }
 
-    public function updateCategory(Request $request,$id){
+    public function updateCategory(Request $request, $id)
+    {
         $request->validate([
-            'name' => ['required','string',Rule::unique('vacancy_categories')->ignore($id),],
+            'name' => ['required', 'string', Rule::unique('vacancy_categories')->ignore($id),],
             'description' => 'nullable|string',
         ]);
-    
+
         // Buscar a categoria pelo ID
         $category = VacancyCategory::findOrFail($id);
-    
+
         // Atualizar os dados
         $category->update([
             'name' => $request->name,
             'description' => $request->description,
         ]);
-    
+
         // Redirecionar com uma mensagem de sucesso
         return redirect()->route('list-category')->with('success', 'Categoria atualizada com sucesso!');
     }
-    
 
-    public function deleteCategory($id){
+
+    public function deleteCategory($id)
+    {
         $category = VacancyCategory::findOrFail($id);
         $category->delete();
         return redirect()->route('list-category')->with('success', 'Categoria Apagada com sucesso!');
@@ -98,8 +103,23 @@ class VacancieController extends Controller
     public function editCategory($id)
     {
         $category = VacancyCategory::findOrFail($id);
-        return view('pages.add-category', compact('category')); 
+        return view('pages.add-category', compact('category'));
     }
-    
-  
+
+
+
+    public function getCountVanciesData($ownerId)
+    {
+        try {
+            $today = Carbon::today();
+            $expiredCount = Vacancy::where('owner_id', $ownerId)
+                ->where('submission_end_date', '<', $today)
+                ->count();
+
+            return response()->json(['count' => $expiredCount], 200);
+        } catch (\Exception $e) {
+            // Log the error for further debugging
+            return response()->json(['error' => 'Erro ao contar vagas expiradas'], 500);
+        }
+    }
 }

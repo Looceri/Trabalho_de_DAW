@@ -52,3 +52,7 @@ Route::get('/user/{id}/locations', [UserLocationController::class, 'getUserLocat
 Route::get('/provinces', [ProvinceController::class, 'index']);
 
 Route::get('/province/{name}', [ProvinceController::class, 'getProvinceData']);
+
+Route::get('/getAllOwner', [UserController::class, 'index']);
+
+Route::get('/CountVacancies/{id}',[VacancieController::class, 'getCountVanciesData']);
