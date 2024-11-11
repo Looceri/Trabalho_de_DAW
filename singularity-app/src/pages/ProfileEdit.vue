@@ -61,7 +61,6 @@
 
   <q-card-section>
     <div class="text-h6">Data de nascimento</div>
-    <q-input dense outlined :rules="[val => !!val || 'Data de nascimento inválida']" v-model="birth_date">
     <q-input dense outlined :rules="[val => !!val || 'Data de nascimento inválida']" v-model="user.data.birth_date">
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
@@ -76,7 +75,6 @@
   <q-card-section>
     <div class="text-h6">Sexo</div>
     <div class="row q-col-gutter-x-md ">
-      <q-option-group class=" justify-around justify-content-end" v-model="sexo" :options="[
       <q-option-group class=" justify-around justify-content-end" v-model="user.data.sexo" :options="[
         { label: 'Masculino', value: 'masculino' },
         { label: 'Feminino', value: 'feminino' }
@@ -138,7 +136,7 @@ const email = ref(user.data?.email || '');
 const phone = ref(user.data?.phone || '');
 const a = ref(user.data?.a || '');
 const province = ref(user.data?.province || '');
-const birthDate = ref(user.data.birth_date ? new Date(user.data.birth_date) : null); // Use a Date object
+const birthDate = ref(user.data?.birth_date ? new Date(user.data.birth_date) : null); // Use a Date object
 
 const provinces = ref([
   'Cabo Delgado',
