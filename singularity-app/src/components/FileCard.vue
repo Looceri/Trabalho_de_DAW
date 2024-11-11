@@ -8,7 +8,6 @@
       <q-btn flat dense color="primary" rounded style="background-color: papayawhip;"  icon="add" @click="addFile" />
     </q-card-section>
 
-    <q-separator color="gainsboro" inset />
 
     <template v-if="showMore || files.length <= 1">
       <template v-for="(file, index) in files" :key="index">

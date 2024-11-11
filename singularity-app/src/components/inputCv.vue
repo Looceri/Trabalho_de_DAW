@@ -188,7 +188,9 @@ const submitApplication = async () => {
           type: 'positive',
           message: 'Candidatura enviada com sucesso!',
         });
-      } else if (response.status === 409) {  // Supondo que o status 409 significa "candidatura já enviada"
+      } else if (response.status === 409) {
+
+        // Supondo que o status 409 significa "candidatura já enviada"
         applicationStatus.value = "Você já enviou um CV para esta vaga.";
         $q.notify({
           type: 'negative',

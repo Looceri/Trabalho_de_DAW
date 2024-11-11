@@ -11,7 +11,7 @@ class Location extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_locations', 'location_id', 'user_id');
+        return $this->hasToMany(User::class, 'user_locations', 'location_id', 'user_id');
     }
 
     public function district()

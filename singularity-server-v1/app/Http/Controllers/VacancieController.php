@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Vacancy;
 use App\Models\VacancyCategory;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 use App\Models\Benefit;
 use App\Models\Requirement;
 use App\Models\File;
@@ -40,7 +41,6 @@ class VacancieController extends Controller
         return response()->json($vaga);
     }
 
-
     //rotas web vagas
     public function showVacancie()
     {
@@ -56,7 +56,7 @@ class VacancieController extends Controller
         $applications = File::where('vacancy_id', $id)->get();
 
         return view('pages.vacancyDetails', compact('vacancy','applications'));
-        
+
     }
 
     public function update_vacancy($id)
@@ -67,7 +67,7 @@ class VacancieController extends Controller
         return view('pages.add-vacancies',compact('categories','vacancy'));
     }
 
-    public function openVacancie() 
+    public function openVacancie()
     {
          $categories = VacancyCategory::where('status', '=', true)->get();
          return view('pages.add-vacancies',compact('categories'));
@@ -97,10 +97,10 @@ class VacancieController extends Controller
                 'requirements' => 'nullable|array', // Requisitos são opcionais
                 'requirements.*' => 'string|max:255', // Cada requisito é uma string
             ]);
-          
 
-          
-    
+
+
+
             // Criar a vaga (vacancy)
             $vacancy = Vacancy::create([
                 'owner_id' => auth()->id(), // Definindo o owner (usuário logado)
@@ -111,10 +111,10 @@ class VacancieController extends Controller
                 'vacancies_count' => $request->vacancies_count,
                 'description' => $request->description,
             ]);
-    
+
             // Associar as categorias à vaga (many-to-many)
             $vacancy->categories()->attach($request->categories);
-    
+
             // Adicionar os benefícios à vaga (se fornecidos)
             if ($request->has('benefits')) {
                 foreach ($request->benefits as $benefit) {
@@ -124,7 +124,7 @@ class VacancieController extends Controller
                     ]);
                 }
             }
-    
+
             // Adicionar os requisitos à vaga (se fornecidos)
             if ($request->has('requirements')) {
                 foreach ($request->requirements as $requirement) {
@@ -134,12 +134,12 @@ class VacancieController extends Controller
                     ]);
                 }
             }
-    
+
             // Retornar uma resposta ou redirecionamento
             return redirect()->route('add-vacancy')->with('success', 'Vaga cadastrada com sucesso!');
     }
-         
-        
+
+
     public function edit_vacancy(Request $request, $id)
     {
             // Validação dos dados recebidos
@@ -157,10 +157,10 @@ class VacancieController extends Controller
                 'requirements' => 'nullable|array', // Requisitos são opcionais
                 'requirements.*' => 'string|max:255', // Cada requisito é uma string
             ]);
-        
+
             // Encontre a vaga existente
             $vacancy = Vacancy::findOrFail($id);
-        
+
             // Atualize os dados principais da vaga
             $vacancy->title = $validatedData['title'];
             $vacancy->submission_start_date = $validatedData['submission_start_date'];
@@ -168,13 +168,13 @@ class VacancieController extends Controller
             $vacancy->vacancies_count = $validatedData['vacancies_count'];
             $vacancy->salary = $validatedData['salary'] ?? null;
             $vacancy->description = $validatedData['description'];
-            
+
             // Salve as alterações principais da vaga
             $vacancy->save();
-        
+
             // Atualize as categorias selecionadas
             $vacancy->categories()->sync($validatedData['categories']);
-        
+
             // Atualize os requisitos
             if (isset($validatedData['requirements'])) {
                 $vacancy->requirements()->delete();  // Apagar os antigos requisitos
@@ -182,7 +182,7 @@ class VacancieController extends Controller
                     $vacancy->requirements()->create(['requirement' => $requirement]);
                 }
             }
-        
+
             // Atualize os benefícios
             if (isset($validatedData['benefits'])) {
                 $vacancy->benefits()->delete();  // Apagar os antigos benefícios
@@ -190,11 +190,11 @@ class VacancieController extends Controller
                     $vacancy->benefits()->create(['benefit' => $benefit]);
                 }
             }
-        
+
             // Redirecionar de volta com sucesso
             return redirect()->route('list-vacancy')->with('success', 'Vaga atualizada com sucesso!');
     }
-        
+
     // candidaturas
     public function show_applications($id)
     {
@@ -205,64 +205,63 @@ class VacancieController extends Controller
     public function show_file(){
         return view('pages.open-file');
     }
-    
-    
 
-   
-   
+
+
+
+
         //categoriasController
      public function openCategory()
      {
         return view('pages.add-category');
      }
 
-   
+
      public function showCategories()
-    
+
      {
         $categories = VacancyCategory::where('status', '=', true)->get();
         return view('pages.categories', compact('categories'));
     }
- 
+
     public function storeCategorie(Request $request)
     {
         // Validação dos dados da request
         $request->validate([
-            'name' => 'required|unique:vacancy_categories,name', 
+            'name' => 'required|unique:vacancy_categories,name',
             'description' => 'nullable|string'
         ]);
-   
+
         // Criação da categoria se a validação for bem-sucedida
         $category = VacancyCategory::create([
             'name' => $request->name,
             'description' => $request->description,
         ]);
-    
-        return redirect()->route('add-category')->with('success', 'Categoria criada com sucesso!');
 
+        return redirect()->route('add-category')->with('success', 'Categoria criada com sucesso!');
     }
 
     public function updateCategory(Request $request,$id)
     {
         $request->validate([
-            'name' => ['required','string',Rule::unique('vacancy_categories')->ignore($id),],
+            'name' => ['required', 'string', Rule::unique('vacancy_categories')->ignore($id),],
             'description' => 'nullable|string',
         ]);
-    
+
         // Buscar a categoria pelo ID
         $category = VacancyCategory::findOrFail($id);
-    
+
         // Atualizar os dados
         $category->update([
             'name' => $request->name,
             'description' => $request->description,
         ]);
-    
+
         // Redirecionar com uma mensagem de sucesso
         return redirect()->route('list-category')->with('success', 'Categoria atualizada com sucesso!');
     }
-    
-   
+
+
 
     public function deleteCategory($id)
     {
@@ -274,8 +273,23 @@ class VacancieController extends Controller
     public function editCategory($id)
     {
         $category = VacancyCategory::findOrFail($id);
-        return view('pages.add-category', compact('category')); 
+        return view('pages.add-category', compact('category'));
     }
-    
-  
+
+
+
+    public function getCountVanciesData($ownerId)
+    {
+        try {
+            $today = Carbon::today();
+            $expiredCount = Vacancy::where('owner_id', $ownerId)
+                ->where('submission_end_date', '<', $today)
+                ->count();
+
+            return response()->json(['count' => $expiredCount], 200);
+        } catch (\Exception $e) {
+            // Log the error for further debugging
+            return response()->json(['error' => 'Erro ao contar vagas expiradas'], 500);
+        }
+    }
 }

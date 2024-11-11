@@ -8,16 +8,25 @@
       <q-tabs
         v-model="tab"
         indicator-color="transparent"
-         active-color="primary"
-        class="bg-white text-secondary shadow-2  q-py-md"
+        active-color="primary"
+        class="bg-white text-secondary shadow-2 q-py-md"
       >
-        <q-route-tab name="home" icon="house" :to="{ name: 'indexHome' }" />
-        <q-route-tab name="recycle" icon="share" :to="{ name: 'recycle' }" />
-        <q-tab rounded  name="add"  @click="handleAddClick" >
+        <q-route-tab name="home" icon="house" :to="{ name: 'home' }" />
+
+        <!-- Ícone alterado para "business" e descrição adicionada -->
+        <q-route-tab
+          name="business"
+          icon="business"
+          :to="{ name: 'business' }"
+          title="Negócios"
+        />
+
+        <q-tab rounded name="add" @click="handleAddClick">
           <q-btn round icon="add" class="bg-primary text-white"></q-btn>
         </q-tab>
+
         <q-route-tab name="messages" icon="chat" :to="{ name: 'messages' }" />
-        <q-route-tab name="bookmarks" icon="bookmark" :to="{ name: 'bookmarks' }" />
+        <q-route-tab name="bookmarks" icon="bookmark" :to="{ name: 'map' }" />
       </q-tabs>
     </q-footer>
   </q-layout>

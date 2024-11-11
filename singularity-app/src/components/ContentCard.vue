@@ -18,11 +18,13 @@
 
       <q-separator color="gainsboro" inset />
 
-      <q-card-section class="row justify-end no-padding" >
-        <p v-if="showMore">{{ content.slice(0, 100) + '...' }}</p>
+      <q-card-section class="row justify-end" >
+        <p v-if="showMore && content.length > 125">{{ content.slice(0, 125)+ '...' }}</p>
         <p v-else>{{ content }}</p>
+      </q-card-section>
 
-        <q-btn v-if="content.length > 100" flat dense color="secondary" :label="showMore ? 'Ver Mais' : 'Ver Menos'"
+      <q-card-section class="row justify-end no-padding" >
+        <q-btn v-if="content.length > 125" flat dense color="secondary" :label="showMore ? 'Ver Mais' : 'Ver Menos'"
           @click="showMore = !showMore" />
       </q-card-section>
 
@@ -31,6 +33,7 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -45,12 +48,18 @@ const props = defineProps({
   icon: {
     type: String,
     default: 'label'
+  },
+  route:{
+    type: String,
+    default: 'profile'
   }
 });
 
 const showMore = ref(true);
+const router = useRouter();
 
 const editContent = () => {
+  router.push({ name: props.route });
   // Implementar lógica para edição
   console.log('Editar conteúdo');
 };

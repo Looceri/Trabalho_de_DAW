@@ -43,7 +43,7 @@
             {{ session('success') }}
         </div>
     @endif
-    
+
     <!-- Alerta de Erro de Validação -->
     @if($errors->any())
         <div class="alert alert-danger" id="close-alert">
@@ -59,7 +59,7 @@
     @endif
 
         <div class="row">
-           
+
 
             <div class=" col-lg-12">
                 <div class="d-grid gap-3 gap-lg-5">
@@ -81,7 +81,7 @@
                                   "targetAttr": "src",
                                   "allowTypes": [".png", ".jpeg", ".jpg"]
                                }'>
-                                  
+
                                 </div>
                                 <!-- End Custom File Cover -->
                             </div>
@@ -102,12 +102,12 @@
                               "allowTypes": [".png", ".jpeg", ".jpg"]
                            }'>
 
-                       
+
                         </label>
                     </div>
                     <!-- End Avatar -->
 
-                
+
 
                     <!-- End Card -->
 
@@ -121,7 +121,7 @@
                             @if (isset($vacancy))
                                 @method('PUT')  <!-- Para indicar que é uma atualização -->
                             @endif
-                            
+
                             <!-- Body -->
                             <div class="card-body" id="card-1">
                                 <!-- Form 1 -->
@@ -132,8 +132,8 @@
                                             title="Displayed on public forums, such as Front."></i></label>
                                     <div class="col-sm-9">
                                         <div class="input-group input-group-sm-vertical">
-                                            <input type="text" class="form-control" name="title" id="title" 
-                                                   placeholder="Digite o titulo do anuncio" 
+                                            <input type="text" class="form-control" name="title" id="title"
+                                                   placeholder="Digite o titulo do anuncio"
                                                    value="{{ old('title', $vacancy->title ?? '') }}">
                                         </div>
                                     </div>
@@ -145,7 +145,7 @@
                                         <select id="categories" name="categories[]" multiple class="form-control">
                                             @if($categories->count() > 0 )
                                             @foreach($categories as $category)
-                                                <option value="{{$category->id}}" 
+                                                <option value="{{$category->id}}"
                                                     @if(isset($vacancy) && $vacancy->categories->contains($category->id)) selected @endif>
                                                     {{ $category->name }}
                                                 </option>
@@ -158,7 +158,7 @@
                                 <div class="row mb-4">
                                     <label for="submission_start_date" class="col-sm-3 col-form-label form-label">Data de início de submissão</label>
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" name="submission_start_date" 
+                                        <input type="date" class="form-control" name="submission_start_date"
                                                value="{{ old('submission_start_date', $vacancy->submission_start_date ?? '') }}">
                                     </div>
                                 </div>
@@ -166,7 +166,7 @@
                                 <div class="row mb-4">
                                     <label for="submission_end_date" class="col-sm-3 col-form-label form-label">Data fim de submissão</label>
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" name="submission_end_date" 
+                                        <input type="date" class="form-control" name="submission_end_date"
                                                value="{{ old('submission_end_date', $vacancy->submission_end_date ?? '') }}">
                                     </div>
                                 </div>
@@ -174,16 +174,16 @@
                                 <div class="row mb-4">
                                     <label for="vacancy_quantity" class="col-sm-3 col-form-label form-label">Quantidade de vagas</label>
                                     <div class="col-sm-9">
-                                        <input type="number" class="form-control" name="vacancies_count" 
-                                               placeholder="Digite a quantidade total de vagas existentes" 
+                                        <input type="number" class="form-control" name="vacancies_count"
+                                               placeholder="Digite a quantidade total de vagas existentes"
                                                value="{{ old('vacancies_count', $vacancy->vacancies_count ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <label for="salary" class="col-sm-3 col-form-label form-label">Salário</label>
                                     <div class="col-sm-9">
-                                        <input type="number" class="form-control" name="salary" 
-                                               placeholder="Digite o salario" 
+                                        <input type="number" class="form-control" name="salary"
+                                               placeholder="Digite o salario"
                                                value="{{ old('salary', $vacancy->salary ?? '') }}">
                                     </div>
                                 </div>
@@ -195,7 +195,7 @@
                                                   placeholder="Descreva o objetivo da vaga e os profissionais que busca">{{ old('description', $vacancy->description ?? '') }}</textarea>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Navigation Buttons -->
                                 <div class="d-flex justify-content-end">
                                     <button type="button" class="btn btn-primary" onclick="showNextCard(2)">Próximo</button>
@@ -221,7 +221,7 @@
                                     <button type="button" class="btn btn-primary" onclick="showNextCard(3)">Próximo</button>
                                 </div>
                             </div>
-                            
+
                             <div class="card-body" id="card-3" style="display: none;">
                                 <div class="row mb-4">
                                     <label for="campo_dinamico_3" class="col-sm-3 col-form-label form-label">Benefícios</label>
@@ -242,16 +242,16 @@
                                     <button type="submit" class="btn btn-primary">Finalizar</button>
                                 </div>
                             </div>
-                            
-                            
-                            
+
+
+
                         </form>
-                        
+
                         <!-- End Body -->
                     </div>
                     <!-- End Card -->
 
-                    
+
     <div class="footer">
         <div class="row justify-content-between align-items-center">
             <div class="col">
@@ -313,7 +313,7 @@ function addField(cardNumber) {
     newField.className = 'form-control mb-2';
     newField.name = inputName;  // Set the correct name for the field
     newField.placeholder = 'Digite algo';
-    
+
     // Append the new field to the corresponding dynamic fields container
     dynamicFields.appendChild(newField);
 }
