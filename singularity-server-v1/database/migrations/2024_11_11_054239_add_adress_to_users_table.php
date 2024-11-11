@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('address')->nullable()->comment('Endere o do usu rio');
+            $table->string('adress')->nullable()->comment('Endere o do usu rio');
             $table->enum('province', [
                 'Cabo Delgado',
                 'Gaza',
@@ -36,7 +36,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('address');
+            $table->dropColumn('adress');
             $table->dropColumn('province');
             $table->text('bio')->nullable()->after('password');
         });

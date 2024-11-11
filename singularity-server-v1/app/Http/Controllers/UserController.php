@@ -229,6 +229,7 @@ class UserController extends Controller
         }
     }
 
+
     public function updateUser(Request $request)
     {
         // Valida os dados recebidos
@@ -243,7 +244,7 @@ class UserController extends Controller
             'description' => 'nullable|string|max:1000',
             'remember_token' => 'nullable|string|max:100',
             'birth_date' => 'nullable|date',
-            'address' => 'nullable|string|max:191',
+            'adress' => 'nullable|string|max:191',
             'province' => 'nullable|string|max:191',
             'sexo' => 'nullable|string|max:191',
         ], [
@@ -255,7 +256,7 @@ class UserController extends Controller
             'description.max' => 'O campo descri o deve ter no máximo :max caracteres',
             'remember_token.max' => 'O campo token de lembran a deve ter no máximo :max caracteres',
             'birth_date.date' => 'O campo data de nascimento deve ser uma data válida',
-            'address.max' => 'O campo endere o deve ter no máximo :max caracteres',
+            'adress.max' => 'O campo endere o deve ter no máximo :max caracteres',
             'province.max' => 'O campo província deve ter no máximo :max caracteres',
             'sexo.max' => 'O campo sexo deve ter no máximo :max caracteres',
         ]);
@@ -271,7 +272,7 @@ class UserController extends Controller
             }
 
             // Atualiza o usuário
-            foreach (['name', 'email', 'email_verified_at', 'password', 'role', 'status', 'description', 'remember_token', 'birth_date', 'address', 'province', 'sexo'] as $field) {
+            foreach (['name', 'email', 'email_verified_at', 'password', 'role', 'status', 'description', 'remember_token', 'birth_date', 'adress', 'province', 'sexo'] as $field) {
                 if ($request->has($field) && $request->filled($field) &&  $request->$field !== $user->$field ) {
                     $user->$field = $field === 'password' ? Hash::make($request->$field) : $request->$field;
                 }
