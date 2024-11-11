@@ -290,15 +290,16 @@
                                             <th>Accoes</th>
                                         </tr>
                                     </thead>
+                                    
                             
                                     <tbody class="text-center align-middle">
-                                        @if($applications->count() > 0)
-                                        @foreach($applications as $application)
+                                        @if($vacancy->applications->count() > 0)
+                                        @foreach($vacancy->applications as $application)
                                             <tr>
                                                 <td class="table-column-pe-0">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="usersDataCheck{{$application->id}}">
-                                                        <label class="form-check-label" for="usersDataCheck{{$application->id}}"></label>
+                                                        <input class="form-check-input" type="checkbox" id="usersDataCheck{{$vacancy->id}}">
+                                                        <label class="form-check-label" for="usersDataCheck{{$vacancy->id}}"></label>
                                                     </div>
                                                 </td>
                                                 <td>{{$application->id}}</td>
@@ -309,19 +310,41 @@
                                                         </div>
                                                     </a>
                                                 </td>
-                                                <td>{{$application->file_path}}</td>
-                                                <td>{{$application->status}}</td>
+                                               
                                                 <td>
+                                                        <div class="card-body">
+                                                            <a href="{{ $application->file->url }}" target="_blank"> <h5 class="card-title">{{ $application->file->name }}</h5>
+                                                            </a>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                    @if($application->approved)
+                                                        <span class="badge bg-primary">Aprovado</span>
+                                                    @else
+                                                        <span class="badge bg-danger">Não Aprovado</span>
+                                                    @endif
+                                                </td>
+                                                                                                <td>
                                                     <div class="d-flex justify-content-center gap-2">
-                                                        <a href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}" class="btn btn-primary btn-sm" title="Ver">
-                                                            <i class="bi-eye-fill"></i>
-                                                        </a>
-                                                        <form action="{{ route('desactive-vacancy', $vacancy->id) }}" method="POST" style="display: inline;">
+                                                             <a href="{{ route('desactive-application', $application->id) }}" class="btn btn-primary btn-sm">
+                                                                <i class="bi-eye-fill"></i>
+
+                                                             </a>
+                                                        <form action="{{ route('desactive-application', $application->id) }}" method="POST" style="display: inline;">
                                                             @csrf
-                                                            @method('POST') <!-- Aqui estamos forçando o método POST -->
-                                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                                <i class="bi-trash-fill me-1"></i> 
-                                                            </button>
+                                                            @method('POST') 
+                                                        
+                                                                @if($application->approved)
+                                                                <button type="submit" class=" btn btn--primary">
+                                                                    Desprovar
+                                                                </button>  
+                                                                @else
+                                                                <button type="submit" class=" btn btn-danger">
+                                                                    Aprovar
+
+                                                                </button> 
+                                                               @endif
+                                                            
                                                         </form>
                                                         
                                                       

@@ -28,4 +28,8 @@ class Application extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function file()
+    {
+        return $this->belongsTo(File::class);
+    }
 }

@@ -41,4 +41,8 @@ class Vacancy extends Model
     {
         return $this->belongsToMany(VacancyCategory::class, 'vacancy_category_assignments', 'vacancy_id', 'vacancy_category_id');
     }
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
 }

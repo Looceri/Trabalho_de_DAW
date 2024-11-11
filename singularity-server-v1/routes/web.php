@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/update-vacancy/{id}', [VacancieController::class, 'update_vacancy'])->name('update-vacancy');
     Route::put('/edit-vacancy/{id}', [VacancieController::class, 'edit_vacancy'])->name('edit-vacancy');
     Route::post('/desactive-vacancy/{id}', [VacancieController::class, 'desactive_vacancy'])->name('desactive-vacancy');
+    Route::post('/desactive-application/{id}', [VacancieController::class, 'desactive_application'])->name('desactive-application');
 
    //candidaturas
    Route::get('/aplications/{id}', [VacancieController::class, 'show_applications'])->name('aplications');

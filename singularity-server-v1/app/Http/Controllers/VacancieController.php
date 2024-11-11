@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\Benefit;
 use App\Models\Requirement;
 use App\Models\File;
+use App\Models\Application;
 
 
 
@@ -52,10 +53,10 @@ class VacancieController extends Controller
 
     public function Vacancydetails($id)
     {
-        $vacancy = Vacancy::with('owner', 'categories','requirements','benefits')->findOrFail($id);
-        $applications = File::where('vacancy_id', $id)->get();
+        $vacancy = Vacancy::with('owner', 'categories','requirements','benefits','applications')->findOrFail($id);
+      
 
-        return view('pages.vacancyDetails', compact('vacancy','applications'));
+        return view('pages.vacancyDetails', compact('vacancy'));
 
     }
 
@@ -78,6 +79,18 @@ class VacancieController extends Controller
         $vacancy = Vacancy::findOrFail($id);
         $vacancy->update(['status' => false]);
         return redirect()->route('list-vacancy')->with('success', 'Vaga Apagada com sucesso!');
+    }
+    public function desactive_application($id)
+    {
+        $Application = Application::findOrFail($id);
+        if($Application->approved){
+            $Application->update(['approved' => true]);
+
+        }else{
+            $Application->update(['approved' => false]);
+
+        }
+        return redirect()->route('list-vacancy')->with('success', 'sucesso!');
     }
 
      public function store(Request $request)
