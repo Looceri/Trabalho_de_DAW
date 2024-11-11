@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancieController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,15 @@ Route::middleware('auth')->group(function () {
    //candidaturas
    Route::get('/aplications/{id}', [VacancieController::class, 'show_applications'])->name('aplications');
    Route::get('/file', [VacancieController::class, 'show_file'])->name('file');
+
+   
+   //pots
+   Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+   Route::get('/posts/create', [PostController::class, 'create'])->name('add-post');
+   Route::post('/posts', [PostController::class, 'store'])->name('store-post');
+   Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('edit-post');
+   Route::post('/posts/{post}', [PostController::class, 'update'])->name('update-post');
+   Route::post('/posts/{post}/deactivate', [PostController::class, 'deactivate'])->name('deactivate-post');
 
 
 });
