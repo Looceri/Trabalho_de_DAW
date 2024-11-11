@@ -96,7 +96,7 @@ const login = async () => {
         id: response.data.user.id,
         name: response.data.user.name,
         email: response.data.user.email,
-        bio: response.data.user.bio,
+        password: response.data.user.password,
         email_verified_at: response.data.user.email_verified_at,
         birth_date: response.data.user.birth_date,
         role: response.data.user.role,
@@ -104,7 +104,10 @@ const login = async () => {
         avatar_id: response.data.user.avatar_id,
         description: response.data.user.description,
         created_at: response.data.user.created_at,
-        updated_at: response.data.user.updated_at
+        updated_at: response.data.user.updated_at,
+        address: response.data.user.address,
+        province : response.data.user.province,
+        sexo: response.data.user.sexo
       }));
 
       userStore.setUser(response.data.user);

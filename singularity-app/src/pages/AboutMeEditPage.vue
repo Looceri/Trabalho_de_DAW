@@ -46,16 +46,16 @@ onMounted(() => {
 
 const sobreMim = ref('');
 
-if (user?.bio) {
-  sobreMim.value = user.bio;
-  console.log(user.bio);
+if (user?.description) {
+  sobreMim.value = user.description;
+  console.log(user.description);
 }
 
 const showDialog = ref(false);
 
 const salvar = () => {
-  user['bio'] = sobreMim.value;
-  console.log('Dados salvos:', user.bio);
+  user['description'] = sobreMim.value;
+  console.log('Dados salvos:', user.description);
   showDialog.value = false;
   axios.post('http://localhost:8000/api/user/update', user)
     .then((response) => {
