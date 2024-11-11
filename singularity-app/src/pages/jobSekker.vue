@@ -7,7 +7,11 @@
         <div class="text-subtitle2">{{ nomeUsuario }}</div>
       </div>
       <q-avatar size="50px">
-        <img src="../assets/Mask group.svg" alt="Foto do usuário" />
+
+        <q-btn flat dense round :to="{ name: 'profile' }">
+          <img src="../assets/Mask group.svg" alt="Foto do usuário" />
+        </q-btn>
+
       </q-avatar>
     </div>
 
@@ -192,3 +196,4 @@ export default {
   border-radius: 8px;
 }
 </style>
+

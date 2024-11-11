@@ -1,3 +1,4 @@
+/*************  ✨ Codeium Command 🌟  *************/
 <template>
 
   <q-card style="background-image: url('assets/profile_background.jpg');
@@ -9,9 +10,11 @@
       <div class="row  full-width justify-between">
         <div class="column">
           <q-avatar style="height: 100px; width: 100px;">
-            <img :src="user.data.avatar || 'https:picsum.photos/100'" alt="Avatar" style="object-fit: cover;" />
+            <img :src="avatar || 'https:picsum.photos/100'" alt="Avatar" style="object-fit: cover;" />
+            <img :src="user.data?.avatar || 'https:picsum.photos/100'" alt="Avatar" style="object-fit: cover;" />
           </q-avatar>
-          <div class="text-h6 q-mt-md text-primary">{{ user.data.name }}</div>
+          <div class="text-h6 q-mt-md text-primary">{{ name || '' }}</div>
+          <div class="text-h6 q-mt-md text-primary">{{ user.data?.name || '' }}</div>
           <div class="text-subtitle2 text-white">Maputo, Moçambique</div>
         </div>
         <div class="column">
@@ -34,7 +37,8 @@
       <div class="row">
         <div class="column">
           <q-avatar style="height: 100px; width: 100px;">
-            <img :src="user.avatar || 'https:picsum.photos/100'" alt="Avatar" />
+            <img :src="avatar || 'https:picsum.photos/100'" alt="Avatar" />
+            <img :src="user.data?.avatar || 'https:picsum.photos/100'" alt="Avatar" />
           </q-avatar>
           <div class="text-h6 q-mt-md text-primary">Orlando Diggs</div>
           <div class="text-subtitle2 text-white">Maputo, Moçambique</div>
@@ -51,11 +55,13 @@
 
   <q-card-section>
     <div class="text-h6">Nome Completo</div>
+    <q-input v-model="name" dense outlined />
     <q-input v-model="user.data.name" dense outlined />
   </q-card-section>
 
   <q-card-section>
     <div class="text-h6">Data de nascimento</div>
+    <q-input dense outlined :rules="[val => !!val || 'Data de nascimento inválida']" v-model="birth_date">
     <q-input dense outlined :rules="[val => !!val || 'Data de nascimento inválida']" v-model="user.data.birth_date">
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
@@ -70,6 +76,7 @@
   <q-card-section>
     <div class="text-h6">Sexo</div>
     <div class="row q-col-gutter-x-md ">
+      <q-option-group class=" justify-around justify-content-end" v-model="sexo" :options="[
       <q-option-group class=" justify-around justify-content-end" v-model="user.data.sexo" :options="[
         { label: 'Masculino', value: 'masculino' },
         { label: 'Feminino', value: 'feminino' }
@@ -80,22 +87,26 @@
 
   <q-card-section>
     <div class="text-h6">Email</div>
+    <q-input v-model="email" dense outlined type="email" />
     <q-input v-model="user.data.email" dense outlined type="email" />
   </q-card-section>
 
 
   <q-card-section>
     <div class="text-h6">Telemovel</div>
+    <q-input v-model="phone" dense outlined mask="+258 8# ## ## ###"/>
     <q-input v-model="user.data.phone" dense outlined mask="+258 8# ## ## ###"/>
   </q-card-section>
 
   <q-card-section>
     <div class="text-h6">Endereço</div>
+    <q-input v-model="a" dense outlined />
     <q-input v-model="user.data.a" dense outlined />
   </q-card-section>
 
   <q-card-section>
     <div class="text-h6">Província</div>
+    <q-select v-model="province" :options="provinces" emit-value map-options dense outlined />
     <q-select v-model="user.data.province" :options="provinces" emit-value map-options dense outlined />
   </q-card-section>
 
@@ -117,7 +128,16 @@ import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
 const userStore = useUserStore();
-const user = reactive(userStore.user || JSON.parse(localStorage.getItem('user')));
+const user = reactive(JSON.parse(localStorage.getItem('user')) || userStore.user);
+
+const avatar = ref(user.data?.avatar || '');
+const name = ref(user.data?.name || '');
+const birth_date = ref(user.data?.birth_date || '');
+const sexo = ref(user.data?.sexo || '');
+const email = ref(user.data?.email || '');
+const phone = ref(user.data?.phone || '');
+const a = ref(user.data?.a || '');
+const province = ref(user.data?.province || '');
 const birthDate = ref(user.data.birth_date ? new Date(user.data.birth_date) : null); // Use a Date object
 
 const provinces = ref([
@@ -134,8 +154,8 @@ const provinces = ref([
   'Zambézia'
 ]);
 
-if (!user.data.phone) {
-  user.data.phone = ''
+if (user.data.phone) {
+  user.data.phone = '';
 }
 
 const selectImage = () => {
@@ -146,6 +166,7 @@ const selectImage = () => {
     const file = input.files[0];
     const reader = new FileReader();
     reader.onload = () => {
+      avatar.value = reader.result;
       user.data.avatar = reader.result;
     };
     reader.readAsDataURL(file);
@@ -154,9 +175,11 @@ const selectImage = () => {
 };
 
 const salvar = () => {
+  console.log('Dados salvos:', JSON.stringify(user, null, 2));
   console.log('Dados salvos:', JSON.stringify(user.data, null, 2));
 
   axios.post('http://localhost:8000/api/user/update', user)
+  axios.post('http://localhost:8000/api/user/update', user.data)
     .then((response) => {
       console.log(response);
       localStorage.setItem('user', JSON.stringify(response.data));
@@ -198,6 +221,7 @@ const updateBirthDate = (val) => {
 
     if (!date || isNaN(date.getTime())) {
       console.error("Invalid date or format:", val);
+      birth_date.value = null;
       user.data.birth_date = null;
       return;
     }
@@ -237,3 +261,5 @@ const formattedBirthDate = computed(() => {
 }
 </style>
 
+
+/******  30d4d0fd-47e6-46f3-a06e-39f11620f9d6  *******/
