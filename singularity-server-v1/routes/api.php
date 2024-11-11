@@ -43,6 +43,9 @@ Route::get('/vagas/{id}', [VacancieController::class, 'findById']);
 Route::get('/benefits/{id}', [BenefitController::class, 'findById']);
 Route::get('/benefits_category/{id}', [vacancieController::class, 'show']);
 Route::get('/vacancies/{id}', [VacancieController::class, 'show']);
+Route::get('/benefits_category_all/{id}', [vacancieController::class, 'showVacanciesByOwner']);
+Route::get('/count/{id}', [vacancieController::class, 'countVacanciesByOwner']);
+
 
 Route::post('/candidate', [V1CandidateController::class, 'apply']);
 Route::post('/candidate', [FileController::class, 'apply']);
@@ -55,4 +58,6 @@ Route::get('/province/{name}', [ProvinceController::class, 'getProvinceData']);
 
 Route::get('/getAllOwner', [UserController::class, 'index']);
 
-Route::get('/CountVacancies/{id}',[VacancieController::class, 'getCountVanciesData']);
+Route::get('/CountVacancies/{id}', [VacancieController::class, 'getCountVanciesData']);
+
+Route::get('/user/{userId}/location', [UserLocationController::class, 'getUserLocationn']);

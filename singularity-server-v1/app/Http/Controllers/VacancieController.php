@@ -42,6 +42,30 @@ class VacancieController extends Controller
         return view('pages.add-vacancies');
     }
 
+    public function showVacanciesByOwner($ownerId)
+{
+    // Buscar todas as vagas de um proprietário específico, com as categorias associadas
+    $vagas = Vacancy::with('categories') // Eager loading para categorias associadas
+                    ->where('owner_id', $ownerId) // Filtra pelo ID do proprietário
+                    ->get(); // Recupera todas as vagas desse proprietário
+
+    // Retornar as vagas como resposta JSON
+    return response()->json($vagas);
+}
+
+public function countVacanciesByOwner($ownerId)
+{
+    // Contar o número de vagas associadas ao proprietário com submission_end_date menor que a data atual
+    $vacanciesCount = Vacancy::where('owner_id', $ownerId) // Filtra as vagas pelo ID do proprietário
+                             ->where('submission_end_date', '<', now()) // Verifica se a submission_end_date é anterior à data atual
+                             ->count(); // Conta o número de vagas
+
+    // Retornar a contagem como resposta JSON
+    return response()->json(['vacancies_count' => $vacanciesCount]);
+}
+
+
+
 
 
     //categoriasController
