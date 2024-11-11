@@ -1,6 +1,6 @@
 @extends('layout.base')
 
-@section('title', '|Adicionar Categoria')
+@section('title', '|publicar ')
 
 @section('content')
 
@@ -77,7 +77,7 @@
                         <!-- Profile Cover -->
                         <div class="profile-cover">
                             <div class="profile-cover-img-wrapper">
-                                <img id="profileCoverImg" class="profile-cover-img" src="{{ asset('template/admin/assets/img/1920x400/img2.jpg') }}"
+                                <img id="profileCoverImg" class="profile-cover-img" src="{{ asset('assets/img/1920x400/img2.jpg') }}"
                                     alt="Image Description">
 
                                 <!-- Custom File Cover -->
@@ -100,7 +100,7 @@
                         <!-- Avatar -->
                         <label class="avatar avatar-xxl avatar-circle avatar-uploader profile-cover-avatar"
                             for="editAvatarUploaderModal">
-                            <img id="editAvatarImgModal" class="avatar-img" src="{{ asset('template/admin/assets/img/160x160/img6.jpg') }}"
+                            <img id="editAvatarImgModal" class="avatar-img" src="{{ asset('assets/img/160x160/img6.jpg') }}"
                                 alt="Image Description">
 
                             <input type="file" class="js-file-attach avatar-uploader-input" id="editAvatarUploaderModal"

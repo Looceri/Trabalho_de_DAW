@@ -8,79 +8,83 @@
             navbar-bordered
             bg-white  ">
 
-    <div class="navbar-vertical-container">
-        <div class="navbar-vertical-footer-offset">
-            <!-- Logo -->
-
-            <a class="navbar-brand" href="{{ route('dashboard') }}" aria-label="Front">
-                <img class="navbar-brand-logo" src="{{ asset('assets/logo-name.png') }}" alt="Logo"
-                    data-hs-theme-appearance="default">
-                <img class="navbar-brand-logo" src="{{ asset('assets/logo-name-white.png') }}" alt="Logo"
-                    data-hs-theme-appearance="dark">
-                <img class="navbar-brand-logo-mini" style="height: 43x; width: 43px;" src="{{ asset('assets/logo.png') }}"
-                    alt="Logo" data-hs-theme-appearance="default">
-                <img class="navbar-brand-logo-mini" style="height: 43x; width: 43px;" src="{{ asset('assets/logo-dark.png') }}"
-                    alt="Logo" data-hs-theme-appearance="dark">
-            </a>
-
-            <!-- End Logo -->
-
-            <!-- Navbar Vertical Toggle -->
-            <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
-                <i class="bi-arrow-bar-left navbar-toggler-short-align"
-                    data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
-                    data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
-                <i class="bi-arrow-bar-right navbar-toggler-full-align"
-                    data-bs-template='<div class="tooltip d-none d-md-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
-                    data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
-            </button>
-
-            <!-- End Navbar Vertical Toggle -->
-
-            <!-- Content -->
-            <div class="navbar-vertical-content">
-                <div id="navbarVerticalMenu" class="nav nav-pills nav-vertical card-navbar-nav">
-                    <!-- Collapse -->
-                    <div class="nav-item">
-                        <a class="nav-link" href="{{route('dashboard')}}" role="button" aria-expanded="true" aria-controls="navbarVerticalMenuDashboards">
-                            <i class="bi-house-door nav-icon"></i>
-                            <span class="nav-link-title">Dashboard</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a class="nav-link" href="{{route('users')}}" role="button" aria-expanded="true" aria-controls="navbarVerticalMenuDashboards">
-                            <i class="bi-house-door nav-icon"></i>
-                            <span class="nav-link-title">Usuarios</span>
-                        </a>
-                    </div>
-                    
-                    <!-- Gerir Categorias -->
-                    <div class="nav-item">
-                        <a class="nav-link" href="#navbarVerticalMenuPagesProviderCategories" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProviderCategories" aria-controls="navbarVerticalMenuPagesProviderCategories">
-                            <i class="bi-building nav-icon"></i>
-                            <span class="nav-link-title">Gerir Categorias</span>
-                        </a>
+            <div class="navbar-vertical-container">
+                <div class="navbar-vertical-footer-offset">
+                    <!-- Logo -->
+                    <a class="navbar-brand" href="{{ route('dashboard') }}" aria-label="Front">
+                        <img class="navbar-brand-logo" src="{{ asset('assets/logo-name.png') }}" alt="Logo" data-hs-theme-appearance="default">
+                        <img class="navbar-brand-logo" src="{{ asset('assets/logo-name-white.png') }}" alt="Logo" data-hs-theme-appearance="dark">
+                        <img class="navbar-brand-logo-mini" style="height: 43px; width: 43px;" src="{{ asset('assets/logo.png') }}" alt="Logo" data-hs-theme-appearance="default">
+                        <img class="navbar-brand-logo-mini" style="height: 43px; width: 43px;" src="{{ asset('assets/logo-dark.png') }}" alt="Logo" data-hs-theme-appearance="dark">
+                    </a>
+                    <!-- End Logo -->
             
-                        <div id="navbarVerticalMenuPagesProviderCategories" class="nav-collapse collapse" data-bs-parent="#navbarVerticalMenu">
-                            <a class="nav-link" href="{{route('add-category')}}">Adicionar categoria</a>
-                            <a class="nav-link" href="{{route('list-category')}}">Lista de Categorias</a>
+                    <!-- Navbar Vertical Toggle -->
+                    <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
+                        <i class="bi-arrow-bar-left navbar-toggler-short-align" data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
+                        <i class="bi-arrow-bar-right navbar-toggler-full-align" data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
+                    </button>
+                    <!-- End Navbar Vertical Toggle -->
+            
+                    <!-- Content -->
+                    <div class="navbar-vertical-content">
+                        <div id="navbarVerticalMenu" class="nav nav-pills nav-vertical card-navbar-nav">
+            
+                            <!-- Dashboard Link -->
+                            <div class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                                    <i class="bi-house-door nav-icon"></i>
+                                    <span class="nav-link-title">Dashboard</span>
+                                </a>
+                            </div>
+            
+                            <!-- Users Link -->
+                            <div class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('users') ? 'active' : '' }}" href="{{ route('users') }}">
+                                    <i class="bi-people nav-icon"></i>
+                                    <span class="nav-link-title">Usuários</span>
+                                </a>
+                            </div>
+            
+                            <!-- Manage Categories -->
+                            <div class="nav-item">
+                                <a class="nav-link {{ request()->is('categories*') ? 'active' : '' }}" href="#navbarVerticalMenuPagesProviderCategories" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProviderCategories" aria-controls="navbarVerticalMenuPagesProviderCategories">
+                                    <i class="bi-tags nav-icon"></i>
+                                    <span class="nav-link-title">Gerir Categorias</span>
+                                </a>
+                                <div id="navbarVerticalMenuPagesProviderCategories" class="nav-collapse collapse {{ request()->is('categories*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalMenu">
+                                    <a class="nav-link {{ request()->routeIs('add-category') ? 'active' : '' }}" href="{{ route('add-category') }}">Adicionar categoria</a>
+                                    <a class="nav-link {{ request()->routeIs('list-category') ? 'active' : '' }}" href="{{ route('list-category') }}">Lista de Categorias</a>
+                                </div>
+                            </div>
+            
+                            <!-- Manage Vacancies -->
+                            <div class="nav-item">
+                                <a class="nav-link {{ request()->is('vacancies*') ? 'active' : '' }}" href="#navbarVerticalMenuPagesProviderVacancies" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProviderVacancies" aria-controls="navbarVerticalMenuPagesProviderVacancies">
+                                    <i class="bi-briefcase nav-icon"></i>
+                                    <span class="nav-link-title">Gerir Vagas</span>
+                                </a>
+                                <div id="navbarVerticalMenuPagesProviderVacancies" class="nav-collapse collapse {{ request()->is('vacancies*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalMenu">
+                                    <a class="nav-link {{ request()->routeIs('add-vacancy') ? 'active' : '' }}" href="{{ route('add-vacancy') }}">Adicionar Vagas</a>
+                                    <a class="nav-link {{ request()->routeIs('list-vacancy') ? 'active' : '' }}" href="{{ route('list-vacancy') }}">Lista de Vagas</a>
+                                </div>
+                            </div>
+            
+                            <!-- Manage Posts -->
+                            <div class="nav-item">
+                                <a class="nav-link {{ request()->is('posts*') ? 'active' : '' }}" href="#navbarVerticalMenuPagesProviderPosts" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProviderPosts" aria-controls="navbarVerticalMenuPagesProviderPosts">
+                                    <i class="bi-pencil-square nav-icon"></i>
+                                    <span class="nav-link-title">Gerir Posts</span>
+                                </a>
+                                <div id="navbarVerticalMenuPagesProviderPosts" class="nav-collapse collapse {{ request()->is('posts*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalMenu">
+                                    <a class="nav-link {{ request()->routeIs('add-post') ? 'active' : '' }}" href="{{ route('add-post') }}">Adicionar Post</a>
+                                    <a class="nav-link {{ request()->routeIs('posts.index') ? 'active' : '' }}" href="{{ route('posts.index') }}">Lista de Posts</a>
+                                </div>
+                            </div>
+            
                         </div>
                     </div>
-            
-                    <!-- Gerir Vagas -->
-                    <div class="nav-item">
-                        <a class="nav-link" href="#navbarVerticalMenuPagesProviderVacancies" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProviderVacancies" aria-controls="navbarVerticalMenuPagesProviderVacancies">
-                            <i class="bi-building nav-icon"></i>
-                            <span class="nav-link-title">Gerir Vagas</span>
-                        </a>
-            
-                        <div id="navbarVerticalMenuPagesProviderVacancies" class="nav-collapse collapse" data-bs-parent="#navbarVerticalMenu">
-                            <a class="nav-link" href="{{route('add-vacancy')}}">Adicionar vagas</a>
-                            <a class="nav-link" href="{{route('list-vacancy')}}">Lista de vagas</a>
-                        </div>
-                    </div>
-                    
                 </div>
-        </div>
-    </div>
+            </div>
+            
 </aside>
