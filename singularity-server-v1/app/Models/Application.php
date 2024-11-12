@@ -15,7 +15,8 @@ class Application extends Model
         'reason',
         'file_id',
         'file_path',
-        'application_date'
+        'application_date',
+        'approved'
     ];
 
     // Relacionamentos
@@ -27,5 +28,9 @@ class Application extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function file()
+    {
+        return $this->belongsTo(File::class);
     }
 }

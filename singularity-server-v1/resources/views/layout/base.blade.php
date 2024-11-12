@@ -10,7 +10,7 @@
     <title>Singularity + @yield('title')</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/favicon.ico') }}">
 
     <!-- CSS Implementing Plugins -->
     <link rel="stylesheet" href="{{ asset('assets/css/vendor.min.css') }}">

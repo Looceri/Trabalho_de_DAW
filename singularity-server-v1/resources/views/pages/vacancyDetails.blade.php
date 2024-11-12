@@ -36,7 +36,28 @@
     <!-- Content -->
     <div class="content container-fluid">
   
-
+        @if(session('success'))
+        <div class="alert alert-success" id="success-alert">
+            <button type="button" class="close" id="close-alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+            </button>
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    <!-- Alerta de Erro de Validação -->
+    @if($errors->any())
+        <div class="alert alert-danger" id="close-alert">
+            <button type="button" class="close" id="close-alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+            </button>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    {{ $error }}
+                @endforeach
+            </ul>
+        </div>
+    @endif
         <div class="row">
             <div>
                 <!-- Navbar -->
@@ -118,12 +139,12 @@
                        <div id="" class="">
                         <ul id="navbarSettings">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#content">
+                                <a class="nav-link active" href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}?showEmail=false">
                                     <i class="bi-person nav-icon"></i> Descricao da Vaga
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#emailSection">
+                                <a class="nav-link" href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}?showEmail=true">
                                     <i class="bi-at nav-icon"></i> Candidaturas
                                 </a>
                             </li>
@@ -290,38 +311,61 @@
                                             <th>Accoes</th>
                                         </tr>
                                     </thead>
+                                    
                             
                                     <tbody class="text-center align-middle">
-                                        @if($applications->count() > 0)
-                                        @foreach($applications as $application)
+                                        @if($vacancy->applications->count() > 0)
+                                        @foreach($vacancy->applications as $application)
                                             <tr>
                                                 <td class="table-column-pe-0">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="usersDataCheck{{$application->id}}">
-                                                        <label class="form-check-label" for="usersDataCheck{{$application->id}}"></label>
+                                                        <input class="form-check-input" type="checkbox" id="usersDataCheck{{$vacancy->id}}">
+                                                        <label class="form-check-label" for="usersDataCheck{{$vacancy->id}}"></label>
                                                     </div>
                                                 </td>
                                                 <td>{{$application->id}}</td>
                                                 <td class="table-column-ps-0">
-                                                    <a class="d-flex align-items-center justify-content-center">
+                                                    <a class="d-flex align-items-center justify-content-center" >
                                                         <div class="flex-grow-1 ms-2">
                                                             <h6 class="text-inherit mb-0">{{$application->user->name}}</h6>
                                                         </div>
                                                     </a>
                                                 </td>
-                                                <td>{{$application->file_path}}</td>
-                                                <td>{{$application->status}}</td>
+                                               
                                                 <td>
+                                                        <div class="card-body">
+                                                            <a href="{{ route('file', $application->file->id) }}" > <h5 class="card-title">{{ $application->file->name }}</h5>
+                                                            </a>
+                                                        </div>
+                                                </td>
+                                                <td>
+                                                    @if($application->approved)
+                                                        <span class="badge bg-primary">Aprovado</span>
+                                                    @else
+                                                        <span class="badge bg-danger">Não Aprovado</span>
+                                                    @endif
+                                                </td>
+                                                                                                <td>
                                                     <div class="d-flex justify-content-center gap-2">
-                                                        <a href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}" class="btn btn-primary btn-sm" title="Ver">
-                                                            <i class="bi-eye-fill"></i>
-                                                        </a>
-                                                        <form action="{{ route('desactive-vacancy', $vacancy->id) }}" method="POST" style="display: inline;">
+                                                             <a href="{{ route('file', $application->file->id) }}" class="btn btn-primary btn-sm">
+                                                                <i class="bi-eye-fill"></i>
+
+                                                             </a>
+                                                        <form action="{{ route('desactive-application', $application->id) }}" method="POST" style="display: inline;">
                                                             @csrf
-                                                            @method('POST') <!-- Aqui estamos forçando o método POST -->
-                                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                                <i class="bi-trash-fill me-1"></i> 
-                                                            </button>
+                                                            @method('POST') 
+                                                        
+                                                                @if($application->approved)
+                                                                <button type="submit" class=" btn btn-danger">
+                                                                    Desprovar
+                                                                </button>  
+                                                                @else
+                                                                <button type="submit" class=" btn btn-primary">
+                                                                    Aprovar
+
+                                                                </button> 
+                                                               @endif
+                                                            
                                                         </form>
                                                         
                                                       

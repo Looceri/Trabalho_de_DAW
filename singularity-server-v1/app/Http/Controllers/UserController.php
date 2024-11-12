@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Vacancy;
+use App\Models\Application;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserLocation;
@@ -45,6 +47,23 @@ class UserController extends Controller
          $users=User::all();
          return view('pages.users',compact('users'));
     }
+    public function showDash(){
+         $users=User::all();
+         $Applications=Application::all();
+         $vacancies=Vacancy::all();
+         return view('pages.dashboard',compact('users','Applications','vacancies'));
+    }
+    public function desactive_user($id){
+        $post = User::findOrFail($id);
+    
+        // Atualiza o status do post para falso (desativado)
+        $post->update(['status' => false]);
+    
+        // Redireciona de volta com uma mensagem de sucesso
+        return redirect()->route('posts.index')->with('success', 'usuario desactivado com sucesso');
+    }
+
+
 
 
     public function register(Request $request)

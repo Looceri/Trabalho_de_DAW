@@ -7,7 +7,7 @@
 
               <div class="card-body" style="text-align: left">
                     <!-- Formulário -->
-                    <form method="POST" action="{{ route('register_week') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="text-center">
                             <div class="mb-5 ">
@@ -39,14 +39,14 @@
                             </div>
                         <!-- Fim do Formulário -->
                          <!-- Formulário -->
-                         <div class="mb-4">
+                         {{-- <div class="mb-4">
                             <label class="form-label" for="signupSrEmail">Alvara Da Instituicao</label>
                             <input type="file" class="form-control form-control-lg" name="alvara" id="signupSrEmail"
                                 placeholder="email@endereco.com" aria-label="email@endereco.com" required=""
                                 :value="old('alvara')" required autocomplete="username" 
                             >
                             <x-input-error :messages="$errors->get('alvara')" class="mt-2" />
-                            </div>
+                            </div> --}}
                         <!-- Fim do Formulário -->
 
                         <!-- Formulário -->

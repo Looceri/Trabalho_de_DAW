@@ -19,17 +19,18 @@ use App\Http\Controllers\PostController;
 
 
 
-Route::get('/', function () {
-    return view('pages.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+
+Route::middleware('auth','verified')->group(function () {
+    Route::get('/', [UserController::class, 'showDash'])->name('dashboard');
     Route::get('/users', [UserController::class, 'show'])->name('users');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/users', [UserController::class, 'showUsers'])->name('users');
+    Route::post('/desactive-user/{id}', [UserController::class, 'desactive_user'])->name('desactive-user');
+
 
 
     //Categories
@@ -54,10 +55,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/update-vacancy/{id}', [VacancieController::class, 'update_vacancy'])->name('update-vacancy');
     Route::put('/edit-vacancy/{id}', [VacancieController::class, 'edit_vacancy'])->name('edit-vacancy');
     Route::post('/desactive-vacancy/{id}', [VacancieController::class, 'desactive_vacancy'])->name('desactive-vacancy');
+    Route::post('/desactive-application/{id}', [VacancieController::class, 'desactive_application'])->name('desactive-application');
 
    //candidaturas
    Route::get('/aplications/{id}', [VacancieController::class, 'show_applications'])->name('aplications');
-   Route::get('/file', [VacancieController::class, 'show_file'])->name('file');
+   Route::get('/file/{id}', [VacancieController::class, 'show_file'])->name('file');
 
    
    //pots

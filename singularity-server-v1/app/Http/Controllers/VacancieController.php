@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Vacancy;
+use Illuminate\Support\Facades\Auth;
 use App\Models\VacancyCategory;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use App\Models\Benefit;
 use App\Models\Requirement;
 use App\Models\File;
+use App\Models\Application;
 
 
 
@@ -46,16 +48,16 @@ class VacancieController extends Controller
     {
         // $vacancies = Vacancy::with('owner')->get();
         $vacancies = Vacancy::where('status', '=', true)->with('owner')->get();
-
-        return view('pages.vacancies', compact('vacancies'));
+        $totalApplications = Application::where('user_id', Auth::id())->count();
+        return view('pages.vacancies', compact('vacancies','totalApplications'));
     }
 
     public function Vacancydetails($id)
     {
-        $vacancy = Vacancy::with('owner', 'categories','requirements','benefits')->findOrFail($id);
-        $applications = File::where('vacancy_id', $id)->get();
+        $vacancy = Vacancy::with('owner', 'categories','requirements','benefits','applications')->findOrFail($id);
+      
 
-        return view('pages.vacancyDetails', compact('vacancy','applications'));
+        return view('pages.vacancyDetails', compact('vacancy'));
 
     }
 
@@ -79,8 +81,23 @@ class VacancieController extends Controller
         $vacancy->update(['status' => false]);
         return redirect()->route('list-vacancy')->with('success', 'Vaga Apagada com sucesso!');
     }
+    public function desactive_application($id)
+    {
+        $application = Application::findOrFail($id);
+    
+        // Toggle the 'approved' status and log it
+        $newStatus = !$application->approved;
+    
+        $application->update(['approved' => $newStatus]);
+    
+        return redirect()->route('details-vacancy', ['id' => $id, 'showEmail' => 'true'])
+                         ->with('success', 'Sucesso!');
+    }
+    
 
-     public function store(Request $request)
+     
+    public function store(Request $request)
+    
     {
             // Validação dos dados recebidos
             $request->validate([
@@ -202,8 +219,10 @@ class VacancieController extends Controller
         return view('pages.applications', compact('applications'));
     }
 
-    public function show_file(){
-        return view('pages.open-file');
+    public function show_file($id)
+    {
+        $file=File::findOrFail($id);
+        return view('pages.open-file',compact('file'));
     }
 
     public function showVacanciesByOwner($ownerId)

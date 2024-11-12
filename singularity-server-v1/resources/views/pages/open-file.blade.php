@@ -1,6 +1,6 @@
 @extends('layout.base')
 
-@section('title', '|Adicionar Categoria')
+@section('title', '|Ver Documento')
 
 @section('content')
 
@@ -60,13 +60,11 @@
     <div class="content container-fluid">
         <div class="d-flex justify-content-end gap-2 mb-5">
 
-        <a href="{{ route('update-vacancy', ['id' =>1]) }}" class="btn btn-primary btn-sm" title="Editar">
-            Aprovar
-        </a>
+       
     </div>
         <div class="row">
             <div class="col-12">
-                <iframe src="{{asset('storage/uploads/ddw1KCu4hAOFljzC8nO3LIvlMCPsAALTB9Io0ty4.pdf') }}" width="100%" height="600px" style="border: none;"></iframe>
+                <iframe src="{{ $file->getUrlAttribute()}}" width="100%" height="600px" style="border: none;"></iframe>
             </div> 
             
             
@@ -83,8 +81,8 @@
             <div class="col">
                 <p class="fs-6 mb-0">&copy; Todos os direitos reservados. Feito pela <a
                         class="d-none d-sm-inline-block nav-link d-inline fw-normal p-0 ms-1"
-                        href="https://explicador.co.mz/" target="_blank" rel="noopener"
-                        style="color: #377dff;">Explicador Inc.</a></p>
+                        href="#" target="_blank" rel="noopener"
+                        style="color: #377dff;">Singularity Inc.</a></p>
             </div>
         </div>
     </div>

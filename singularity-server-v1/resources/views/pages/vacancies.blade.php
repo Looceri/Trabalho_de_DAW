@@ -135,14 +135,15 @@
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
-                                <span class="js-counter display-4 text-dark">48.7</span>
-                                <span class="display-4 text-dark">%</span>
-                                <span class="text-body fs-5 ms-1">de 56%</span>
+                                <span class="js-counter display-4 text-dark"> 
+                                   {{  $totalApplications}}
+                                </span>
+                                <span class="text-body fs-5 ms-1">100%</span>
                             </div>
 
                             <div class="col-auto">
                                 <span class="badge bg-soft-danger text-danger p-1">
-                                    <i class="bi-graph-down"></i> 2.8%
+                                    <i class="bi-graph-down"></i> 100%
                                 </span>
                             </div>
                         </div>
@@ -231,7 +232,11 @@
                     <td>{{$vacancy->submission_start_date}}</td>
                     <td>{{$vacancy->submission_end_date}}</td>
                     <td>{{$vacancy->vacancies_count}}</td>
-                    <td><a href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}?showEmail=true">5</a></td>
+                    <td>
+                    <a href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}?showEmail=true">
+                        {{$vacancy->applications->count();}}
+                    </a>
+                    </td>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
                             <a href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}" class="btn btn-primary btn-sm" title="Ver">

@@ -1130,8 +1130,9 @@
                             <th class="table-column-ps-0">Nome Completo</th>
                             <th>Email</th>
                             <th>Celular</th>
-                            <th>Localização</th>
-                            <th>Idade</th>
+                            <th>Sexo</th>
+                            <th>Funcao</th>
+                            <th>Status</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -1150,6 +1151,7 @@
                                 <a class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <div class="avatar avatar-sm avatar-circle">
+                                           
                                             <img class="avatar-img" src=""
                                                 alt="Image Description">
                                         </div>
@@ -1162,19 +1164,38 @@
                                 </a>
                             </td>
                             <td>{{$user->email}}</td>
-                            <td>+258 87 31 231 789</td>
-                            <td>Maputo cidade</td>
-                            <td>28 anos</td>
+                            <td>{{$user->phone}}</td>
+                            <td>{{$user->sexo}}</td>
+                            <td> 
+                                @if($user->role=='admin')
+                               <span class="badge bg-danger">{{$user->role}}</span>
+                              @elseif($user->role=='employee')
+                                <span class="badge bg-secundary">{{$user->role}}</span>
+                               @else
+                                <span class="badge bg-primary">{{$user->role}}</span>
+
+                               @endif
+                        </td>
+                           
+                            <td> 
+                                 @if($user->status)
+                                <span class="badge bg-primary">Activo</span>
+                            @else
+                                <span class="badge bg-danger">Desactivo</span>
+                            @endif</td>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <button type="button" class="btn btn-white btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#editUserModal">
                                         <i class="bi-pencil-fill me-1"></i> Edit
                                     </button>
-                                    <button type="button" class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
-                                        data-bs-target="#">
-                                        <i class="bi-trash-fill me-1"></i> Bloquear
-                                    </button>
+                                    <form action="{{ route('desactive-user', $user->id) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('POST') <!-- Aqui estamos forçando o método POST -->
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="bi-trash-fill me-1"></i> 
+                                        </button>
+                                    </form>
                                    
                                 </div>
                             </td>
@@ -1245,8 +1266,8 @@
             <div class="col">
                 <p class="fs-6 mb-0">&copy; Todos os direitos reservados. Feito pela <a
                         class="d-none d-sm-inline-block nav-link d-inline fw-normal p-0 ms-1"
-                        href="https://explicador.co.mz/" target="_blank" rel="noopener"
-                        style="color: #377dff;">Explicador Inc.</a></p>
+                        href="#" target="_blank" rel="noopener"
+                        style="color: #377dff;">Singularity Inc.</a></p>
             </div>
         </div>
     </div>
