@@ -15,7 +15,8 @@ class Application extends Model
         'reason',
         'file_id',
         'file_path',
-        'application_date'
+        'application_date',
+        'approved'
     ];
 
     // Relacionamentos

@@ -139,12 +139,12 @@
                        <div id="" class="">
                         <ul id="navbarSettings">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#content">
+                                <a class="nav-link active" href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}?showEmail=false">
                                     <i class="bi-person nav-icon"></i> Descricao da Vaga
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#emailSection">
+                                <a class="nav-link" href="{{ route('details-vacancy', ['id' => $vacancy->id]) }}?showEmail=true">
                                     <i class="bi-at nav-icon"></i> Candidaturas
                                 </a>
                             </li>
@@ -356,11 +356,11 @@
                                                             @method('POST') 
                                                         
                                                                 @if($application->approved)
-                                                                <button type="submit" class=" btn btn--primary">
+                                                                <button type="submit" class=" btn btn-danger">
                                                                     Desprovar
                                                                 </button>  
                                                                 @else
-                                                                <button type="submit" class=" btn btn-danger">
+                                                                <button type="submit" class=" btn btn-primary">
                                                                     Aprovar
 
                                                                 </button> 

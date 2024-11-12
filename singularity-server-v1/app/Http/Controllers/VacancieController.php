@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Vacancy;
+use Illuminate\Support\Facades\Auth;
 use App\Models\VacancyCategory;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
@@ -47,8 +48,8 @@ class VacancieController extends Controller
     {
         // $vacancies = Vacancy::with('owner')->get();
         $vacancies = Vacancy::where('status', '=', true)->with('owner')->get();
-
-        return view('pages.vacancies', compact('vacancies'));
+        $totalApplications = Application::where('user_id', Auth::id())->count();
+        return view('pages.vacancies', compact('vacancies','totalApplications'));
     }
 
     public function Vacancydetails($id)
@@ -218,7 +219,8 @@ class VacancieController extends Controller
         return view('pages.applications', compact('applications'));
     }
 
-    public function show_file($id){
+    public function show_file($id)
+    {
         $file=File::findOrFail($id);
         return view('pages.open-file',compact('file'));
     }

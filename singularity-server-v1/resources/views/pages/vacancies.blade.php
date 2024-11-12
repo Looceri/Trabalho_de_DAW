@@ -135,15 +135,15 @@
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
-                                <span class="js-counter display-4 text-dark">  5
+                                <span class="js-counter display-4 text-dark"> 
+                                   {{  $totalApplications}}
                                 </span>
-                                <span class="display-4 text-dark">100%</span>
-                                <span class="text-body fs-5 ms-1">de 100%</span>
+                                <span class="text-body fs-5 ms-1">100%</span>
                             </div>
 
                             <div class="col-auto">
                                 <span class="badge bg-soft-danger text-danger p-1">
-                                    <i class="bi-graph-down"></i> 2.8%
+                                    <i class="bi-graph-down"></i> 100%
                                 </span>
                             </div>
                         </div>

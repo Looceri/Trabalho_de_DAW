@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Vacancy;
+use App\Models\Application;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserLocation;
@@ -44,6 +46,14 @@ class UserController extends Controller
          $users=User::all();
          return view('pages.users',compact('users'));
     }
+    public function showDash(){
+         $users=User::all();
+         $Applications=Application::all();
+         $vacancies=Vacancy::all();
+         return view('pages.dashboard',compact('users','Applications','vacancies'));
+    }
+
+
 
 
     public function register(Request $request)
