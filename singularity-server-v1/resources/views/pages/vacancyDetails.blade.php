@@ -36,7 +36,28 @@
     <!-- Content -->
     <div class="content container-fluid">
   
-
+        @if(session('success'))
+        <div class="alert alert-success" id="success-alert">
+            <button type="button" class="close" id="close-alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+            </button>
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    <!-- Alerta de Erro de Validação -->
+    @if($errors->any())
+        <div class="alert alert-danger" id="close-alert">
+            <button type="button" class="close" id="close-alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+            </button>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    {{ $error }}
+                @endforeach
+            </ul>
+        </div>
+    @endif
         <div class="row">
             <div>
                 <!-- Navbar -->
@@ -304,7 +325,7 @@
                                                 </td>
                                                 <td>{{$application->id}}</td>
                                                 <td class="table-column-ps-0">
-                                                    <a class="d-flex align-items-center justify-content-center">
+                                                    <a class="d-flex align-items-center justify-content-center" >
                                                         <div class="flex-grow-1 ms-2">
                                                             <h6 class="text-inherit mb-0">{{$application->user->name}}</h6>
                                                         </div>
@@ -313,7 +334,7 @@
                                                
                                                 <td>
                                                         <div class="card-body">
-                                                            <a href="{{ $application->file->url }}" target="_blank"> <h5 class="card-title">{{ $application->file->name }}</h5>
+                                                            <a href="{{ route('file', $application->file->id) }}" > <h5 class="card-title">{{ $application->file->name }}</h5>
                                                             </a>
                                                         </div>
                                                 </td>
@@ -326,7 +347,7 @@
                                                 </td>
                                                                                                 <td>
                                                     <div class="d-flex justify-content-center gap-2">
-                                                             <a href="{{ route('desactive-application', $application->id) }}" class="btn btn-primary btn-sm">
+                                                             <a href="{{ route('file', $application->file->id) }}" class="btn btn-primary btn-sm">
                                                                 <i class="bi-eye-fill"></i>
 
                                                              </a>

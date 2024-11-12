@@ -82,18 +82,21 @@ class VacancieController extends Controller
     }
     public function desactive_application($id)
     {
-        $Application = Application::findOrFail($id);
-        if($Application->approved){
-            $Application->update(['approved' => true]);
-
-        }else{
-            $Application->update(['approved' => false]);
-
-        }
-        return redirect()->route('list-vacancy')->with('success', 'sucesso!');
+        $application = Application::findOrFail($id);
+    
+        // Toggle the 'approved' status and log it
+        $newStatus = !$application->approved;
+    
+        $application->update(['approved' => $newStatus]);
+    
+        return redirect()->route('details-vacancy', ['id' => $id, 'showEmail' => 'true'])
+                         ->with('success', 'Sucesso!');
     }
+    
 
-     public function store(Request $request)
+     
+    public function store(Request $request)
+    
     {
             // Validação dos dados recebidos
             $request->validate([
@@ -215,8 +218,9 @@ class VacancieController extends Controller
         return view('pages.applications', compact('applications'));
     }
 
-    public function show_file(){
-        return view('pages.open-file');
+    public function show_file($id){
+        $file=File::findOrFail($id);
+        return view('pages.open-file',compact('file'));
     }
 
 

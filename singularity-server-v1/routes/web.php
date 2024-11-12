@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
 
    //candidaturas
    Route::get('/aplications/{id}', [VacancieController::class, 'show_applications'])->name('aplications');
-   Route::get('/file', [VacancieController::class, 'show_file'])->name('file');
+   Route::get('/file/{id}', [VacancieController::class, 'show_file'])->name('file');
 
    
    //pots
