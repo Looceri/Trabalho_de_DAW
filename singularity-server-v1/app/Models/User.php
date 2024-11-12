@@ -54,6 +54,12 @@ class User extends Authenticatable
         return $this->hasMany(UserEducation::class);
     }
 
+    public function avatar_image()
+    {
+        return $this->hasOne(File::class,'id','avatar_id');
+    }
+
+
     // Relacionamento com as localizações
     public function locationss()
     {

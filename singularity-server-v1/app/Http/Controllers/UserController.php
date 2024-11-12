@@ -13,6 +13,7 @@ use App\Models\UserLocation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Auth\LoginRequest;
+use Storage;
 
 
 
@@ -129,6 +130,7 @@ class UserController extends Controller
 
             // Cria um token JWT para o usuário
             $token = $user->createToken('authToken')->plainTextToken;
+            $user->avatar = $user->avatar_image ? Storage::url($user->avatar_image->path) : null;
 
             return response()->json([
                 'success' => true,
@@ -239,6 +241,7 @@ class UserController extends Controller
         // Valida os dados recebidos
         $request->validate([
             'id' => 'required|integer',
+            'avatar_id' => 'nullable|integer',
             'name' => 'nullable|string|max:191',
             'email' => 'nullable|string|email|max:191|unique:users,email,' . $request->id,
             'email_verified_at' => 'nullable|date',
@@ -251,6 +254,7 @@ class UserController extends Controller
             'adress' => 'nullable|string|max:191',
             'province' => 'nullable|string|max:191',
             'sexo' => 'nullable|string|max:191',
+            'phone' => 'nullable|string|max:20',
         ], [
             'email.unique' => 'Já existe um usu rio com este e-mail',
             'email_verified_at.date' => 'O campo data de e-mail verificado deve ser uma data válida',
@@ -263,6 +267,7 @@ class UserController extends Controller
             'adress.max' => 'O campo endere o deve ter no máximo :max caracteres',
             'province.max' => 'O campo província deve ter no máximo :max caracteres',
             'sexo.max' => 'O campo sexo deve ter no máximo :max caracteres',
+            'phone.max' => 'O campo telefone deve ter no máximo :max caracteres',
         ]);
 
         $request->updated_at = Carbon::now();
@@ -276,8 +281,11 @@ class UserController extends Controller
             }
 
             // Atualiza o usuário
-            foreach (['name', 'email', 'email_verified_at', 'password', 'role', 'status', 'description', 'remember_token', 'birth_date', 'adress', 'province', 'sexo'] as $field) {
+            foreach (['name', 'email', 'email_verified_at', 'password', 'role', 'status', 'description', 'remember_token', 'birth_date', 'adress', 'province', 'sexo', 'phone', 'avatar_id'] as $field) {
                 if ($request->has($field) && $request->filled($field) &&  $request->$field !== $user->$field ) {
+                    if ($field === 'phone') {
+                        $request->$field = preg_replace('/^(\d{4})\s*(\d{4,5})$/', '$1$2', $request->$field);
+                    }
                     $user->$field = $field === 'password' ? Hash::make($request->$field) : $request->$field;
                 }
             }

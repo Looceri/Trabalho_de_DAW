@@ -22,48 +22,116 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        // Validação da requisição
+        try {
+            // Validação da requisição
+            $request->validate([
+                'file' => 'required|file|max:10240',  // Max size of 10MB
+                'vacancy_id' => 'nullable|exists:vacancies,id',  // Verifica se o ID da vaga existe
+                'user_id' => 'required|exists:users,id',  // Verifica se o ID do usuário existe
+            ]);
+
+            $existingFile = false;
+
+            if ($request->vacancy_id !== null) {
+                // Verifica se o usuário já enviou um arquivo para essa vaga
+                $existingFile = File::where('user_id', $request->user_id)
+                    ->where('vacancy_id', $request->vacancy_id)
+                    ->first();
+            }
+
+            // Se o arquivo ja existe, impede o upload
+            if ($existingFile) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Você já enviou um CV para esta vaga.'
+                ], 400);
+            }
+
+            // Se não houver um arquivo enviado, processa o novo arquivo
+            $file = $request->file('file');
+            if ($file) {
+                $path = $file->store('uploads', 'public');  // Armazena o arquivo no diretório public/uploads
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Nenhum arquivo foi enviado',
+                ], 400);
+            }
+
+            // Cria o registro do arquivo na tabela files com as informações adicionais
+            $storedFile = File::create([
+                'name' => $file->getClientOriginalName(),
+                'path' => $path,
+                'extension' => $file->getClientOriginalExtension(),
+                'size' => $file->getSize(),
+                'mime_type' => $file->getMimeType(),
+                'user_id' => $request->user_id,  // Armazena o user_id
+                'vacancy_id' => $request->vacancy_id,  // Armazena o vacancy_id
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Arquivo enviado com sucesso!',
+                'file' => $storedFile,  // Retorna o arquivo enviado
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao enviar o arquivo: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function update(Request $request)
+    {
+        // Valida os dados recebidos
         $request->validate([
+            'id' => 'required|integer|exists:files,id',
             'file' => 'required|file|max:10240',  // Max size of 10MB
-            'vacancy_id' => 'required|exists:vacancies,id',  // Verifica se o ID da vaga existe
+            'vacancy_id' => 'nullable|exists:vacancies,id',  // Verifica se o ID da vaga existe
             'user_id' => 'required|exists:users,id',  // Verifica se o ID do usuário existe
         ]);
 
-        // Verifica se o usuário já enviou um arquivo para essa vaga
-        $existingFile = File::where('user_id', $request->user_id)
-            ->where('vacancy_id', $request->vacancy_id)
-            ->first();
+        try {
+            // Tenta encontrar o arquivo na tabela files
+            $file = File::findOrFail($request->id);
 
-        if ($existingFile) {
-            // Se já existe, impede o upload
+            // Verifica e processa um novo arquivo, se estiver presente
+            if ($request->hasFile('file')) {
+                $newFile = $request->file('file');
+                $newPath = $newFile->store('uploads', 'public');
+
+                // Atualiza o registro do arquivo na tabela files
+                $file->update([
+                    'name' => $newFile->getClientOriginalName(),
+                    'path' => $newPath,
+                    'extension' => $newFile->getClientOriginalExtension(),
+                    'size' => $newFile->getSize(),
+                    'mime_type' => $newFile->getMimeType(),
+                ]);
+
+                // Retorna o arquivo atualizado
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Arquivo atualizado com sucesso',
+                    'data' => $file,
+                ], 200);
+            }
+
+            // Se não houver um novo arquivo, retorna um erro
             return response()->json([
                 'success' => false,
-                'message' => 'Você já enviou um CV para esta vaga.'
+                'message' => 'Nenhum arquivo foi enviado',
             ], 400);
+        } catch (\Exception $e) {
+            // Tratamento de erros
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao atualizar o arquivo',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-
-        // Se não houver um arquivo enviado, processa o novo arquivo
-        $file = $request->file('file');
-        $path = $file->store('uploads', 'public');  // Armazena o arquivo no diretório public/uploads
-
-        // Cria o registro do arquivo na tabela files com as informações adicionais
-        $storedFile = File::create([
-            'name' => $file->getClientOriginalName(),
-            'path' => $path,
-            'extension' => $file->getClientOriginalExtension(),
-            'size' => $file->getSize(),
-            'mime_type' => $file->getMimeType(),
-            'user_id' => $request->user_id,  // Armazena o user_id
-            'vacancy_id' => $request->vacancy_id,  // Armazena o vacancy_id
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Arquivo enviado com sucesso!',
-            'file' => $storedFile,  // Retorna o arquivo enviado
-        ], 201);
     }
-
 
 
     /**
@@ -169,4 +237,5 @@ class FileController extends Controller
             ], 404);
         }
     }
+
 }

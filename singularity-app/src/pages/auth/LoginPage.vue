@@ -96,6 +96,7 @@ const login = async () => {
         id: response.data.user.id,
         name: response.data.user.name,
         email: response.data.user.email,
+        avatar: response.data.user.avatar,
         password: response.data.user.password,
         email_verified_at: response.data.user.email_verified_at,
         birth_date: response.data.user.birth_date,

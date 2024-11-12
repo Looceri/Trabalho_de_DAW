@@ -36,6 +36,8 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/upload', [FileController::class, 'store']);
 Route::post('/user/update', [UserController::class, 'updateUser'])->name('user_update');
 
+Route::post('/file/update', [FileController::class, 'update'])->name('file_update');
+
 Route::get('/last-cv/{user_id}/{vacancy_id}', [FileController::class, 'getLastCv']);
 
 Route::get('/vagas', [VacancieController::class, 'index']);

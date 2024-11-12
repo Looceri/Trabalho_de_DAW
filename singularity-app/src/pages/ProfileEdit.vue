@@ -13,8 +13,7 @@
           </div>
 
           <q-avatar style="height: 100px; width: 100px;">
-            <img :src="avatar || 'https:picsum.photos/100'" alt="Avatar" style="object-fit: cover;" />
-            <img :src="user?.avatar || 'https:picsum.photos/100'" alt="Avatar" style="object-fit: cover;" />
+            <img :src="user?.avatar.path || 'https:picsum.photos/100'" alt="Avatar" style="object-fit: cover;" />
           </q-avatar>
           <div class="text-h6 q-mt-md text-primary">{{ name || '' }}</div>
           <div class="text-subtitle2 text-white">Maputo, Moçambique</div>
@@ -155,27 +154,94 @@ const provinces = ref([
   'Zambézia'
 ]);
 
-if (user?.data?.phone) {
-  user.phone = '';
-}
-
-const selectImage = () => {
+const selectImage = async () => {
   const input = document.createElement('input');
   input.type = 'file';
   input.accept = 'image/*';
-  input.onchange = () => {
+  input.onchange = async () => {
     const file = input.files[0];
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       avatar.value = reader.result;
       user.avatar = reader.result;
+      if (user.avatar_id === null) {
+
+        const formData =
+        {
+          'file': file,
+          'user_id': user.id
+        }
+
+        console.log('Form data:', formData);
+
+        try {
+          const response = await axios.post("http://localhost:8000/api/upload", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          });
+
+          if (response.data && response.data.file) {
+            const fileId = response.data.file.id;
+            user.avatar_id = fileId;
+            console.log("Upload concluído:", user);
+          } else {
+            throw new Error("Resposta inesperada do servidor.");
+          }
+
+        } catch (error) {
+          const errorMessage = error.response ? error.response.data : error.message;
+          console.error("Erro ao fazer upload do arquivo:", errorMessage);
+          $q.notify({
+            type: 'negative',
+            message: `Erro ao fazer upload do arquivo: ${errorMessage}`,
+          });
+        }
+
+
+      } else {
+
+        axios.post('http://localhost:8000/api/file/update', user)
+          .then((response) => {
+            console.log(response);
+            localStorage.setItem('user', JSON.stringify(response.data));
+
+            $q.notify({
+              color: 'positive',
+              icon: 'check',
+              message: response.data.message,
+              timeout: 2000,
+            });
+          })
+          .catch((error) => {
+            const errorMessage = error.response?.data?.message || 'Erro ao atualizar perfil. Tente novamente.';
+            $q.notify({
+              color: 'negative',
+              icon: 'close',
+              message: errorMessage,
+              timeout: 2000,
+            });
+            console.log(error);
+          });
+      }
+
     };
     reader.readAsDataURL(file);
+
   };
   input.click();
+
 };
 
 const salvar = () => {
+
+  user.avatar = avatar.value;
+  user.name = name.value;
+  user.birth_date = user.birth_date;
+  user.sexo = sexo;
+  user.email = email;
+  user.phone = phone;
+  user.adress = adress;
+  user.province = user.province;
+
   console.log('Dados salvos:', JSON.stringify(user, null, 2), user);
 
 
@@ -190,7 +256,6 @@ const salvar = () => {
         message: response.data.message,
         timeout: 2000,
       });
-      console.log(response.data);
     })
     .catch((error) => {
       const errorMessage = error.response?.data?.message || 'Erro ao atualizar perfil. Tente novamente.';
@@ -213,7 +278,7 @@ const updatebirth_date = (val) => {
     if (typeof val === 'string') {
       const parts = val.split('/');
       if (parts.length === 3) {
-        date = new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
+        date = new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]) + 1);
       }
     } else if (val instanceof Date) {
       date = new Date(val); // Create a new Date object from the existing one
