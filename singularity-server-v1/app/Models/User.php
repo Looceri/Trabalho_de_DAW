@@ -46,8 +46,9 @@ class User extends Authenticatable
 
     public function locations()
     {
-        return $this->hasToMany(Location::class, 'user_locations', 'user_id', 'location_id');
+        return $this->belongsToMany(Location::class, 'user_locations', 'user_id', 'location_id');
     }
+
 
     public function educations()
     {
@@ -77,5 +78,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
-
 }
