@@ -7,7 +7,7 @@
 
               <div class="card-body" style="text-align: left">
                     <!-- Formulário -->
-                    <form method="POST" action="{{ route('register_week') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="text-center">
                             <div class="mb-5 ">

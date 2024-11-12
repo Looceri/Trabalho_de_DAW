@@ -29,6 +29,8 @@ Route::middleware('auth','verified')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/users', [UserController::class, 'showUsers'])->name('users');
+    Route::post('/desactive-user/{id}', [UserController::class, 'desactive_user'])->name('desactive-user');
+
 
 
     //Categories

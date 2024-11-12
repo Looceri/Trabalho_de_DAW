@@ -52,6 +52,15 @@ class UserController extends Controller
          $vacancies=Vacancy::all();
          return view('pages.dashboard',compact('users','Applications','vacancies'));
     }
+    public function desactive_user($id){
+        $post = User::findOrFail($id);
+    
+        // Atualiza o status do post para falso (desativado)
+        $post->update(['status' => false]);
+    
+        // Redireciona de volta com uma mensagem de sucesso
+        return redirect()->route('posts.index')->with('success', 'usuario desactivado com sucesso');
+    }
 
 
 
