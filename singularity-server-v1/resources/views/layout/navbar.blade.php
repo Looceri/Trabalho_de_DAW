@@ -29,7 +29,7 @@
                     <!-- Content -->
                     <div class="navbar-vertical-content">
                         <div id="navbarVerticalMenu" class="nav nav-pills nav-vertical card-navbar-nav">
-            
+                            
                             <!-- Dashboard Link -->
                             <div class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
