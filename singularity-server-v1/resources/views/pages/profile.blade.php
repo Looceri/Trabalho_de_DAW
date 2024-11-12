@@ -32,7 +32,28 @@
         /* Cor ao passar o mouse */
     }
 </style>
+@if(session('success'))
+    <div class="alert alert-success" id="success-alert">
+        <button type="button" class="close" id="close-alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+        </button>
+        {{ session('success') }}
+    </div>
+@endif
 
+<!-- Alerta de Erro de Validação -->
+@if($errors->any())
+    <div class="alert alert-danger" id="close-alert">
+        <button type="button" class="close" id="close-alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span> <!-- Ícone de fechamento -->
+        </button>
+        <ul>
+            @foreach ($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        </ul>
+    </div>
+@endif
     <!-- Content -->
     <div class="content container-fluid">
         <!-- Page Header -->
@@ -1070,7 +1091,8 @@
                         <!-- Body -->
                         <div class="card-body">
                             <!-- Form -->
-                            <form id="changePasswordForm">
+                            <form id="changePasswordForm" method="Post" action="{{route('profile.update')}}">
+                                @csrf
                                 <!-- Form -->
                                 <div class="row mb-4">
                                     <label for="currentPasswordLabel" class="col-sm-3 col-form-label form-label"> Senha
@@ -1187,8 +1209,8 @@
             <div class="col">
                 <p class="fs-6 mb-0">&copy; Todos os direitos reservados. Feito pela <a
                         class="d-none d-sm-inline-block nav-link d-inline fw-normal p-0 ms-1"
-                        href="https://explicador.co.mz/" target="_blank" rel="noopener"
-                        style="color: #377dff;">Explicador Inc.</a></p>
+                        href="#" target="_blank" rel="noopener"
+                        style="color: #377dff;">Singularity Inc.</a></p>
             </div>
         </div>
     </div>

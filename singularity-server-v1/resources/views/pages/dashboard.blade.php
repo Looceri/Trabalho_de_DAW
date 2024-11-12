@@ -669,8 +669,8 @@
             <div class="col">
                 <p class="fs-6 mb-0">&copy; Todos os direitos reservados. Feito pela <a
                         class="d-none d-sm-inline-block nav-link d-inline fw-normal p-0 ms-1"
-                        href="https://explicador.co.mz/" target="_blank" rel="noopener"
-                        style="color: #377dff;">Explicador Inc.</a></p>
+                        href="#" target="_blank" rel="noopener"
+                        style="color: #377dff;">Singularity Inc.</a></p>
             </div>
         </div>
     </div>

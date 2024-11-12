@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
              'name' => ['required', 'string', 'max:255'],
              'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
              'password' => ['required', 'confirmed', Rules\Password::defaults()],
-             'alvara' => 'required|file',
+            
  
          ]);
  
@@ -43,16 +43,9 @@ class RegisteredUserController extends Controller
              'name' => $request->name,
              'email' => $request->email,
              'password' => Hash::make($request->password),
-            
+             'role'=>'employee'
          ]);
-         if ($request->hasFile('alvara')) {
-             // Armazene o arquivo no disco público na pasta 'alvara'
-             $alvaraPath = $request->file('alvara')->store('alvara', 'public'); 
-             
-             $user->url_alvara = $alvaraPath; 
-             $user-> status=1;
-             $user->save();
-         }
+        
          
  
          Auth::login($user);
