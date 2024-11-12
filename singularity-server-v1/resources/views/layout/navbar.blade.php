@@ -7,7 +7,9 @@
             navbar-expand-xl
             navbar-bordered
             bg-white  ">
-
+            @php
+            $role = Auth::user()->role;
+        @endphp
             <div class="navbar-vertical-container">
                 <div class="navbar-vertical-footer-offset">
                     <!-- Logo -->
@@ -18,7 +20,7 @@
                         <img class="navbar-brand-logo-mini" style="height: 43px; width: 43px;" src="{{ asset('assets/logo-dark.png') }}" alt="Logo" data-hs-theme-appearance="dark">
                     </a>
                     <!-- End Logo -->
-            
+                    
                     <!-- Navbar Vertical Toggle -->
                     <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
                         <i class="bi-arrow-bar-left navbar-toggler-short-align" data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
@@ -29,7 +31,7 @@
                     <!-- Content -->
                     <div class="navbar-vertical-content">
                         <div id="navbarVerticalMenu" class="nav nav-pills nav-vertical card-navbar-nav">
-                            
+                            @if($role == 'admin')
                             <!-- Dashboard Link -->
                             <div class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
@@ -45,7 +47,7 @@
                                     <span class="nav-link-title">Usuários</span>
                                 </a>
                             </div>
-            
+                            @elseif($role == 'employer' || $role == 'admin')
                             <!-- Manage Categories -->
                             <div class="nav-item">
                                 <a class="nav-link {{ request()->is('categories*') ? 'active' : '' }}" href="#navbarVerticalMenuPagesProviderCategories" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProviderCategories" aria-controls="navbarVerticalMenuPagesProviderCategories">
@@ -81,7 +83,15 @@
                                     <a class="nav-link {{ request()->routeIs('posts.index') ? 'active' : '' }}" href="{{ route('posts.index') }}">Lista de Posts</a>
                                 </div>
                             </div>
-            
+                            @else
+                            <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+                                <div class="text-center">
+                                    <img class="mb-3" src="./assets/svg/illustrations/oc-error.svg" alt="Imagem de erro" style="width: 10rem;" data-hs-theme-appearance="default">
+                                    <img class="mb-3" src="./assets/svg/illustrations-light/oc-error.svg" alt="Imagem de erro" style="width: 10rem;" data-hs-theme-appearance="dark">
+                                    <p class="mb-0">Nso  esta autorizado a usar essa app</p>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
