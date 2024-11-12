@@ -130,7 +130,7 @@ class UserController extends Controller
 
             // Cria um token JWT para o usuário
             $token = $user->createToken('authToken')->plainTextToken;
-            $user->avatar = $user->avatar_image ? Storage::url($user->avatar_image->path) : null;
+            $user->avatar = $user->avatar_image ? Storage::disk('public')->path($user->avatar_image->path) : null;
 
             return response()->json([
                 'success' => true,

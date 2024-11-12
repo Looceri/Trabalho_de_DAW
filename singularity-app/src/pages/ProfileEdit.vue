@@ -13,7 +13,7 @@
           </div>
 
           <q-avatar style="height: 100px; width: 100px;">
-            <img :src="user?.avatar.path || 'https:picsum.photos/100'" alt="Avatar" style="object-fit: cover;" />
+            <img :src="user?.avatar || 'https:picsum.photos/100'" alt="Avatar" style="object-fit: cover;" />
           </q-avatar>
           <div class="text-h6 q-mt-md text-primary">{{ name || '' }}</div>
           <div class="text-subtitle2 text-white">Maputo, Moçambique</div>
