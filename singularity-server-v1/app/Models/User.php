@@ -65,4 +65,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Vacancy::class, 'owner_id');
     }
+
+
+    public function reactions()
+    {
+        return $this->hasMany(PostReaction::class);
+    }
+
+    // Relacionamento com os posts
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
 }

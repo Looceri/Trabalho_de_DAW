@@ -17,10 +17,7 @@
 import axios from 'axios';
 
 export default {
-  props: {
-    companyId: Number,
-  },
-  data() {
+    data() {
     return {
       posts: [], // Array de posts
     };
@@ -30,7 +27,7 @@ export default {
     async fetchPostDetails() {
       try {
         // Carrega os posts da empresa
-        const response = await axios.get(`http://localhost:8000/api/posts/${this.companyId}`);
+        const response = await axios.get(`http://localhost:8000/api/posts`);
         this.posts = response.data;
         console.log("Posts carregados:", this.posts); // Confirmação dos posts recuperados
       } catch (error) {

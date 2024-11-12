@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\Benefit;
 use App\Models\Requirement;
 use App\Models\File;
+use App\Models\Application;
 
 
 
@@ -52,25 +53,24 @@ class VacancieController extends Controller
 
     public function Vacancydetails($id)
     {
-        $vacancy = Vacancy::with('owner', 'categories','requirements','benefits')->findOrFail($id);
+        $vacancy = Vacancy::with('owner', 'categories', 'requirements', 'benefits')->findOrFail($id);
         $applications = File::where('vacancy_id', $id)->get();
 
-        return view('pages.vacancyDetails', compact('vacancy','applications'));
-
+        return view('pages.vacancyDetails', compact('vacancy', 'applications'));
     }
 
     public function update_vacancy($id)
     {
-        $vacancy = Vacancy::with('owner', 'categories','requirements','benefits')->findOrFail($id);
+        $vacancy = Vacancy::with('owner', 'categories', 'requirements', 'benefits')->findOrFail($id);
 
         $categories = VacancyCategory::where('status', '=', true)->get();
-        return view('pages.add-vacancies',compact('categories','vacancy'));
+        return view('pages.add-vacancies', compact('categories', 'vacancy'));
     }
 
     public function openVacancie()
     {
-         $categories = VacancyCategory::where('status', '=', true)->get();
-         return view('pages.add-vacancies',compact('categories'));
+        $categories = VacancyCategory::where('status', '=', true)->get();
+        return view('pages.add-vacancies', compact('categories'));
     }
 
     public function desactive_vacancy($id)
@@ -80,119 +80,119 @@ class VacancieController extends Controller
         return redirect()->route('list-vacancy')->with('success', 'Vaga Apagada com sucesso!');
     }
 
-     public function store(Request $request)
+    public function store(Request $request)
     {
-            // Validação dos dados recebidos
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'salary' => 'nullable|numeric',
-                'submission_start_date' => 'required|date',
-                'submission_end_date' => 'required|date',
-                'vacancies_count' => 'required|integer',
-                'description' => 'required|string',
-                'categories' => 'required|array', // As categorias devem ser um array
-                'categories.*' => 'exists:vacancy_categories,id', // Cada categoria selecionada deve existir na tabela de categorias
-                'benefits' => 'nullable|array', // Benefícios são opcionais
-                'benefits.*' => 'string|max:255', // Cada benefício é uma string
-                'requirements' => 'nullable|array', // Requisitos são opcionais
-                'requirements.*' => 'string|max:255', // Cada requisito é uma string
-            ]);
+        // Validação dos dados recebidos
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'salary' => 'nullable|numeric',
+            'submission_start_date' => 'required|date',
+            'submission_end_date' => 'required|date',
+            'vacancies_count' => 'required|integer',
+            'description' => 'required|string',
+            'categories' => 'required|array', // As categorias devem ser um array
+            'categories.*' => 'exists:vacancy_categories,id', // Cada categoria selecionada deve existir na tabela de categorias
+            'benefits' => 'nullable|array', // Benefícios são opcionais
+            'benefits.*' => 'string|max:255', // Cada benefício é uma string
+            'requirements' => 'nullable|array', // Requisitos são opcionais
+            'requirements.*' => 'string|max:255', // Cada requisito é uma string
+        ]);
 
 
 
 
-            // Criar a vaga (vacancy)
-            $vacancy = Vacancy::create([
-                'owner_id' => auth()->id(), // Definindo o owner (usuário logado)
-                'title' => $request->title,
-                'salary' => $request->salary,
-                'submission_start_date' => $request->submission_start_date,
-                'submission_end_date' => $request->submission_end_date,
-                'vacancies_count' => $request->vacancies_count,
-                'description' => $request->description,
-            ]);
+        // Criar a vaga (vacancy)
+        $vacancy = Vacancy::create([
+            'owner_id' => auth()->id(), // Definindo o owner (usuário logado)
+            'title' => $request->title,
+            'salary' => $request->salary,
+            'submission_start_date' => $request->submission_start_date,
+            'submission_end_date' => $request->submission_end_date,
+            'vacancies_count' => $request->vacancies_count,
+            'description' => $request->description,
+        ]);
 
-            // Associar as categorias à vaga (many-to-many)
-            $vacancy->categories()->attach($request->categories);
+        // Associar as categorias à vaga (many-to-many)
+        $vacancy->categories()->attach($request->categories);
 
-            // Adicionar os benefícios à vaga (se fornecidos)
-            if ($request->has('benefits')) {
-                foreach ($request->benefits as $benefit) {
-                    Benefit::create([
-                        'vacancy_id' => $vacancy->id,
-                        'benefit' => $benefit,
-                    ]);
-                }
+        // Adicionar os benefícios à vaga (se fornecidos)
+        if ($request->has('benefits')) {
+            foreach ($request->benefits as $benefit) {
+                Benefit::create([
+                    'vacancy_id' => $vacancy->id,
+                    'benefit' => $benefit,
+                ]);
             }
+        }
 
-            // Adicionar os requisitos à vaga (se fornecidos)
-            if ($request->has('requirements')) {
-                foreach ($request->requirements as $requirement) {
-                    Requirement::create([
-                        'vacancy_id' => $vacancy->id,
-                        'requirement' => $requirement,
-                    ]);
-                }
+        // Adicionar os requisitos à vaga (se fornecidos)
+        if ($request->has('requirements')) {
+            foreach ($request->requirements as $requirement) {
+                Requirement::create([
+                    'vacancy_id' => $vacancy->id,
+                    'requirement' => $requirement,
+                ]);
             }
+        }
 
-            // Retornar uma resposta ou redirecionamento
-            return redirect()->route('add-vacancy')->with('success', 'Vaga cadastrada com sucesso!');
+        // Retornar uma resposta ou redirecionamento
+        return redirect()->route('add-vacancy')->with('success', 'Vaga cadastrada com sucesso!');
     }
 
 
     public function edit_vacancy(Request $request, $id)
     {
-            // Validação dos dados recebidos
-            $validatedData = $request->validate([
-                'title' => 'required|string|max:255',
-                'salary' => 'nullable|numeric',
-                'submission_start_date' => 'required|date',
-                'submission_end_date' => 'required|date',
-                'vacancies_count' => 'required|integer',
-                'description' => 'required|string',
-                'categories' => 'required|array', // As categorias devem ser um array
-                'categories.*' => 'exists:vacancy_categories,id', // Cada categoria selecionada deve existir na tabela de categorias
-                'benefits' => 'nullable|array', // Benefícios são opcionais
-                'benefits.*' => 'string|max:255', // Cada benefício é uma string
-                'requirements' => 'nullable|array', // Requisitos são opcionais
-                'requirements.*' => 'string|max:255', // Cada requisito é uma string
-            ]);
+        // Validação dos dados recebidos
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'salary' => 'nullable|numeric',
+            'submission_start_date' => 'required|date',
+            'submission_end_date' => 'required|date',
+            'vacancies_count' => 'required|integer',
+            'description' => 'required|string',
+            'categories' => 'required|array', // As categorias devem ser um array
+            'categories.*' => 'exists:vacancy_categories,id', // Cada categoria selecionada deve existir na tabela de categorias
+            'benefits' => 'nullable|array', // Benefícios são opcionais
+            'benefits.*' => 'string|max:255', // Cada benefício é uma string
+            'requirements' => 'nullable|array', // Requisitos são opcionais
+            'requirements.*' => 'string|max:255', // Cada requisito é uma string
+        ]);
 
-            // Encontre a vaga existente
-            $vacancy = Vacancy::findOrFail($id);
+        // Encontre a vaga existente
+        $vacancy = Vacancy::findOrFail($id);
 
-            // Atualize os dados principais da vaga
-            $vacancy->title = $validatedData['title'];
-            $vacancy->submission_start_date = $validatedData['submission_start_date'];
-            $vacancy->submission_end_date = $validatedData['submission_end_date'];
-            $vacancy->vacancies_count = $validatedData['vacancies_count'];
-            $vacancy->salary = $validatedData['salary'] ?? null;
-            $vacancy->description = $validatedData['description'];
+        // Atualize os dados principais da vaga
+        $vacancy->title = $validatedData['title'];
+        $vacancy->submission_start_date = $validatedData['submission_start_date'];
+        $vacancy->submission_end_date = $validatedData['submission_end_date'];
+        $vacancy->vacancies_count = $validatedData['vacancies_count'];
+        $vacancy->salary = $validatedData['salary'] ?? null;
+        $vacancy->description = $validatedData['description'];
 
-            // Salve as alterações principais da vaga
-            $vacancy->save();
+        // Salve as alterações principais da vaga
+        $vacancy->save();
 
-            // Atualize as categorias selecionadas
-            $vacancy->categories()->sync($validatedData['categories']);
+        // Atualize as categorias selecionadas
+        $vacancy->categories()->sync($validatedData['categories']);
 
-            // Atualize os requisitos
-            if (isset($validatedData['requirements'])) {
-                $vacancy->requirements()->delete();  // Apagar os antigos requisitos
-                foreach ($validatedData['requirements'] as $requirement) {
-                    $vacancy->requirements()->create(['requirement' => $requirement]);
-                }
+        // Atualize os requisitos
+        if (isset($validatedData['requirements'])) {
+            $vacancy->requirements()->delete();  // Apagar os antigos requisitos
+            foreach ($validatedData['requirements'] as $requirement) {
+                $vacancy->requirements()->create(['requirement' => $requirement]);
             }
+        }
 
-            // Atualize os benefícios
-            if (isset($validatedData['benefits'])) {
-                $vacancy->benefits()->delete();  // Apagar os antigos benefícios
-                foreach ($validatedData['benefits'] as $benefit) {
-                    $vacancy->benefits()->create(['benefit' => $benefit]);
-                }
+        // Atualize os benefícios
+        if (isset($validatedData['benefits'])) {
+            $vacancy->benefits()->delete();  // Apagar os antigos benefícios
+            foreach ($validatedData['benefits'] as $benefit) {
+                $vacancy->benefits()->create(['benefit' => $benefit]);
             }
+        }
 
-            // Redirecionar de volta com sucesso
-            return redirect()->route('list-vacancy')->with('success', 'Vaga atualizada com sucesso!');
+        // Redirecionar de volta com sucesso
+        return redirect()->route('list-vacancy')->with('success', 'Vaga atualizada com sucesso!');
     }
 
     // candidaturas
@@ -202,48 +202,48 @@ class VacancieController extends Controller
         return view('pages.applications', compact('applications'));
     }
 
-    public function show_file(){
+    public function show_file()
+    {
         return view('pages.open-file');
     }
 
     public function showVacanciesByOwner($ownerId)
-{
-    // Buscar todas as vagas de um proprietário específico, com as categorias associadas
-    $vagas = Vacancy::with('categories') // Eager loading para categorias associadas
-                    ->where('owner_id', $ownerId) // Filtra pelo ID do proprietário
-                    ->get(); // Recupera todas as vagas desse proprietário
+    {
+        // Buscar todas as vagas de um proprietário específico, com as categorias associadas
+        $vagas = Vacancy::with('categories') // Eager loading para categorias associadas
+            ->where('owner_id', $ownerId) // Filtra pelo ID do proprietário
+            ->get(); // Recupera todas as vagas desse proprietário
 
-    // Retornar as vagas como resposta JSON
-    return response()->json($vagas);
-}
+        // Retornar as vagas como resposta JSON
+        return response()->json($vagas);
+    }
 
-public function countVacanciesByOwner($ownerId)
-{
-    // Contar o número de vagas associadas ao proprietário com submission_end_date menor que a data atual
-    $vacanciesCount = Vacancy::where('owner_id', $ownerId) // Filtra as vagas pelo ID do proprietário
-                             ->where('submission_end_date', '<', now()) // Verifica se a submission_end_date é anterior à data atual
-                             ->count(); // Conta o número de vagas
+    public function countVacanciesByOwner($ownerId)
+    {
+        // Contar o número de vagas associadas ao proprietário com submission_end_date menor que a data atual
+        $vacanciesCount = Vacancy::where('owner_id', $ownerId) // Filtra as vagas pelo ID do proprietário
+            ->where('submission_end_date', '>=', now()) // Verifica se a submission_end_date é anterior à data atual
+            ->count(); // Conta o número de vagas
 
-    // Retornar a contagem como resposta JSON
-    return response()->json(['vacancies_count' => $vacanciesCount]);
-}
-
-
+        // Retornar a contagem como resposta JSON
+        return response()->json(['vacancies_count' => $vacanciesCount]);
+    }
 
 
 
 
 
-        //categoriasController
-     public function openCategory()
-     {
+
+    //categoriasController
+    public function openCategory()
+    {
         return view('pages.add-category');
-     }
+    }
 
 
-     public function showCategories()
+    public function showCategories()
 
-     {
+    {
         $categories = VacancyCategory::where('status', '=', true)->get();
         return view('pages.categories', compact('categories'));
     }
@@ -265,7 +265,7 @@ public function countVacanciesByOwner($ownerId)
         return redirect()->route('add-category')->with('success', 'Categoria criada com sucesso!');
     }
 
-    public function updateCategory(Request $request,$id)
+    public function updateCategory(Request $request, $id)
     {
         $request->validate([
             'name' => ['required', 'string', Rule::unique('vacancy_categories')->ignore($id),],
@@ -307,7 +307,7 @@ public function countVacanciesByOwner($ownerId)
         try {
             $today = Carbon::today();
             $expiredCount = Vacancy::where('owner_id', $ownerId)
-                ->where('submission_end_date', '<', $today)
+                ->where('submission_end_date', '>=', $today)
                 ->count();
 
             return response()->json(['count' => $expiredCount], 200);

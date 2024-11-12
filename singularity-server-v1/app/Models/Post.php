@@ -24,4 +24,12 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function reactions()
+    {
+        return $this->hasMany(PostReaction::class);
+    }
+
+    // Relacionamento com o usuário (autor do post)
+    
 }

@@ -51,16 +51,16 @@ export default {
         this.companyName = companyData.name;
 
         // Faz a chamada para obter a contagem de vagas da empresa
-        const vacanciesResponse = await axios.get(`http://localhost:8000/api/count/${companyData.id}`);
+        const vacanciesResponse = await axios.get(`http://localhost:8000/api/CountVacancies/${companyData.id}`);
         console.log("Resposta da contagem de vagas:", vacanciesResponse.data.count);
 
         // Atualiza o número de vagas disponíveis com a contagem específica da resposta
 
 
         if( vacanciesResponse.data.count>1){
-          this.vacanciesCount =vacanciesResponse.data.vacancies_count+" vagas";
+          this.vacanciesCount =vacanciesResponse.data.count+" vagas";
         }else{
-          this.vacanciesCount = vacanciesResponse.data.vacancies_count+" vaga";
+          this.vacanciesCount = vacanciesResponse.data.count+" vaga";
         }
 
        ;

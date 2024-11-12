@@ -38,6 +38,7 @@ const routes = [
         name: "portal",
         component: () => import("pages/auth/PortalPage.vue"),
       },
+
     ],
   },
   {
@@ -77,6 +78,20 @@ const routes = [
         name: "allJobs",
         component: () => import("src/pages/allJobs.vue"),
       },
+      {
+        path: '/company/:companyId/posts', // A URL para acessar os posts de uma empresa
+        name: 'CompanyPosts',
+        component: ()=> import('src/components/PostCard.vue'),
+        props: true // Permite passar os parâmetros da URL para o componente como props
+      },
+      {
+        path: '/company', // A URL para acessar os posts de uma empresa
+        name: 'CompanyPostsAll',
+        component: ()=> import('src/components/PostCardAll.vue'),
+       // Permite passar os parâmetros da URL para o componente como props
+      }
+
+
     ],
   },
   {

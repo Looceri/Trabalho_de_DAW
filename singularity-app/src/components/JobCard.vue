@@ -65,7 +65,7 @@ export default {
 
         // Filtra as vagas, excluindo aquelas com submission_end_date anterior à data atual
         const today = new Date();
-        jobsData = jobsData.filter(job => new Date(job.submission_end_date) < today);
+        jobsData = jobsData.filter(job => new Date(job.submission_end_date) >= today);
 
         console.log(jobsData);
 
