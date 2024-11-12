@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
-
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Vacancy;
@@ -11,7 +9,6 @@ use App\Models\Application;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserLocation;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Auth\LoginRequest;
@@ -43,9 +40,10 @@ class UserController extends Controller
         // Caso o usuário não seja encontrado, retorna um erro
         return response()->json(['error' => 'Usuário não encontrado'], 404);
     }
-    public function showUsers(){
-         $users=User::all();
-         return view('pages.users',compact('users'));
+    public function showUsers()
+    {
+        $users = User::all();
+        return view('pages.users', compact('users'));
     }
     public function showDash(){
          $users=User::all();
@@ -55,10 +53,10 @@ class UserController extends Controller
     }
     public function desactive_user($id){
         $post = User::findOrFail($id);
-    
+
         // Atualiza o status do post para falso (desativado)
         $post->update(['status' => false]);
-    
+
         // Redireciona de volta com uma mensagem de sucesso
         return redirect()->route('posts.index')->with('success', 'usuario desactivado com sucesso');
     }
@@ -300,6 +298,7 @@ class UserController extends Controller
             }
 
             // Atualiza o usuário
+
             foreach (['name', 'email', 'email_verified_at', 'password', 'role', 'status', 'description', 'remember_token', 'birth_date', 'adress', 'province', 'sexo', 'phone', 'avatar_id'] as $field) {
                 if ($request->has($field) && $request->filled($field) &&  $request->$field !== $user->$field ) {
                     if ($field === 'phone') {
@@ -325,5 +324,4 @@ class UserController extends Controller
             ], 500);
         }
     }
-
 }

@@ -16,13 +16,7 @@
       </template>
       <template #post>
         <!-- Exibição de posts da empresa -->
-        <PostCard
-          v-for="post in company.posts"
-          :key="post.id"
-          :title="post.title"
-          :description="post.description"
-          :image="post.image"
-        />
+        <PostCard :companyId="company.id" />
       </template>
       <template #trabalhos>
         <!-- Passando apenas o ID da empresa para o componente de Trabalhos -->
@@ -31,6 +25,7 @@
     </CompanyTabs>
   </q-page>
 </template>
+
 
 <script>
 import axios from 'axios';

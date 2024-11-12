@@ -11,22 +11,24 @@
         active-color="primary"
         class="bg-white text-secondary shadow-2 q-py-md"
       >
-        <q-route-tab name="home" icon="house" :to="{ name: 'home' }" />
+        <!-- Aba Home -->
+        <q-route-tab name="home" icon="house" :to="{ name: 'description' }" />
 
-        <!-- Ícone alterado para "business" e descrição adicionada -->
+        <!-- Aba Jobs (Negócios) -->
         <q-route-tab
-          name="business"
+          name="jobs"
           icon="business"
-          :to="{ name: 'business' }"
+          :to="{ name: 'allJobs' }"
           title="Negócios"
         />
 
-        <q-tab rounded name="add" @click="handleAddClick">
-          <q-btn round icon="add" class="bg-primary text-white"></q-btn>
+        <!-- Botão para Posts sem background -->
+        <q-tab rounded name="posts" @click="goToPosts">
+          <q-btn flat label="Posts" />
         </q-tab>
 
-        <q-route-tab name="messages" icon="chat" :to="{ name: 'messages' }" />
-        <q-route-tab name="bookmarks" icon="bookmark" :to="{ name: 'map' }" />
+        <!-- Aba Map -->
+        <q-route-tab name="map" icon="map" :to="{ name: 'map' }" />
       </q-tabs>
     </q-footer>
   </q-layout>
@@ -34,11 +36,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const tab = ref('home');
+const tab = ref('home'); // Rastreando a aba ativa
+const router = useRouter();
 
-function handleAddClick() {
-  console.log("Add button clicked!");
+function goToPosts() {
+  // Navega para a página de posts
+  router.push({ name: 'CompanyPostsAll' }); // Ajuste a rota conforme necessário
 }
 </script>
 

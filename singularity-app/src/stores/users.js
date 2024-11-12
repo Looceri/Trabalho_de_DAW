@@ -1,6 +1,6 @@
 // src/stores/user.js
 import { defineStore } from "pinia";
-import piniaPluginPersist from "pinia-plugin-persist";
+
 
 export const useUserStore = defineStore("user", {
   state: () => ({

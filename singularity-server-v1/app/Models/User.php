@@ -47,8 +47,9 @@ class User extends Authenticatable
 
     public function locations()
     {
-        return $this->hasToMany(Location::class, 'user_locations', 'user_id', 'location_id');
+        return $this->belongsToMany(Location::class, 'user_locations', 'user_id', 'location_id');
     }
+
 
     public function educations()
     {
@@ -71,5 +72,17 @@ class User extends Authenticatable
     public function vacancies()
     {
         return $this->hasMany(Vacancy::class, 'owner_id');
+    }
+
+
+    public function reactions()
+    {
+        return $this->hasMany(PostReaction::class);
+    }
+
+    // Relacionamento com os posts
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }
