@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
-
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserLocation;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Auth\LoginRequest;
@@ -40,9 +37,10 @@ class UserController extends Controller
         // Caso o usuário não seja encontrado, retorna um erro
         return response()->json(['error' => 'Usuário não encontrado'], 404);
     }
-    public function showUsers(){
-         $users=User::all();
-         return view('pages.users',compact('users'));
+    public function showUsers()
+    {
+        $users = User::all();
+        return view('pages.users', compact('users'));
     }
 
 
@@ -277,7 +275,7 @@ class UserController extends Controller
 
             // Atualiza o usuário
             foreach (['name', 'email', 'email_verified_at', 'password', 'role', 'status', 'description', 'remember_token', 'birth_date', 'adress', 'province', 'sexo'] as $field) {
-                if ($request->has($field) && $request->filled($field) &&  $request->$field !== $user->$field ) {
+                if ($request->has($field) && $request->filled($field) &&  $request->$field !== $user->$field) {
                     $user->$field = $field === 'password' ? Hash::make($request->$field) : $request->$field;
                 }
             }
@@ -298,5 +296,4 @@ class UserController extends Controller
             ], 500);
         }
     }
-
 }

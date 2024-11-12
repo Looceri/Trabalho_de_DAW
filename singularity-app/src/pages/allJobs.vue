@@ -12,21 +12,7 @@
       />
     </div>
 
-    <!-- Botões fixos para "Posts" e "Empregadores" -->
-    <div class="fixed-action-buttons">
-      <q-btn
-        label="Posts"
-        :color="activeButton === 'posts' ? 'primary' : ''"
-        class="btn-action"
-        @click="setActiveButton('posts')"
-      />
-      <q-btn
-        label="Empregadores"
-        :color="activeButton === 'employers' ? 'orange' : ''"
-        class="btn-action"
-        @click="setActiveButton('employers')"
-      />
-    </div>
+
 
     <!-- Barra de navegação inferior -->
     <q-footer class="footer">

@@ -26,6 +26,7 @@ use App\Http\Controllers\LikeController;
 
 Route::get('/user', [UserController::class, 'index']);
 Route::get('/user/{id}', [UserController::class, 'findById']);
+
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/upload', [FileController::class, 'store']);

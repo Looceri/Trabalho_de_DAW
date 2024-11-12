@@ -12,13 +12,13 @@
         class="bg-white text-secondary shadow-2 q-py-md"
       >
         <!-- Aba Home -->
-        <q-route-tab name="home" icon="house" :to="{ name: 'home' }" />
+        <q-route-tab name="home" icon="house" :to="{ name: 'description' }" />
 
         <!-- Aba Jobs (Negócios) -->
         <q-route-tab
           name="jobs"
           icon="business"
-          :to="{ name: 'jobs' }"
+          :to="{ name: 'allJobs' }"
           title="Negócios"
         />
 
