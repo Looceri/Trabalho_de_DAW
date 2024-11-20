@@ -57,7 +57,7 @@
             <img class="mb-3" src="./assets/svg/illustrations-light/oc-error.svg" alt="Imagem de erro" style="width: 10rem;" data-hs-theme-appearance="dark">
             <p class="mb-0">Nenhuma publicação encontrada</p>
         </div>
-    </div>`
+    </div>
     @endif
     @foreach($posts as $post)
         <div class="col-md-4 mb-4">
