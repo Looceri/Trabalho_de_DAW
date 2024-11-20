@@ -1,0 +1,11 @@
+{
+    "builds": [
+      {
+        "src": "singularity-server-v1",
+        "use": "@railway/phps"
+      }
+    ],
+    "env": {
+      "PHP_VERSION": "8.2"
+    }
+  }
