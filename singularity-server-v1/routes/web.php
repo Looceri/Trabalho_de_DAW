@@ -46,7 +46,7 @@ Route::middleware('auth','verified')->group(function () {
 
 
     //Vacancie
-    Route::get('/add-vacancy', [VacancieController::class, 'openVacancie'])->name('add-vacancy');
+    Route::get('/add-vacancy', [VacancieController::class, 'openVacancie'])->name('add-vacancy-page');
     Route::post('/add-vacancy', [VacancieController::class, 'store'])->name('add-vacancy');
 
     Route::get('/list-vacancy', [VacancieController::class, 'showVacancie'])->name('list-vacancy');

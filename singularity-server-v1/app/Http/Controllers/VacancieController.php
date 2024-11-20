@@ -152,7 +152,7 @@ class VacancieController extends Controller
         }
 
         // Retornar uma resposta ou redirecionamento
-        return redirect()->route('add-vacancy')->with('success', 'Vaga cadastrada com sucesso!');
+        return redirect()->route('add-vacancy-page')->with('success', 'Vaga cadastrada com sucesso!');
     }
 
 

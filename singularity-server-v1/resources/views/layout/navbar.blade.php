@@ -67,7 +67,7 @@
                                     <span class="nav-link-title">Gerir Vagas</span>
                                 </a>
                                 <div id="navbarVerticalMenuPagesProviderVacancies" class="nav-collapse collapse {{ request()->is('vacancies*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalMenu">
-                                    <a class="nav-link {{ request()->routeIs('add-vacancy') ? 'active' : '' }}" href="{{ route('add-vacancy') }}">Adicionar Vagas</a>
+                                    <a class="nav-link {{ request()->routeIs('add-vacancy-page') ? 'active' : '' }}" href="{{ route('add-vacancy-page') }}">Adicionar Vagas</a>
                                     <a class="nav-link {{ request()->routeIs('list-vacancy') ? 'active' : '' }}" href="{{ route('list-vacancy') }}">Lista de Vagas</a>
                                 </div>
                             </div>

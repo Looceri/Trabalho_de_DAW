@@ -37,7 +37,7 @@
                 <!-- End Col -->
 
                 <div class="col-auto">
-                    <a class="btn btn-primary" href="{{ route('add-vacancy') }}">
+                    <a class="btn btn-primary" href="{{ route('add-vacancy-page') }}">
                         <i class="bi-person-plus-fill me-1"></i> Adicionar vaga
                     </a>
                 </div>
@@ -99,7 +99,7 @@
                                     @php
                                     $today = \Carbon\Carbon::today(); // Obtém a data atual
                                 @endphp
-                                
+
                                 {{$vacancies->where('status', true)->where('submission_start_date', '>', $today)->count()}}
                                                                 </span>
                                 <span class="text-body fs-5 ms-1">de {{$vacancies->count()}}</span>
@@ -107,17 +107,17 @@
 
                             <div class="col-auto">
                                 <span class="badge bg-soft-success text-success p-1">
-                                    <i class="bi-graph-up"></i> 
+                                    <i class="bi-graph-up"></i>
                                 @php
                                     $today = \Carbon\Carbon::today(); // Obtém a data atual
                                     $filteredCount = $vacancies->where('status', true)->where('submission_start_date', '>', $today)->count();
                                     $totalCount = $vacancies->count();
                                     $percentage = $totalCount > 0 ? ($filteredCount / $totalCount) * 100 : 0; // Calcula a porcentagem
                                 @endphp
-                                
+
                                 <span class="text-body fs-5 ms-1">  {{ number_format($percentage, 2) }}%</span>
-                                
-                                    
+
+
                                 </span>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
 
                         <div class="row align-items-center gx-2">
                             <div class="col">
-                                <span class="js-counter display-4 text-dark"> 
+                                <span class="js-counter display-4 text-dark">
                                    {{  $totalApplications}}
                                 </span>
                                 <span class="text-body fs-5 ms-1">100%</span>
@@ -173,7 +173,7 @@
                     </form>
                 </div>
 
-            
+
             </div>
             <!-- End Header -->
 
@@ -249,18 +249,18 @@
                                 @csrf
                                 @method('POST') <!-- Aqui estamos forçando o método POST -->
                                 <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="bi-trash-fill me-1"></i> 
+                                    <i class="bi-trash-fill me-1"></i>
                                 </button>
                             </form>
-                            
-                          
+
+
                         </div>
-                        
+
                     </td>
                 </tr>
 
             @endforeach
-   
+
             @endif
         </tbody>
     </table>
