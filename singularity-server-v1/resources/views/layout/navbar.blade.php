@@ -20,14 +20,14 @@
                         <img class="navbar-brand-logo-mini" style="height: 43px; width: 43px;" src="{{ asset('assets/logo-dark.png') }}" alt="Logo" data-hs-theme-appearance="dark">
                     </a>
                     <!-- End Logo -->
-                    
+
                     <!-- Navbar Vertical Toggle -->
                     <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-aside-toggler">
                         <i class="bi-arrow-bar-left navbar-toggler-short-align" data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse"></i>
                         <i class="bi-arrow-bar-right navbar-toggler-full-align" data-bs-toggle="tooltip" data-bs-placement="right" title="Expand"></i>
                     </button>
                     <!-- End Navbar Vertical Toggle -->
-            
+
                     <!-- Content -->
                     <div class="navbar-vertical-content">
                         <div id="navbarVerticalMenu" class="nav nav-pills nav-vertical card-navbar-nav">
@@ -39,7 +39,7 @@
                                     <span class="nav-link-title">Dashboard</span>
                                 </a>
                             </div>
-            
+
                             <!-- Users Link -->
                             <div class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('users') ? 'active' : '' }}" href="{{ route('users') }}">
@@ -55,11 +55,11 @@
                                     <span class="nav-link-title">Gerir Categorias</span>
                                 </a>
                                 <div id="navbarVerticalMenuPagesProviderCategories" class="nav-collapse collapse {{ request()->is('categories*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalMenu">
-                                    <a class="nav-link {{ request()->routeIs('add-category') ? 'active' : '' }}" href="{{ route('add-category') }}">Adicionar categoria</a>
+                                    <a class="nav-link {{ request()->routeIs('add-category-page') ? 'active' : '' }}" href="{{ route('add-category-page') }}">Adicionar categoria</a>
                                     <a class="nav-link {{ request()->routeIs('list-category') ? 'active' : '' }}" href="{{ route('list-category') }}">Lista de Categorias</a>
                                 </div>
                             </div>
-            
+
                             <!-- Manage Vacancies -->
                             <div class="nav-item">
                                 <a class="nav-link {{ request()->is('vacancies*') ? 'active' : '' }}" href="#navbarVerticalMenuPagesProviderVacancies" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProviderVacancies" aria-controls="navbarVerticalMenuPagesProviderVacancies">
@@ -71,7 +71,7 @@
                                     <a class="nav-link {{ request()->routeIs('list-vacancy') ? 'active' : '' }}" href="{{ route('list-vacancy') }}">Lista de Vagas</a>
                                 </div>
                             </div>
-            
+
                             <!-- Manage Posts -->
                             <div class="nav-item">
                                 <a class="nav-link {{ request()->is('posts*') ? 'active' : '' }}" href="#navbarVerticalMenuPagesProviderPosts" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuPagesProviderPosts" aria-controls="navbarVerticalMenuPagesProviderPosts">
@@ -96,5 +96,5 @@
                     </div>
                 </div>
             </div>
-            
+
 </aside>

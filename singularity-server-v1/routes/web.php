@@ -34,7 +34,7 @@ Route::middleware('auth','verified')->group(function () {
 
 
     //Categories
-    Route::get('/add-category', [VacancieController::class, 'openCategory'])->name('add-category');
+    Route::get('/add-category', [VacancieController::class, 'openCategory'])->name('add-category-page');
     Route::post('/add-category', [VacancieController::class,'storeCategorie'])->name('add-category');
 
 
@@ -61,7 +61,7 @@ Route::middleware('auth','verified')->group(function () {
    Route::get('/aplications/{id}', [VacancieController::class, 'show_applications'])->name('aplications');
    Route::get('/file/{id}', [VacancieController::class, 'show_file'])->name('file');
 
-   
+
    //pots
    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
    Route::get('/posts/create', [PostController::class, 'create'])->name('add-post');

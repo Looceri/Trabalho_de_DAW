@@ -278,7 +278,7 @@ class VacancieController extends Controller
             'description' => $request->description,
         ]);
 
-        return redirect()->route('add-category')->with('success', 'Categoria criada com sucesso!');
+        return redirect()->route('add-category-page')->with('success', 'Categoria criada com sucesso!');
     }
 
     public function updateCategory(Request $request, $id)

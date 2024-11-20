@@ -37,7 +37,7 @@
                 <!-- End Col -->
 
                 <div class="col-auto">
-                    <a class="btn btn-primary" href="{{ route('add-category') }}">
+                    <a class="btn btn-primary" href="{{ route('add-category-page') }}">
                         <i class="bi-person-plus-fill me-1"></i> Adicionar Categoria
                     </a>
                 </div>
@@ -82,7 +82,7 @@
                                     $activeUsers = $categories->where('status', true)->count();
                                     $percentage = $totalUsers > 0 ? ($activeUsers / $totalUsers) * 100 : 0;
                                 @endphp
-                                
+
                                 {{ number_format($percentage, 2) }}%
                                 </span>
                             </div>
@@ -163,7 +163,7 @@
                     </form>
                 </div>
 
-            
+
             </div>
             <!-- End Header -->
 
@@ -220,19 +220,19 @@
                     <td>
                         <div class="d-flex justify-content-center gap-2">
                             <a href="{{ route('edit-category', ['id' => $category->id]) }}" class="btn btn-primary btn-sm" >
-                                <i class="bi-pencil-fill me-1"></i> 
+                                <i class="bi-pencil-fill me-1"></i>
                             </a>
                             <a href="{{ route('delete-category', ['id' => $category->id]) }}" class="btn btn-danger btn-sm">
-                                <i class="bi-trash-fill me-1"></i> 
+                                <i class="bi-trash-fill me-1"></i>
                             </a>
-                            
-                            
+
+
                         </div>
                     </td>
                 </tr>
-              
+
             @endforeach
-   
+
             @endif
         </tbody>
     </table>
@@ -245,13 +245,13 @@
             $totalUsers = $categories->count();
             $initialDisplay = $totalUsers > 10 ? 10 : $totalUsers; // Mostra 10 ou o total de usuários, se menor que 10
         @endphp
-        
+
         <div class="card-footer">
             <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
                 <div class="col-sm mb-2 mb-sm-0">
                     <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
                         <span class="me-2">Showing:</span>
-        
+
                         <!-- Select -->
                         <div class="tom-select-custom">
                             <select id="datatableEntries"
@@ -268,15 +268,15 @@
                             </select>
                         </div>
                         <!-- End Select -->
-        
+
                         <span class="text-secondary me-2">of</span>
-        
+
                         <!-- Pagination Quantity -->
                         <span id="datatableWithPaginationInfoTotalQty">{{ $totalUsers }}</span>
                     </div>
                 </div>
                 <!-- End Col -->
-        
+
                 <div class="col-sm-auto">
                     <div class="d-flex justify-content-center justify-content-sm-end">
                         <!-- Pagination -->
