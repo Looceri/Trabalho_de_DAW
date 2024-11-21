@@ -13,12 +13,16 @@
             <div class="navbar-vertical-container">
                 <div class="navbar-vertical-footer-offset">
                     <!-- Logo -->
-                    <a class="navbar-brand" href="{{ route('dashboard') }}" aria-label="Front">
-                        <img class="navbar-brand-logo" src="{{ asset('assets/logo-name.png') }}" alt="Logo" data-hs-theme-appearance="default">
-                        <img class="navbar-brand-logo" src="{{ asset('assets/logo-name-white.png') }}" alt="Logo" data-hs-theme-appearance="dark">
-                        <img class="navbar-brand-logo-mini" style="height: 43px; width: 43px;" src="{{ asset('assets/logo.png') }}" alt="Logo" data-hs-theme-appearance="default">
-                        <img class="navbar-brand-logo-mini" style="height: 43px; width: 43px;" src="{{ asset('assets/logo-dark.png') }}" alt="Logo" data-hs-theme-appearance="dark">
-                    </a>
+                    <br>
+                    <br>
+                    <div class="d-flex justify-content-center">
+                        <a class="navbar-brand" href="{{ route('dashboard') }}" aria-label="Front">
+                            <img class="navbar-brand-logo" src="{{ asset('assets/logo2.svg') }}" alt="Logo" data-hs-theme-appearance="default">
+                            <img class="navbar-brand-logo" src="{{ asset('assets/logo.svg') }}" alt="Logo" data-hs-theme-appearance="dark">
+                            <img class="navbar-brand-logo-mini" style="height: 43px; width: 43px;" src="{{ asset('assets/logo2.svg') }}" alt="Logo" data-hs-theme-appearance="default">
+                            <img class="navbar-brand-logo-mini" style="height: 43px; width: 43px;" src="{{ asset('assets/logo.svg') }}" alt="Logo" data-hs-theme-appearance="dark">
+                        </a>
+                    </div>
                     <!-- End Logo -->
 
                     <!-- Navbar Vertical Toggle -->
@@ -80,7 +84,7 @@
                                 </a>
                                 <div id="navbarVerticalMenuPagesProviderPosts" class="nav-collapse collapse {{ request()->is('posts*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalMenu">
                                     <a class="nav-link {{ request()->routeIs('add-post') ? 'active' : '' }}" href="{{ route('add-post') }}">Adicionar Post</a>
-                                    <a class="nav-link {{ request()->routeIs('posts.index') ? 'active' : '' }}" href="{{ route('posts.index') }}">Lista de Posts</a>
+                                    <a class="nav-link {{ request()->routeIs('post_list') ? 'active' : '' }}" href="{{ route('post_list') }}">Lista de Posts</a>
                                 </div>
                             </div>
                             @else

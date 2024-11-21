@@ -225,8 +225,8 @@
         <!-- Content -->
         <div class="container py-5 py-sm-7">
             <a class="d-flex justify-content-center mb-5" href="">
-                <img class="zi-2" src="{{ asset('assets/logo-name.png') }}" alt="Image Description"
-                    style="width: 8rem;">
+                <img class="zi-2" src="{{ asset('assets/logo.svg') }}" alt="Image Description"
+                style="width: 8rem;">
             </a>
 
             <div class="mx-auto" style="max-width: 30rem;">

@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Storage;
 class PostController extends Controller
 {
 
+    public function post_list()
+    {
+        return view('pages.posts');
+    }
+
     public function index(Request $request, $companyId)
     {
         // Recupera o ID do usuário do parâmetro na requisição
@@ -90,7 +95,7 @@ class PostController extends Controller
 
         Post::create($data);
 
-        return redirect()->route('posts.index')->with('success', 'Post criado com sucesso');
+        return redirect()->route('post_list')->with('success', 'Post criado com sucesso');
     }
 
     // Show the form for editing a post
@@ -125,7 +130,7 @@ class PostController extends Controller
 
         $post->update($data);
 
-        return redirect()->route('posts.index')->with('success', 'Post atualizado com sucesso');
+        return redirect()->route('post_list')->with('success', 'Post atualizado com sucesso');
     }
 
 
@@ -139,7 +144,7 @@ class PostController extends Controller
         $post->update(['status' => false]);
 
         // Redireciona de volta com uma mensagem de sucesso
-        return redirect()->route('posts.index')->with('success', 'Post Apagado com sucesso');
+        return redirect()->route('post_list')->with('success', 'Post Apagado com sucesso');
     }
 
 

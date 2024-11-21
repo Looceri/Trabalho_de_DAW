@@ -26,6 +26,11 @@ class UserController extends Controller
         return User::all();
     }
 
+    public function getOwners()
+    {
+        return User::where('role', 'employer')->get();
+    }
+
     public function findById($id)
     {
         // Tenta encontrar o usuário com o ID fornecido

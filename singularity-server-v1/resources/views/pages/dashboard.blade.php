@@ -34,21 +34,21 @@
                         $totalVacancies = $users->count();
                         $activeVacancies = $users->where('status', true)->count();
                         $inactiveVacancies = $users->where('status', false)->count();
-                        
+
                         // Calculate the percentage of active vacancies
                         $activePercentage = $totalVacancies > 0 ? round(($activeVacancies / $totalVacancies) * 100, 1) : 0;
                     @endphp
-                
+
                     <div class="card-body">
                         <h6 class="card-subtitle">Total de Usuarios</h6>
-                
+
                         <div class="row align-items-center gx-2 mb-1">
                             <div class="col-6">
                                 <!-- Display total vacancies -->
                                 <h2 class="card-title text-inherit">{{ $totalVacancies }}</h2>
                             </div>
                             <!-- End Col -->
-                
+
                             <div class="col-6">
                                 <!-- Chart -->
                                 <div class="chartjs-custom" style="height: 3rem;">
@@ -95,16 +95,16 @@
                             <!-- End Col -->
                         </div>
                         <!-- End Row -->
-                
+
                         <span class="badge bg-soft-success text-success">
                             <i class="bi-graph-up"></i> {{ $activePercentage }}%
                         </span>
                         <span class="text-body fs-6 ms-1">ativos de {{ $totalVacancies }}</span>
-                        
-                        
+
+
                     </div>
                 </a>
-                
+
                 <!-- End Card -->
             </div>
 
@@ -116,21 +116,21 @@
                         $totalVacancies = $vacancies->count();
                         $activeVacancies = $vacancies->where('status', true)->count();
                         $inactiveVacancies = $vacancies->where('status', false)->count();
-                        
+
                         // Calculate the percentage of active vacancies
                         $activePercentage = $totalVacancies > 0 ? round(($activeVacancies / $totalVacancies) * 100, 1) : 0;
                     @endphp
-                
+
                     <div class="card-body">
                         <h6 class="card-subtitle">Total de Vagas</h6>
-                
+
                         <div class="row align-items-center gx-2 mb-1">
                             <div class="col-6">
                                 <!-- Display total vacancies -->
                                 <h2 class="card-title text-inherit">{{ $totalVacancies }}</h2>
                             </div>
                             <!-- End Col -->
-                
+
                             <div class="col-6">
                                 <!-- Chart -->
                                 <div class="chartjs-custom" style="height: 3rem;">
@@ -177,16 +177,16 @@
                             <!-- End Col -->
                         </div>
                         <!-- End Row -->
-                
+
                         <span class="badge bg-soft-success text-success">
                             <i class="bi-graph-up"></i> {{ $activePercentage }}%
                         </span>
                         <span class="text-body fs-6 ms-1">ativos de {{ $totalVacancies }}</span>
-                        
-                      
+
+
                     </div>
                 </a>
-                
+
                 <!-- End Card -->
             </div>
 
@@ -198,21 +198,21 @@
                         $totalVacancies = $Applications->count();
                         $activeVacancies =$Applications->where('status', true)->count();
                         $inactiveVacancies =$Applications->where('status', false)->count();
-                        
+
                         // Calculate the percentage of active vacancies
                         $activePercentage = $totalVacancies > 0 ? round(($activeVacancies / $totalVacancies) * 100, 1) : 0;
                     @endphp
-                
+
                     <div class="card-body">
                         <h6 class="card-subtitle">Total de Candidaturas</h6>
-                
+
                         <div class="row align-items-center gx-2 mb-1">
                             <div class="col-6">
                                 <!-- Display total vacancies -->
                                 <h2 class="card-title text-inherit">{{ $totalVacancies }}</h2>
                             </div>
                             <!-- End Col -->
-                
+
                             <div class="col-6">
                                 <!-- Chart -->
                                 <div class="chartjs-custom" style="height: 3rem;">
@@ -259,13 +259,13 @@
                             <!-- End Col -->
                         </div>
                         <!-- End Row -->
-                
+
                         <span class="badge bg-soft-success text-success">
                             <i class="bi-graph-up"></i> {{ $activePercentage }}%
                         </span>
                         <span class="text-body fs-6 ms-1">ativos de {{ $totalVacancies }}</span>
-                        
-                      
+
+
                     </div>
                 </a>
                 <!-- End Card -->
@@ -279,21 +279,21 @@
                         $totalVacancies = $Applications->count();
                         $activeVacancies =$Applications->where('status', true)->count();
                         $inactiveVacancies =$Applications->where('status', false)->count();
-                        
+
                         // Calculate the percentage of active vacancies
                         $activePercentage = $totalVacancies > 0 ? round(($activeVacancies / $totalVacancies) * 100, 1) : 0;
                     @endphp
-                
+
                     <div class="card-body">
                         <h6 class="card-subtitle">Total de Candidaturas</h6>
-                
+
                         <div class="row align-items-center gx-2 mb-1">
                             <div class="col-6">
                                 <!-- Display total vacancies -->
                                 <h2 class="card-title text-inherit">{{ $activeVacancies }}</h2>
                             </div>
                             <!-- End Col -->
-                
+
                             <div class="col-6">
                                 <!-- Chart -->
                                 <div class="chartjs-custom" style="height: 3rem;">
@@ -340,13 +340,13 @@
                             <!-- End Col -->
                         </div>
                         <!-- End Row -->
-                
+
                         <span class="badge bg-soft-success text-success">
                             <i class="bi-graph-up"></i> {{ $activePercentage }}%
                         </span>
                         <span class="text-body fs-6 ms-1">ativos de {{ $totalVacancies }}</span>
-                        
-                      
+
+
                     </div>
                 </a>
                 <!-- End Card -->
@@ -406,7 +406,7 @@
                         <!-- End Col -->
                     </div>
                     <!-- End Row -->
-                        
+
                     <!-- Bar Chart -->
                     <div class="chartjs-custom">
                         <canvas id="updatingBarChart" style="height: 20rem;"
@@ -509,7 +509,7 @@
                     </div>
                     <!-- End Col -->
 
-                   
+
                     <!-- End Col -->
                 </div>
                 <!-- End Row -->
@@ -571,8 +571,8 @@
                                 <a class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <div class="avatar avatar-sm avatar-circle">
-                                           
-                                            <img class="avatar-img" src=""
+
+                                            <img class="avatar-img" src="{{ asset($user->avatar) }}"
                                                 alt="Image Description">
                                         </div>
                                     </div>
@@ -586,18 +586,18 @@
                             <td>{{$user->email}}</td>
                             <td>{{$user->phone}}</td>
                             <td>{{$user->sexo}}</td>
-                            <td> 
+                            <td>
                                 @if($user->role=='admin')
                                <span class="badge bg-danger">{{$user->role}}</span>
-                              @elseif($user->role=='employee')
-                                <span class="badge bg-secundary">{{$user->role}}</span>
+                              @elseif($user->role=='employer')
+                                <span class="badge bg-warning">{{$user->role}}</span>
                                @else
                                 <span class="badge bg-primary">{{$user->role}}</span>
 
                                @endif
                         </td>
-                           
-                            <td> 
+
+                            <td>
                                  @if($user->status)
                                 <span class="badge bg-primary">Activo</span>
                             @else
@@ -613,15 +613,15 @@
                                         @csrf
                                         @method('POST') <!-- Aqui estamos forçando o método POST -->
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi-trash-fill me-1"></i> 
+                                            <i class="bi-trash-fill me-1"></i>
                                         </button>
                                     </form>
-                                   
+
                                 </div>
                             </td>
                         </tr>
                     @endforeach
-                   
+
                     </tbody>
                 </table>
             </div>

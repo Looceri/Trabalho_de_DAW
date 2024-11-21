@@ -9,6 +9,9 @@
       <q-btn flat icon="chat" />
       <q-btn flat icon="person" @click="$router.push('/map')" />
     </q-footer>
+    <br>
+    <br>
+    <br>
 </template>
 
 <script setup>

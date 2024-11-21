@@ -613,14 +613,14 @@ class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navba
 
             <div class="dropdown-divider"></div>
 
-       
+
 
             <a class="dropdown-item" href="profile">Meu Perfil </a>
 
             <div class="dropdown-divider"></div>
 
-            
-        
+
+
 
 
 

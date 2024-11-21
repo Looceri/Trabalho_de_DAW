@@ -175,6 +175,7 @@ class FileController extends Controller
 
     public function apply(Request $request)
     {
+
         // Validação dos dados recebidos
         $validator = Validator::make($request->all(), [
             'file_id' => 'required|exists:files,id', // Valida que o file_id existe na tabela files
@@ -182,6 +183,17 @@ class FileController extends Controller
             'user_id' => 'required|exists:users,id',
             'reason' => 'required|string|max:500',
             'application_date' => 'required|date_format:Y-m-d',
+        ], [
+            'file_id.required' => 'O campo file_id é obrigatório.',
+            'file_id.exists' => 'O arquivo informado não existe.',
+            'vacancy_id.required' => 'O campo vacancy_id é obrigatório.',
+            'vacancy_id.exists' => 'A vaga informada não existe.',
+            'user_id.required' => 'O campo user_id é obrigatório.',
+            'user_id.exists' => 'O usuário informado não existe.',
+            'reason.required' => 'O campo raz o é obrigatório.',
+            'reason.max' => 'O campo raz o deve ter no máximo 500 caracteres.',
+            'application_date.required' => 'O campo application_date é obrigatório.',
+            'application_date.date_format' => 'O campo application_date deve estar no formato Y-m-d.',
         ]);
 
         if ($validator->fails()) {

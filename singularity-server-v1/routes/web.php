@@ -63,7 +63,8 @@ Route::middleware('auth','verified')->group(function () {
 
 
    //pots
-   Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+   Route::get('/posts/{companyId}', [PostController::class, 'index'])->name('posts.index');
+   Route::get('/posts', [PostController::class, 'post_list'])->name('post_list');
    Route::get('/posts/create', [PostController::class, 'create'])->name('add-post');
    Route::post('/posts', [PostController::class, 'store'])->name('store-post');
    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('edit-post');

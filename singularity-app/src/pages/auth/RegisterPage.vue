@@ -52,7 +52,7 @@
             <img src="../../assets/icons/google.svg" alt="Google Logo" class="google-icon" />
             SIGN IN COM GOOGLE
           </q-btn>
-          <p>Já tem uma conta? <a href="/login" class="link">Entrar</a></p>
+          <p>Já tem uma conta? <router-link :to="{ name: 'login' }" class="link">Entrar</router-link></p>
         </div>
       </q-form>
     </div>

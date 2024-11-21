@@ -1,6 +1,5 @@
 @php
  $user = Auth::user();
- dd($user);
 @endphp
 
 @extends('layout.base')

@@ -57,6 +57,9 @@
       <SuccessComponent />
     </div>
   </q-page>
+  <br>
+  <br>
+  <br>
 </template>
 
 <script setup>
@@ -65,6 +68,7 @@ import axios from 'axios';
 import SuccessComponent from './SuccessComponent.vue';
 import { useQuasar } from 'quasar';
 
+const user = JSON.parse(localStorage.getItem('user'));
 const $q = useQuasar();  // Inicializa o Quasar
 
 // Estado para o arquivo, informações e status da aplicação
@@ -107,9 +111,8 @@ const uploadFile = async (vagaId) => {
     return { status: uploadStatus.value };
   }
 
-  const user = JSON.parse(localStorage.getItem('user'));
 
-  const userId = user.id;
+  const userId = user.data.id;
   if (!userId) {
     uploadStatus.value = "User ID not found.";
     $q.notify({
@@ -127,7 +130,22 @@ const uploadFile = async (vagaId) => {
   try {
     const response = await axios.post("http://localhost:8000/api/upload", formData, {
       headers: { "Content-Type": "multipart/form-data" },
+    }).catch(error => {
+      if (error.response.status === 400) {
+        return error.response;
+      }
+      throw error;
     });
+
+    if (response.data.success === false) {
+      uploadStatus.value = response.data.message;
+      console.error("Erro ao fazer upload do arquivo:", response.data.message);
+      $q.notify({
+        type: 'negative',
+        message: response.data.message,
+      });
+      return { status: uploadStatus.value, error: response.data.message };
+    }
 
     uploadStatus.value = "File uploaded successfully";
     console.log("Upload concluído:", response.data);
@@ -166,12 +184,10 @@ const submitApplication = async () => {
     return;
   }
 
-  try {
     const uploadResponse = await uploadFile(props.vagaId);
 
     if (uploadResponse.status === "File uploaded successfully") {
-      const userId = localStorage.getItem("id");
-      console.log("User ID:", userId);
+      const userId = user.data.id;
       const fileId = uploadResponse.fileId;
 
       const applicationData = {
@@ -184,20 +200,18 @@ const submitApplication = async () => {
 
       const response = await axios.post("http://localhost:8000/api/candidate", applicationData);
 
-      if (response.status === 201) {
+      if (response.data.message === "Você já se candidatou para essa vaga.") {
+        applicationStatus.value = "Você já enviou um CV para esta vaga.";
+        $q.notify({
+          type: 'negative',
+          message: applicationStatus.value,
+        });
+      } else if (response.status === 201) {
         applicationStatus.value = "Application submitted successfully!";
         applicationSubmitted.value = true;
         $q.notify({
           type: 'positive',
           message: 'Candidatura enviada com sucesso!',
-        });
-      } else if (response.status === 409) {
-
-        // Supondo que o status 409 significa "candidatura já enviada"
-        applicationStatus.value = "Você já enviou um CV para esta vaga.";
-        $q.notify({
-          type: 'negative',
-          message: applicationStatus.value,
         });
       } else {
         applicationStatus.value = "Unexpected response status for application.";
@@ -212,7 +226,8 @@ const submitApplication = async () => {
         message: `Erro no upload do arquivo: ${uploadResponse.status}`,
       });
     }
-  } catch (error) {
+    try {
+    } catch (error) {
     applicationStatus.value = "Failed to submit application.";
     const errorMessage = error.response ? error.response.data : error.message;
     $q.notify({

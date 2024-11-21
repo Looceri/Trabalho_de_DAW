@@ -46,7 +46,7 @@ Route::post('/candidate', [FileController::class, 'apply']);
 Route::get('/user/{id}/locations', [UserLocationController::class, 'getUserLocation']);
 Route::get('/provinces', [ProvinceController::class, 'index']);
 Route::get('/province/{name}', [ProvinceController::class, 'getProvinceData']);
-Route::get('/getAllOwner', [UserController::class, 'index']);
+Route::get('/getAllOwner', [UserController::class, 'getOwners']);
 Route::get('/CountVacancies/{id}', [VacancieController::class, 'getCountVanciesData']);
 Route::get('/user/{userId}/location', [UserLocationController::class, 'getUserLocationn']);
 Route::get('posts/{companyId}', [PostController::class, 'getPostsByCompany']);

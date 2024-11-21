@@ -1,3 +1,7 @@
+@php
+    $posts = Auth::user()->posts;
+@endphp
+
 @extends('layout.base')
 
 @section('title', '| Gerenciar Posts')
@@ -72,7 +76,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="dropdown">
-                       
+
                         <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle"
                         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi-three-dots-vertical"></i>
@@ -89,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     @endforeach
 </div>
@@ -106,7 +110,7 @@
         <div class="modal-body">
           <!-- Imagem em tamanho maior -->
           <img src="{{ asset('storage/'.$post->url_image) }}" class="img-fluid" alt="Imagem do Post" style="max-height: 80vh; object-fit: contain; width: 100%;" />
-          
+
           <!-- Descrição do Post -->
           <p class="mt-3" style="font-size: 1rem; color: #555;">{{ $post->description }}</p>
         </div>
@@ -118,7 +122,7 @@
 
 <!-- Paginacao se necessário -->
 <div class="d-flex justify-content-center">
-    {{ $posts->links() }}
+    {{-- {{ $posts->links() }} --}}
 </div>
 
 

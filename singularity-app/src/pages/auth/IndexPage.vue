@@ -13,15 +13,22 @@
 
     </div>
 
-    <router-link :to ="{name: 'description'}" class="button">
-      <span>&rarr;</span>
-    </router-link>
+    <q-btn @click="goToDescription" class="button round" icon="arrow_forward" unelevated color="primary"/>
   </div>
 </template>
 
-<script>
-export default {
-  name: "SplashScreen",
+<script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const goToDescription = () => {
+  const user = localStorage.getItem('user');
+  if (user) {
+    router.push({ name: 'description' });
+  } else {
+    router.push({ name: 'login' });
+  }
 };
 </script>
 
@@ -127,3 +134,4 @@ h1 {
   color: #2c3e50;
 }
 </style>
+

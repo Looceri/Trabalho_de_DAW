@@ -84,6 +84,8 @@
           </div>
         </q-card-section>
       </q-card>
+    <br>
+
     </div>
 
     <!-- Carregar Mais Botão -->
@@ -97,6 +99,9 @@
       <q-btn flat icon="chat" />
       <q-btn flat icon="person" @click="$router.push('/map')" />
     </q-footer>
+
+    <br>
+
   </q-page>
 </template>
 

@@ -51,7 +51,7 @@
             <div class="text-caption">Ainda não tem uma conta?</div>
           </div>
           <div class="col-4 text-right">
-            <a class="text-caption text-secondary">Crie uma agora</a>
+            <a class="text-caption text-secondary" @click="router.push({ name: 'register' })">Crie uma agora</a>
           </div>
         </div>
       </q-form>

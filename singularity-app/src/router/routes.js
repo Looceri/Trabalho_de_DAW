@@ -21,12 +21,7 @@ const routes = [
       {
         path: "register",
         name: "register",
-        component: () => import("pages/auth/AccountPage.vue"),
-      },
-      {
-        path: "account",
-        name: "account",
-        component: () => import("pages/auth/AccountPage.vue"),
+        component: () => import("pages/auth/RegisterPage.vue"),
       },
       {
         path: "open_email",
@@ -49,6 +44,13 @@ const routes = [
   {
     path: "/home",
     component: () => import("layouts/MainLayout.vue"),
+    beforeEnter: (to, from, next) => {
+      if (!isAuthenticated()) {
+        return { name: 'login' }; // Redirect to /login if not authenticated
+      }else{
+        next();
+      }
+    },
     redirect: { name: "description" },
     children: [
       {
@@ -102,6 +104,13 @@ const routes = [
   {
     path: "/profile",
     component: () => import("layouts/MainLayout.vue"), // Layout principal do perfil
+    beforeEnter: (to, from, next) => {
+      if (!isAuthenticated()) {
+        return { name: 'login' }; // Redirect to /login if not authenticated
+      }else{
+        next();
+      }
+    },
     children: [
       {
         path: "",
@@ -126,10 +135,23 @@ const routes = [
     ],
   },
   {
+    path: "/logout",
+    name: "logout",
+    beforeEnter: () => {
+      localStorage.removeItem('user');
+      return { name: 'login' };
+    },
+  },
+
+  {
     path: "/:catchAll(.*)*",
     name: "errorNotFound",
     component: () => import("pages/ErrorNotFound.vue"),
   },
 ];
+
+export const isAuthenticated = () => {
+  return localStorage.getItem('user') !== null;
+};
 
 export default routes;
