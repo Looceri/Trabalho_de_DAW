@@ -1,4 +1,12 @@
-﻿@extends('admin.layout.base')
+﻿@php
+    $user = Auth::user();
+    if ($user->role != 'admin') {
+        header('Location: ' . route('list-vacancy'));
+        exit;
+    }
+@endphp
+
+@extends('admin.layout.base')
 
 @section('title', '| Adicionar User')
 
@@ -130,7 +138,7 @@
 
                     </div>
                     <!-- End Body -->
-                   
+
                 </div>
             </div>
             <!-- End Row -->

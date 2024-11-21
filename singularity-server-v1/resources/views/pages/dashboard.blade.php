@@ -1,4 +1,12 @@
-﻿@extends('layout.base')
+﻿@php
+    $user = Auth::user();
+    if ($user->role != 'admin') {
+        header('Location: ' . route('list-vacancy'));
+        exit;
+    }
+@endphp
+
+@extends('layout.base')
 
 @section('title', '| Dashboard')
 

@@ -26,10 +26,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-
-        $request->authenticate();
-
         $user = User::where('email', $request->email)->first();
+
+        if (!$user || !$user->status || !$request->authenticate()) {
+            return back()->withErrors([
+                'email' => 'O e-mail ou senha est o incorretos.',
+            ]);
+        }
 
         $request->session()->regenerate();
 
@@ -38,7 +41,6 @@ class AuthenticatedSessionController extends Controller
         }
 
         return redirect()->intended(route('list-vacancy'));
-
     }
 
     /**

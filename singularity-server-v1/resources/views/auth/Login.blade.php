@@ -16,30 +16,35 @@
                             </div>
                         </div>
 
-                  
-                      
+
+
                         <!-- Formulário -->
                         <div class="mb-4">
                             <label class="form-label" for="signupSrEmail">Email</label>
-                            <input type="email" class="form-control form-control-lg" name="email" id="signupSrEmail"
+                            <input type="email" class="form-control form-control-lg  @error('email') is-invalid @enderror" name="email" id="signupSrEmail"
                                 placeholder="email@endereco.com" aria-label="email@endereco.com" required=""
-                                :value="old('email')" required autocomplete="username" 
+                                :value="old('email')" required autocomplete="username"
                             >
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                            </div>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                         <!-- Fim do Formulário -->
-                      
+
 
                         <!-- Formulário -->
                         <div class="mb-4">
                             <label class="form-label" for="signupSrPassword">Senha</label>
 
                             <div class="input-group input-group-merge" data-hs-validation-validate-class="">
-                                <input type="password" class="js-toggle-password form-control form-control-lg"
-                                    name="password" id="signupSrPassword" placeholder="Requerido mínimo de 8 caracteres"
-                                    required autocomplete="new-password" 
-                                    aria-label="Requerido mínimo de 8 caracteres" required="" minlength="8"
-                                    data-hs-toggle-password-options='{
+                                <input type="password" class="js-toggle-password form-control form-control-lg
+                                @error('password') is-invalid @enderror" name="password" id="signupSrPassword" placeholder="Requerido mínimo de 8 caracteres"
+                                required autocomplete="new-password"
+                                aria-label="Requerido mínimo de 8 caracteres" required="" minlength="8"
+                                data-hs-toggle-password-options='{
+                                    required autocomplete="new-password"
                          "target": [".js-toggle-password-target-1"],
                          "defaultClass": "bi-eye-slash",
                          "showClass": "bi-eye",
@@ -48,8 +53,12 @@
 
                             </div>
 
-                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                            </div>
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                         <!-- Fim do Formulário -->
 
                         <div class="form-check mb-4 d-flex justify-content-between align-items-center">
@@ -61,14 +70,14 @@
                                 <a class="link" href="{{ route('password.request') }}">Esqueceu sua senha?</a>
                             </div>
                         </div>
-                        
+
                         <!-- Fim da Verificação de Formulário -->
-                      
+
 
                         <div class="d-grid gap-2">
                             <x-primary-button class="ms-4 btn btn-primary">
                               Entrar
-                            </x-primary-button>                        
+                            </x-primary-button>
                         </div>
                     </form>
                     <!-- Fim do Formulário -->
