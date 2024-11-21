@@ -572,7 +572,7 @@
                                     <div class="flex-shrink-0">
                                         <div class="avatar avatar-sm avatar-circle">
 
-                                            <img class="avatar-img" src="{{ asset($user->avatar) }}"
+                                            <img class="avatar-img" src="{{ asset(($user->avatar_image ? 'storage/' .$user->avatar_image->path : 'assets/img/160x160/img1.jpg') ) }}"
                                                 alt="Image Description">
                                         </div>
                                     </div>

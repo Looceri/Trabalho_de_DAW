@@ -43,7 +43,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
+    protected $attributes = [
+        'status' => true,
+    ];
 
     public function locations()
     {
