@@ -1186,11 +1186,12 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center justify-content-between">
                                         <button type="button" class="btn btn-white btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#editUserModal">
                                             <i class="bi-pencil-fill me-1"></i> Edit
                                         </button>
+                                        @if ($user->status)
                                         <form action="{{ route('desactive-user', $user->id) }}" method="POST"
                                             style="display: inline;">
                                             @csrf
@@ -1199,7 +1200,16 @@
                                                 <i class="bi-trash-fill me-1"></i>
                                             </button>
                                         </form>
-
+                                        @else
+                                        <form action="{{ route('active-user', $user->id) }}" method="POST"
+                                            style="display: inline;">
+                                            @csrf
+                                            @method('POST') <!-- Aqui estamos forçando o método POST -->
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="bi-check-circle-fill me-1"></i>
+                                            </button>
+                                        </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

@@ -30,6 +30,7 @@ Route::middleware('auth','verified')->group(function () {
 
     Route::get('/users', [UserController::class, 'showUsers'])->name('users');
     Route::post('/desactive-user/{id}', [UserController::class, 'desactive_user'])->name('desactive-user');
+    Route::post('/active-user/{id}', [UserController::class, 'active_user'])->name('active-user');
 
 
 
