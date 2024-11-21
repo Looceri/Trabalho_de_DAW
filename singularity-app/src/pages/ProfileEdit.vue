@@ -110,7 +110,10 @@
   <q-card-section>
     <q-btn label="SALVAR" color="orange" unelevated style="width: 100%" @click="salvar" />
   </q-card-section>
-
+<br>
+<br>
+<br>
+<br>
 </template>
 
 

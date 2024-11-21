@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import SuccessComponent from './SuccessComponent.vue';
 import { useQuasar } from 'quasar';
@@ -107,7 +107,9 @@ const uploadFile = async (vagaId) => {
     return { status: uploadStatus.value };
   }
 
-  const userId = localStorage.getItem("id");
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const userId = user.id;
   if (!userId) {
     uploadStatus.value = "User ID not found.";
     $q.notify({
@@ -169,6 +171,7 @@ const submitApplication = async () => {
 
     if (uploadResponse.status === "File uploaded successfully") {
       const userId = localStorage.getItem("id");
+      console.log("User ID:", userId);
       const fileId = uploadResponse.fileId;
 
       const applicationData = {

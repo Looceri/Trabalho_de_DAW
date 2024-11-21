@@ -1,3 +1,8 @@
+@php
+ $user = Auth::user();
+ dd($user);
+@endphp
+
 @extends('layout.base')
 
 @section('title', '|Adicionar Categoria')
@@ -58,12 +63,12 @@
 
     <!-- Content -->
     <div class="content container-fluid">
-        
+
 
         <div class="row">
             <div>
-                
-                 
+
+
 
                     <!-- End Navbar Collapse -->
                 {{-- </div> --}}
@@ -90,7 +95,7 @@
                                   "targetAttr": "src",
                                   "allowTypes": [".png", ".jpeg", ".jpg"]
                                }'>
-                                 
+
                                 </div>
                                 <!-- End Custom File Cover -->
                             </div>
@@ -111,7 +116,7 @@
                               "allowTypes": [".png", ".jpeg", ".jpg"]
                            }'>
 
-                           
+
                         </label>
                     </div>
                     <!-- End Avatar -->
@@ -141,7 +146,7 @@
                                                value="{{ old('title', $post->title ?? '') }}">
                                     </div>
                                 </div>
-                        
+
                                 <!-- Descrição Field -->
                                 <div class="row mb-4">
                                     <label for="description" class="col-sm-3 col-form-label form-label">Descrição</label>
@@ -149,7 +154,7 @@
                                         <textarea name="description" cols="30" rows="10" class="form-control" placeholder="Descreva o post">{{ old('description', $post->description ?? '') }}</textarea>
                                     </div>
                                 </div>
-                        
+
                                 <!-- Imagem Field -->
                                 <div class="row mb-4">
                                     <label for="url_image" class="col-sm-3 col-form-label form-label">Imagem</label>
@@ -162,19 +167,19 @@
                                         @endif
                                     </div>
                                 </div>
-                        
+
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-end">
                                     <button type="submit" class="btn btn-primary">{{ isset($post) ? 'Atualizar' : 'Cadastrar' }} Post</button>
                                 </div>
                             </form>
                         </div>
-                        
+
                         <!-- End Body -->
                     </div>
 
 
-                 
+
                 </div>
 
                 <!-- Sticky Block End Point -->

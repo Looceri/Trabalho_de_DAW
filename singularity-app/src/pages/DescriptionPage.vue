@@ -32,15 +32,8 @@
           <p style="margin-top: -30px; text-align: justify; padding: 3px;">{{ owner.description }}</p>
         </div>
 
-        <q-btn
-          v-if="!isApplying"
-          push
-          class="q-mt-lg full-width submit-btn"
-          label="APLICAR AGORA"
-          color="primary"
-          size="lg"
-          @click="isApplying = true"
-        />
+        <q-btn v-if="!isApplying" push class="q-mt-lg full-width submit-btn" label="APLICAR AGORA" color="primary"
+          size="lg" @click="isApplying = true" />
       </div>
 
       <!-- Passa o vagaId para o ApplyForm -->
@@ -88,6 +81,7 @@ export default {
   },
   methods: {
     async loadDetails() {
+
       try {
         const VagaResponse = await axios.get(`http://localhost:8000/api/vagas/${this.id}`);
         this.vaga = VagaResponse.data;
@@ -173,19 +167,24 @@ export default {
 }
 
 .info-list {
-  display: flex;           /* Alinha os itens em linha */
-  list-style: none;        /* Remove os marcadores da lista */
+  display: flex;
+  /* Alinha os itens em linha */
+  list-style: none;
+  /* Remove os marcadores da lista */
   padding: 0;
   margin: 0;
 }
 
 .info-list li {
-  margin-right: 8px;       /* Espaçamento entre os itens */
+  margin-right: 8px;
+  /* Espaçamento entre os itens */
 }
 
 .info-list li:not(:last-child):after {
-  content: "•";            /* Adiciona um ponto entre os itens */
-  margin-left: 8px;        /* Espaçamento após o ponto */
+  content: "•";
+  /* Adiciona um ponto entre os itens */
+  margin-left: 8px;
+  /* Espaçamento após o ponto */
   color: #666;
 }
 </style>
