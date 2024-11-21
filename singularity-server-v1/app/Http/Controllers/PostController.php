@@ -37,14 +37,21 @@ class PostController extends Controller
         // Retorna os posts com a informação do "like"
         return response()->json($postsWithLikes, 200);
     }
-
     public function all()
     {
         // Carregar todos os posts com o relacionamento 'user' (associando o post ao usuário que o criou)
         $posts = Post::with('user')->get();
 
+        // Adiciona a informação da URL da imagem para cada post
+        $postsWithImageUrls = $posts->map(function ($post) {
+            // Tratamento da URL da imagem para que seja uma URL real
+            $filePath = asset('/storage/' . $post->url_image);
+            $post->url_image = $filePath;
+            return $post;
+        });
+
         // Retornar os posts com os dados do usuário associado
-        return response()->json($posts, 200);
+        return response()->json($postsWithImageUrls, 200);
     }
 
     public function getAllReactions(Request $request, $companyId)

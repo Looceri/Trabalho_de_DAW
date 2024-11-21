@@ -144,10 +144,12 @@ class FileController extends Controller
     {
         $file = File::findOrFail($id);
 
+        $filePath = asset('/storage/' . $file->path);
+        $file->path = $filePath;
+
         return response()->json([
             'success' => true,
-            'file' => $file,
-            'url' => $file->url,  // Returns the full URL using the custom accessor
+            'file' => $file->path,
         ]);
     }
 

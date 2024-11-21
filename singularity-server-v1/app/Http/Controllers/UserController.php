@@ -97,9 +97,6 @@ class UserController extends Controller
                 'password' => Hash::make($validatedData['password']),
             ]);
 
-            // Define o status do usuário
-            $user->status = 0;
-            $user->save();
 
             // Autentica o usuário automaticamente
             Auth::login($user);
