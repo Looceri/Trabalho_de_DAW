@@ -79,7 +79,7 @@ class PostController extends Controller
     // Show the form for creating a new post
     public function create()
     {
-        return view('pages.add-post');
+        return view('pages.add_post');
     }
 
     // Store a new post

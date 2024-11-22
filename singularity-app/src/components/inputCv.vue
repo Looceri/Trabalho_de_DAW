@@ -110,9 +110,8 @@ const uploadFile = async (vagaId) => {
     });
     return { status: uploadStatus.value };
   }
-
-
-  const userId = user.data.id;
+  
+  const userId = user.id;
   if (!userId) {
     uploadStatus.value = "User ID not found.";
     $q.notify({

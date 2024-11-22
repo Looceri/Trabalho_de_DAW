@@ -153,8 +153,7 @@ const routes = [
 export const isAuthenticated = () => {
   const user = localStorage.getItem('user');
   if (user) {
-    const parsedUser = JSON.parse(user);
-    return parsedUser.status === true;
+    return true;
   }
   return false;
 };

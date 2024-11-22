@@ -62,11 +62,13 @@ Route::middleware('auth','verified')->group(function () {
    Route::get('/aplications/{id}', [VacancieController::class, 'show_applications'])->name('aplications');
    Route::get('/file/{id}', [VacancieController::class, 'show_file'])->name('file');
 
+   Route::get('/posts/create', [PostController::class, 'create'])->name('add-post');
 
    //pots
    Route::get('/posts/{companyId}', [PostController::class, 'index'])->name('posts.index');
    Route::get('/posts', [PostController::class, 'post_list'])->name('post_list');
-   Route::get('/posts/create', [PostController::class, 'create'])->name('add-post');
+
+
    Route::post('/posts', [PostController::class, 'store'])->name('store-post');
    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('edit-post');
    Route::post('/posts/{post}', [PostController::class, 'update'])->name('update-post');
