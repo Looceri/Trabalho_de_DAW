@@ -79,7 +79,7 @@ O banco de dados utiliza MySQL, configurado com tabelas otimizadas para suportar
 1. Clone o repositório:  
    ```bash
    git clone Looceri/Trabalho_de_DAW
-   cd singularity
+   cd singularity-server-v1
    ```
 2. Instale as dependências:  
    ```bash
@@ -98,7 +98,7 @@ O banco de dados utiliza MySQL, configurado com tabelas otimizadas para suportar
 **Frontend:**  
 1. Instale as dependências:  
    ```bash
-   cd frontend
+   cd singularity-app
    npm install
    ```
 2. Rode o servidor de desenvolvimento:  
