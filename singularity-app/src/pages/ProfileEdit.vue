@@ -133,6 +133,8 @@ const user = reactive(JSON.parse(localStorage.getItem('user')).data || userStore
 
 console.log('User data:', user);
 
+
+
 const avatar = ref(user.avatar || '');
 const name = ref(user.name || '');
 const birth_date = ref(user.birth_date || '');

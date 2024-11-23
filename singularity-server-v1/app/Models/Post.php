@@ -31,5 +31,5 @@ class Post extends Model
     }
 
     // Relacionamento com o usuário (autor do post)
-    
+
 }

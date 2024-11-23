@@ -10,35 +10,23 @@
         <div class="form-container">
           <div class="q-mb-md">
             <b><label for="nome-completo" class="label">Nome Completo</label></b>
-            <q-input
-              v-model="form.name"
-              type="text"
-              label="Digite seu nome completo"
-              class="input-field"
-              required
-            />
+            <q-input v-model="form.name" type="text" label="Digite seu nome completo" class="input-field" required />
           </div>
 
           <div class="q-mb-md">
             <b><label for="email" class="label">Email</label></b>
-            <q-input
-              v-model="form.email"
-              type="email"
-              label="Digite seu email"
-              class="input-field"
-              required
-            />
+            <q-input v-model="form.email" type="email" label="Digite seu email" class="input-field" required />
           </div>
 
           <div class="q-mb-md">
             <b><label for="senha" class="label">Senha</label></b>
-            <q-input
-              v-model="form.password"
-              type="password"
-              label="Digite sua senha"
-              class="input-field"
-              required
-            />
+            <q-input v-model="form.password" type="password" label="Digite sua senha" class="input-field" required />
+          </div>
+
+          <div class="q-mb-md">
+            <b><label for="confirmacao-senha" class="label">Confirmar Senha</label></b>
+            <q-input v-model="form.passwordConfirmation" type="password" label="Confirme sua senha" class="input-field"
+              required />
           </div>
         </div>
 
@@ -71,13 +59,14 @@ export default defineComponent({
       name: '',
       email: '',
       password: '',
+      passwordConfirmation: '',
       status: 0,
     });
     const $q = useQuasar();
     const router = useRouter();
 
     const onsubmit = async () => {
-      if (!form.value.name || !form.value.email || !form.value.password) {
+      if (!form.value.name || !form.value.email || !form.value.password || !form.value.passwordConfirmation) {
         return;
       }
 
@@ -86,7 +75,28 @@ export default defineComponent({
         const response = await axios.post('http://localhost:8000/api/register', form.value);
 
         if (response.data.success) {
-          router.push('/home');
+          console.log(response.data);
+          localStorage.setItem('user', JSON.stringify({
+            id: response.data.data.id,
+            name: response.data.data.name,
+            email: response.data.data.email,
+            avatar: response.data.data.avatar,
+            password: response.data.data.password,
+            email_verified_at: response.data.data.email_verified_at,
+            birth_date: response.data.data.birth_date,
+            role: response.data.data.role,
+            status: response.data.data.status,
+            avatar_id: response.data.data.avatar_id,
+            description: response.data.data.description,
+            created_at: response.data.data.created_at,
+            updated_at: response.data.data.updated_at,
+            address: response.data.data.address,
+            province: response.data.data.province,
+            sexo: response.data.data.sexo
+          }));
+          console.log(localStorage.getItem('user'));
+
+          router.push({ name: 'description' });
           $q.notify({
             color: 'primary',
             type: 'positive',
@@ -102,7 +112,7 @@ export default defineComponent({
             timeout: 2000,
           });
         }
-        form.value = { name: '', email: '', password: '', status: 0 };
+        form.value = { name: '', email: '', password: '', passwordConfirmation: '', status: 0 };
       } catch (error) {
         if (error.response && error.response.status === 422) {
           const validationErrors = error.response.data.errors;

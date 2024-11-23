@@ -57,16 +57,26 @@ class UserController extends Controller
          return view('pages.dashboard',compact('users','Applications','vacancies'));
     }
     public function desactive_user($id){
-        $post = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
         // Atualiza o status do post para falso (desativado)
-        $post->update(['status' => false]);
+        $user->status = false;
 
+        $user->save();
         // Redireciona de volta com uma mensagem de sucesso
-        return redirect()->route('posts.index')->with('success', 'usuario desactivado com sucesso');
+        return back()->with('success', 'usuario desactivado com sucesso');
     }
 
+    public function active_user($id){
+        $user = User::findOrFail($id);
+        // Atualiza o status do post para falso (desativado)
+        $user->status = true;
 
+        $user->save();
+
+        // Redireciona de volta com uma mensagem de sucesso
+        return back()->with('success', 'usuario desactivado com sucesso');
+    }
 
 
     public function register(Request $request)
@@ -87,9 +97,6 @@ class UserController extends Controller
                 'password' => Hash::make($validatedData['password']),
             ]);
 
-            // Define o status do usuário
-            $user->status = 0;
-            $user->save();
 
             // Autentica o usuário automaticamente
             Auth::login($user);

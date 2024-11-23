@@ -113,13 +113,22 @@ const login = async () => {
 
       userStore.setUser(response.data.user);
       console.log(userStore.user);
-      router.push('/home');
-      $q.notify({
-        color: 'positive',
-        icon: 'check',
-        message: response.data.message,
-        timeout: 2000,
-      });
+      if (!response.data.user.status) {
+        $q.notify({
+          color: 'negative',
+          icon: 'close',
+          message: 'Credenciais inválidas. Tente novamente.',
+          timeout: 2000,
+        });
+      } else {
+        router.push('/home');
+        $q.notify({
+          color: 'positive',
+          icon: 'check',
+          message: response.data.message,
+          timeout: 2000,
+        });
+      }
     } else {
       $q.notify({
         color: 'negative',

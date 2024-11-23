@@ -9,7 +9,11 @@
       <q-avatar size="50px">
 
         <q-btn flat dense round :to="{ name: 'profile' }">
-          <img src="../assets/Mask group.svg" alt="Foto do usuário" />
+          <img
+            style="max-width: 50px; max-height: 50px; border-radius: 50%"
+            :src="user?.avatar || '../assets/Mask group.svg'"
+            alt="Foto do usuário"
+          />
         </q-btn>
 
       </q-avatar>
@@ -104,72 +108,67 @@
 
   </q-page>
 </template>
-
-<script>
+<script setup>
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
-export default {
-  data() {
-    return {
-      nomeUsuario: "",
-      remoto: 44.5,
-      tempoIntegral: 66.8,
-      meioPeriodo: 38.9,
-      vagas: [],
-      locations: {},
-      displayedVagas: [],
-      vagasPorPagina: 4,
-      paginaAtual: 1,
-    };
-  },
-  computed: {
-    moreToLoad() {
-      return this.displayedVagas.length < this.vagas.length;
-    },
-  },
-  mounted() {
-    this.nomeUsuario = localStorage.getItem('nome') || 'Usuário';
-    this.carregarVagas();
-  },
-  methods: {
-    async carregarVagas() {
-      try {
-        const response = await axios.get('http://localhost:8000/api/vagas');
-        this.vagas = response.data;
-        this.shuffleVagas();
-        this.loadMoreVagas();
+const nomeUsuario = ref(localStorage.getItem('nome') || 'Usuário');
+const remoto = ref(44.5);
+const tempoIntegral = ref(66.8);
+const meioPeriodo = ref(38.9);
+const vagas = ref([]);
+const locations = ref({});
+const displayedVagas = ref([]);
+const vagasPorPagina = 4;
+const paginaAtual = ref(1);
+const user = JSON.parse(localStorage.getItem('user')).data;
+const moreToLoad = computed(() => displayedVagas.value.length < vagas.value.length);
 
-        await this.carregarLocalizacoes();
-      } catch (error) {
-        console.error('Erro ao carregar as vagas:', error);
-      }
-    },
-    async carregarLocalizacoes() {
-      try {
-        for (let vaga of this.vagas) {
-          if (!this.locations[vaga.owner_id]) {
-            const response = await axios.get(`http://localhost:8000/api/user/${vaga.owner_id}/locations`);
-            this.locations[vaga.owner_id] = response.data.location.district.province.name;
-          }
-        }
-      } catch (error) {
-        console.error('Erro ao carregar as localizações:', error);
-      }
-    },
-    getLocation(ownerId) {
-      return this.locations[ownerId] || 'Localização carregando...';
-    },
-    shuffleVagas() {
-      this.vagas = this.vagas.sort(() => Math.random() - 0.5);
-    },
-    loadMoreVagas() {
-      const start = (this.paginaAtual - 1) * this.vagasPorPagina;
-      const end = this.paginaAtual * this.vagasPorPagina;
-      this.displayedVagas = [...this.displayedVagas, ...this.vagas.slice(start, end)];
-      this.paginaAtual += 1;
-    },
-  },
+
+const carregarVagas = async () => {
+  try {
+    console.log(user);
+    const response = await axios.get('http://localhost:8000/api/vagas');
+    vagas.value = response.data;
+    shuffleVagas();
+    loadMoreVagas();
+    await carregarLocalizacoes();
+  } catch (error) {
+    console.error('Erro ao carregar as vagas:', error);
+  }
 };
+
+const carregarLocalizacoes = async () => {
+  try {
+    for (let vaga of vagas.value) {
+      if (!locations.value[vaga.owner_id]) {
+        const response = await axios.get(`http://localhost:8000/api/user/${vaga.owner_id}/locations`);
+        locations.value[vaga.owner_id] = response.data.location.district.province.name;
+      }
+    }
+  } catch (error) {
+    console.error('Erro ao carregar as localizações:', error);
+  }
+};
+
+const getLocation = (ownerId) => {
+  return locations.value[ownerId] || 'Localização carregando...';
+};
+
+const shuffleVagas = () => {
+  vagas.value = vagas.value.sort(() => Math.random() - 0.5);
+};
+
+const loadMoreVagas = () => {
+  const start = (paginaAtual.value - 1) * vagasPorPagina;
+  const end = paginaAtual.value * vagasPorPagina;
+  displayedVagas.value = [...displayedVagas.value, ...vagas.value.slice(start, end)];
+  paginaAtual.value += 1;
+};
+
+onMounted(() => {
+  carregarVagas();
+});
 </script>
 
 <style scoped>

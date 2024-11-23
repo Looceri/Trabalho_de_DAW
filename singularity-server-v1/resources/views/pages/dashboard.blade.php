@@ -1,4 +1,12 @@
-﻿@extends('layout.base')
+﻿@php
+    $user = Auth::user();
+    if ($user->role != 'admin') {
+        header('Location: ' . route('list-vacancy'));
+        exit;
+    }
+@endphp
+
+@extends('layout.base')
 
 @section('title', '| Dashboard')
 
@@ -572,7 +580,7 @@
                                     <div class="flex-shrink-0">
                                         <div class="avatar avatar-sm avatar-circle">
 
-                                            <img class="avatar-img" src="{{ asset($user->avatar) }}"
+                                            <img class="avatar-img" src="{{ asset(($user->avatar_image ? 'storage/' .$user->avatar_image->path : 'assets/img/160x160/img1.jpg') ) }}"
                                                 alt="Image Description">
                                         </div>
                                     </div>
@@ -604,19 +612,30 @@
                                 <span class="badge bg-danger">Desactivo</span>
                             @endif</td>
                             <td>
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center justify-content-between">
                                     <button type="button" class="btn btn-white btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#editUserModal">
                                         <i class="bi-pencil-fill me-1"></i> Edit
                                     </button>
-                                    <form action="{{ route('desactive-user', $user->id) }}" method="POST" style="display: inline;">
+                                    @if ($user->status)
+                                    <form action="{{ route('desactive-user', $user->id) }}" method="POST"
+                                        style="display: inline;">
                                         @csrf
                                         @method('POST') <!-- Aqui estamos forçando o método POST -->
                                         <button type="submit" class="btn btn-danger btn-sm">
                                             <i class="bi-trash-fill me-1"></i>
                                         </button>
                                     </form>
-
+                                    @else
+                                    <form action="{{ route('active-user', $user->id) }}" method="POST"
+                                        style="display: inline;">
+                                        @csrf
+                                        @method('POST') <!-- Aqui estamos forçando o método POST -->
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="bi-check-circle-fill me-1"></i>
+                                        </button>
+                                    </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

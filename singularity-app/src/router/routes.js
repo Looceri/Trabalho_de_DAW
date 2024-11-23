@@ -151,7 +151,10 @@ const routes = [
 ];
 
 export const isAuthenticated = () => {
-  return localStorage.getItem('user') !== null;
+  const user = localStorage.getItem('user');
+  if (user) {
+    return true;
+  }
+  return false;
 };
-
 export default routes;
